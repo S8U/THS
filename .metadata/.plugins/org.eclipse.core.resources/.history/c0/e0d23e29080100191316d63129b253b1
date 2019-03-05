@@ -1,0 +1,27 @@
+package su.plugin.bparty.bukkit.api;
+
+import lombok.Getter;
+import lombok.Setter;
+import su.plugin.bparty.bukkit.api.manager.PartyManager;
+import su.plugin.bparty.bukkit.api.manager.PlayerManager;
+
+@Getter
+public class BPartyAPI {
+	
+	@Setter
+	private String particle;
+	
+	@Setter
+	private boolean useBEssentials, usePrefixer, useHelpAbility, useVault;
+	@Setter
+	private boolean useParticle, allowPartyPVP;
+	
+	private PartyManager partyManager;
+	private PlayerManager playerManager;
+	
+	public void init() {
+		partyManager = new PartyManager();
+		playerManager = new PlayerManager();
+	}
+	
+}

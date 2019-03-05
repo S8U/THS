@@ -1,0 +1,5 @@
+name: U-GEssentials
+version: 0.0.3
+author: ShaDow_Uni
+main: su.plugin.gessentials.bungee.GGEssentialsPlugin
+depends: [U-Core, U-Channel]

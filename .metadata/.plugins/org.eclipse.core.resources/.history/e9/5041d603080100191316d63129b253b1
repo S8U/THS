@@ -1,0 +1,93 @@
+package su.plugin.bparty.bukkit.api.object;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import lombok.Getter;
+import lombok.Setter;
+import su.plugin.bparty.bukkit.BPartyPlugin;
+import su.plugin.bparty.bukkit.api.BPartyAPI;
+import shadowuni.plugin.prefixer.api.objects.PrefixPlayer;
+
+public class Party {
+	
+	private BPartyAPI api = BPartyPlugin.getApi();
+	
+	@Setter
+	@Getter
+	private String name, ownerName;
+
+	@Setter
+	private List<String> players = new ArrayList<>();
+	
+	public Party(String name) {
+		this.name = name;
+	}
+	
+	public Player getOwner() {
+		return Bukkit.getPlayer(getOwnerName());
+	}
+	
+	public boolean addPlayer(Player p) {
+		return addPlayer(p.getName());
+	}
+	
+	public boolean addPlayer(String name) {
+		if(existsPlayer(name)) return false;
+		players.add(name.toLowerCase()); return true;
+	}
+	
+	public boolean removePlayer(Player p) {
+		return removePlayer(p.getName());
+	}
+	
+	public boolean removePlayer(String name) {
+		return players.remove(name.toLowerCase());
+	}
+	
+	public boolean existsPlayer(Player p) {
+		return existsPlayer(p.getName());
+	}
+	
+	public boolean existsPlayer(String name) {
+		return players.contains(name.toLowerCase());
+	}
+	
+	public List<Player> getOnlinePlayers() {
+		List<Player> partyplayers = new ArrayList<>();
+		for(String name : players) {
+			Player player = Bukkit.getPlayer(name);
+			if(player == null) continue;
+			partyplayers.add(player);
+		}
+		return partyplayers;
+	}
+	
+	public List<String> getPlayerList() {
+		return players;
+	}
+	
+	public void sendPartyChat(Player p, String msg) {
+		PartyPlayer pp = api.getPlayerManager().getPartyPlayer(p);
+		String name = "";
+		if(api.isUsePrefixer()) {
+			PrefixPlayer prp = api.getPrefixerApi().getPlayerManager().getPrefixPlayer(p);
+			if(prp != null && prp.getMainPrefix() != null) {
+				name += prp.getMainPrefix();
+			}
+		}
+		if(api.isUseVault()) {
+			name += ChatColor.translateAlternateColorCodes('&', api.getLibrary().getVault().getChat().getPlayerPrefix(p));
+		}
+		name += pp.getDisplayName();
+		for(Player ap : getOnlinePlayers()) {
+			api.getLibrary().nmsg(ap, ChatColor.GREEN + "[파티 채팅] " + ChatColor.WHITE + name + ChatColor.GREEN + ": " + msg);
+		}
+		api.getLibrary().log(ChatColor.GREEN + "['" + getName() +"' 파티 채팅] " + ChatColor.WHITE + name + ChatColor.GREEN + ": " + msg);
+	}
+	
+}

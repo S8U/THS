@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;BungeeUtil.java&apos; to &apos;U-HAGameOverAlarm/src/su.plugin.hagameoveralarm.util&apos;&#x0D;&#x0A;- Original project: &apos;U-Core - Bukkit&apos;&#x0D;&#x0A;- Destination element: &apos;U-HAGameOverAlarm/src/su.plugin.hagameoveralarm.util&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.core.bukkit.util.BungeeUtil.java&apos;" description="Copy compilation unit" destination="=U-HAGameOverAlarm/src&lt;su.plugin.hagameoveralarm.util" element1="/src\/main\/java&lt;su.plugin.core.bukkit.util{BungeeUtil.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1538985209247" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,5 @@
+name: U-Channel
+version: 0.1.0
+author: ShaDow_Uni
+main: su.plugin.channel.bukkit.KChannelPlugin
+depend: [U-Core]

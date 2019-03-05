@@ -1,0 +1,6 @@
+name: U-BParty
+version: 1.0.2
+author: ShaDow_Uni
+main: shadowuni.plugin.b.party.BPartyPlugin
+softdepends: [U-BEssentials]
+depend: [U-Library]

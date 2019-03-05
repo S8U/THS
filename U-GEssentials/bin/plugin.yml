@@ -1,0 +1,4 @@
+name: U-BEssentials
+version: 0.1.0
+main: KGEssentialsPlugin
+depend: [U-Core, U-Channel]

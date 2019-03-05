@@ -1,0 +1,4 @@
+name: U-BuyRank
+version: 0.1.1
+main: su.plugin.buyrank.BuyRankPlugin
+depend: [U-Core, U-Permission, Vault]

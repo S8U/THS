@@ -1,0 +1,85 @@
+package su.plugin.bparty.bukkit;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.messaging.Messenger;
+
+import lombok.Getter;
+import shadowuni.plugin.b.essentials.BEssentialsPlugin;
+import shadowuni.plugin.prefixer.PrefixerPlugin;
+import su.plugin.bparty.bukkit.api.BPartyAPI;
+import su.plugin.bparty.bukkit.api.object.PartyPlayer;
+import su.plugin.bparty.bukkit.api.task.PartyParticleTask;
+import su.plugin.bparty.bukkit.listener.ChatListener;
+import su.plugin.bparty.bukkit.listener.ConnectListener;
+import su.plugin.bparty.bukkit.listener.ControlListener;
+import su.plugin.bparty.bukkit.listener.PluginListener;
+import su.plugin.core.bukkit.api.plugin.UKPlugin;
+import su.plugin.core.common.api.ChatColor;
+
+public class BPartyPlugin extends UKPlugin {
+	
+	@Getter
+	private static BPartyPlugin instance;
+	@Getter
+	private static BPartyAPI api = new BPartyAPI();
+	
+	private PluginManager pm = Bukkit.getPluginManager();
+	
+	public void onUEnable() {
+		instance = this;
+		api.init();
+		setPrefix("§a[ U-BParty ]");
+		setColor(ChatColor.GREEN);
+		
+		loadConfig();
+		
+		registerPlugins();
+		registerListeners();
+		
+		if(api.isUseParticle()) {
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(BPartyPlugin.getInstance(), new PartyParticleTask(), 0, 2);
+		}
+	}
+	
+	public void registerPlugins() {
+		if(pm.getPlugin("U-BEssentials") != null) {
+			api.setUseBEssentials(true);
+			api.setBEssentialsApi(BEssentialsPlugin.getApi());
+			lib.log("U-BEssentials 플러그인과 연동되었습니다.");
+		}
+		if(pm.getPlugin("U-Prefixer") != null) {
+			api.setUsePrefixer(true);
+			api.setPrefixerApi(PrefixerPlugin.getApi());
+			lib.log("U-Prefixer 플러그인과 연동되었습니다.");
+		}
+	}
+	
+	public void loadConfig() {
+		getConfig().options().copyDefaults(true);
+		saveConfig();
+		api.setAllowPartyPVP(getConfig().getBoolean("파티끼리 PVP 허용"));
+		api.setUseParticle(getConfig().getBoolean("파티클 사용"));
+		api.setParticle(getConfig().getString("파티클"));
+		lib.log("설정을 불러왔습니다.");
+	}
+	
+	public void registerListeners() {
+		pm.registerEvents(new ChatListener(), this);
+		pm.registerEvents(new ConnectListener(), this);
+		pm.registerEvents(new ControlListener(), this);
+		Messenger m = Bukkit.getMessenger();
+		m.registerIncomingPluginChannel(this, "UBParty", new PluginListener());
+		m.registerOutgoingPluginChannel(this, "UBParty");
+	}
+	
+	public void initPlayer() {
+		for(Player ap : api.getLibrary().getOnlinePlayers()) {
+			PartyPlayer pp = new PartyPlayer(ap.getName());
+			api.getPlayerManager().setPartyPlayer(ap, pp);
+			api.getPlayerManager().sendPlayerDataRequest(ap.getName());
+		}
+	}
+	
+}

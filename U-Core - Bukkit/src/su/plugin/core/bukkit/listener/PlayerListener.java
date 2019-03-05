@@ -1,0 +1,93 @@
+package su.plugin.core.bukkit.listener;
+
+import java.util.HashMap;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import su.plugin.core.bukkit.KCorePlugin;
+import su.plugin.core.bukkit.api.KCore;
+import su.plugin.core.bukkit.api.event.player.FirstPlayerJoinEvent;
+import su.plugin.core.bukkit.api.event.player.LastPlayerQuitEvent;
+import su.plugin.core.bukkit.api.event.player.PlayerDeathDamageEvent;
+import su.plugin.core.bukkit.api.event.player.PlayerMoveLocationEvent;
+import su.plugin.core.bukkit.api.player.KPlayer;
+import su.plugin.core.common.api.player.PlayerKey;
+import su.plugin.core.common.api.player.UPlayer;
+
+public class PlayerListener implements Listener {
+
+	private HashMap<PlayerKey, PlayerKey> lastHits = new HashMap<>(); // Player, Damager
+
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void onJoin(PlayerJoinEvent e) {
+		if(KCore.getOnlinePlayers().size() > 1) return;
+
+		for(UPlayer uap : KCore.getOnlineUPlayers()) {
+			KPlayer kap = (KPlayer) uap;
+			if(!kap.isOnline() || !kap.isHide()) continue;
+
+			e.getPlayer().hidePlayer(KCorePlugin.getInstance(), kap.getPlayer());
+		}
+
+		Bukkit.getPluginManager().callEvent(new FirstPlayerJoinEvent(e.getPlayer(), e));
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void onMove(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		
+		Location old = e.getFrom();
+		Location nw = e.getTo();
+		
+		if(old != null && old.getWorld().equals(nw.getWorld()) && old.distance(nw) < 0.1) return;
+		
+		PlayerMoveLocationEvent event = new PlayerMoveLocationEvent(p, e);
+		Bukkit.getPluginManager().callEvent(event);
+		if(event.isCancelled()) {
+			e.setTo(e.getFrom());
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void onQuit(PlayerQuitEvent e) {
+		lastHits.remove(PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer()));
+
+		if(KCore.getOnlinePlayers().size() > 1) return;
+		
+		Bukkit.getPluginManager().callEvent(new LastPlayerQuitEvent(e.getPlayer(), e));
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerDamageByPlayer(EntityDamageByEntityEvent e) {
+		if(e.isCancelled() || !(e.getEntity() instanceof Player) || (e.getDamager() instanceof Projectile
+				&& !(((Projectile) e.getDamager()).getShooter() instanceof Player))) return;
+
+		Player damager = e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player ? (Player) ((Projectile) e.getDamager()).getShooter() : (Player) e.getDamager();
+		if(damager == null) return;
+
+		lastHits.put(PlayerKey.getPlayerKeyByPlatformPlayer((Player) e.getEntity()), PlayerKey.getPlayerKeyByPlatformPlayer(damager));
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void onPlayerDamage(EntityDamageEvent e) {
+		if(!(e.getEntity() instanceof Player) || ((Player) e.getEntity()).getHealth() - e.getFinalDamage() > 0 || e.getEntity().getLastDamageCause() == null) return;
+
+		PlayerKey killerKey = lastHits.get(PlayerKey.getPlayerKeyByPlatformPlayer((Player) e.getEntity()));
+		Player killer = killerKey == null ? null : (Player) killerKey.getPlatformPlayer();
+
+		PlayerDeathDamageEvent event = new PlayerDeathDamageEvent(((Player) e.getEntity()), killer, e);
+		Bukkit.getPluginManager().callEvent(event);
+		
+		e.setCancelled(event.isCancelled());
+	}
+	
+}

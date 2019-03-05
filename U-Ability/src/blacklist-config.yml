@@ -1,0 +1,5 @@
+# 능력 블랙리스트 설정 파일입니다.
+# 블랙리스트 등록은 <능력이름> <플러그인이름> 으로 가능합니다.
+# 이 플러그인: U-Ability / 염료 능력자: PhysicalFighters / 비트 능력자: BitAbility
+블랙리스트:
+- 능력 U-Ability

@@ -1,0 +1,39 @@
+1531036882581	Rename package 'su.plugin.core.bungee'
+1531036886935	Rename package 'su.plugin.core.bungee.command'
+1531036892081	Rename package 'su.plugin.core.bungee.plugin'
+1531036895828	Rename package 'su.plugin.core.bungee.util'
+1531037084351	Rename type 'BungeeCorePlugin'
+1531037142305	Copy compilation unit
+1531037143837	Delete element
+1531037220701	Rename type 'BungeePlayer'
+1531037436283	Rename type 'BungeeProvider'
+1531038200906	Delete element
+1531038582207	Rename package 'su.plugin.core.bukkit.category'
+1531040252170	Rename type 'BungeeCommandManager'
+1531040256390	Rename type 'BungeeConsoleSender'
+1531040259137	Delete element
+1531040838190	Rename type 'UBungeePlugin'
+1531041526565	Delete element
+1531041837072	Copy compilation unit
+1531041838298	Delete element
+1531042037355	Delete elements
+1531042225439	Delete elements
+1531042492357	Rename type 'ItemConfigSection'
+1531043096750	Delete element
+1531043662595	Rename method 'setQuickBarGUI'
+1531043666417	Rename method 'setQuickBarGUI'
+1531043669570	Rename field 'quickBarGUIs'
+1531043675144	Rename method 'removeQuickBarGUI'
+1531043684313	Rename method 'removeQuickBarGUI'
+1531043687844	Rename method 'clearQuickBarGUI'
+1531043695526	Rename method 'getQuickBarGUI'
+1531043705669	Rename method 'getQuickBarGUI'
+1531043711635	Rename method 'hasQuickBarGUI'
+1531043715331	Rename method 'hasQuickBarGUI'
+1531046112561	Delete elements
+1531141440287	Rename type 'MemorySection'
+1531141449002	Rename type 'BukkiMemorySection'
+1531141463840	Delete element
+1531142077761	Delete element
+1531566052171	Delete element
+1531580066467	Copy compilation unit

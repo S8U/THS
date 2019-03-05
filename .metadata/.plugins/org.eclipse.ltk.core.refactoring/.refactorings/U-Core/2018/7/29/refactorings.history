@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;U-Core/u-core-shade&apos; to &apos;shade&apos;" description="Rename resource &apos;u-core-shade&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="u-core-shade" name="shade" stamp="1531671655042" updateReferences="true"/>
+</session>

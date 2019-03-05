@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="U-GCCULogger:jar">
+    <output-path>$PROJECT_DIR$/../../../Plugins/Project/THS</output-path>
+    <root id="archive" name="U-GCCULogger-0.0.2.jar">
+      <element id="module-output" name="U-GCCULogger" />
+    </root>
+  </artifact>
+</component>

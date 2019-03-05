@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;useUpload&apos; in &apos;su.plugin.core.common.sql.SQLManager&apos; to &apos;useUpdate&apos;&#x0D;&#x0A;- Original project: &apos;U-Core - Common&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.core.common.sql.SQLManager.useUpload&apos;&#x0D;&#x0A;- Renamed element: &apos;su.plugin.core.common.sql.SQLManager.useUpdate&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;useUpload&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src\/main\/java&lt;su.plugin.core.common.sql{SQLManager.java[SQLManager^useUpload" name="useUpdate" references="true" setter="false" stamp="1538531581029" textual="false" version="1.0"/>
+</session>

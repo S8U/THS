@@ -1,0 +1,5 @@
+name: U-GBroadcaster
+version: 0.0.1
+author: ShaDow_Uni
+main: su.plugin.gbroadcaster.GBroadcasterPlugin
+depends: [U-Core]

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;components&apos; in &apos;su.plugin.core.bungee.platform.GProvider.makeComponent(...)&apos; to &apos;messages&apos;&#x0D;&#x0A;- Original project: &apos;U-Core - Bungee&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.core.bungee.platform.GProvider.makeComponent(boolean, Object...).components&apos;&#x0D;&#x0A;- Renamed element: &apos;components&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;components&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;su.plugin.core.bungee.platform{GProvider.java[GProvider~makeComponent~Z~\[QObject;@components!1988!2007!1998!2007!\[QObject;!0!true" name="messages" references="true" stamp="1543989446335" version="1.0"/>
+</session>

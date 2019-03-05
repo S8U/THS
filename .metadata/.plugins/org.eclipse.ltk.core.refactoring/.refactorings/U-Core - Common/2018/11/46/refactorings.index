@@ -1,0 +1,12 @@
+1541921033142	Rename package 'su.plugin.core.common.option'
+1541921166722	Move compilation unit
+1541921170265	Rename package 'su.plugin.core.common.command'
+1541921692289	Move compilation unit
+1541921697818	Rename type 'UPlayerSQLManager'
+1541921739377	Move compilation unit
+1541922061870	Delete element
+1541924072704	Move compilation unit
+1541936991940	Rename package 'su.plugin.core.common.displayname'
+1541936995822	Move compilation units
+1541936998833	Delete element
+1542348348959	Rename type 'CommandListener'

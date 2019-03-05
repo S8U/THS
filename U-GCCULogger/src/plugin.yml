@@ -1,0 +1,5 @@
+name: U-GCCULogger
+version: 0.0.2
+author: ShaDow_Uni
+main: su.plugin.gcculogger.GCCULoggerPlugin
+depends: [U-Core]

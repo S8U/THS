@@ -1,0 +1,29 @@
+package su.plugin.bparty.bukkit.api.task;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import su.plugin.bparty.bukkit.BPartyPlugin;
+import su.plugin.bparty.bukkit.api.BPartyAPI;
+import su.plugin.bparty.bukkit.api.object.Party;
+import su.plugin.core.bukkit.api.enumeration.Particle;
+
+public class PartyParticleTask implements Runnable {
+	
+	private BPartyAPI api = BPartyPlugin.getApi();
+	
+	public void run() {
+		for(Party party : api.getPartyManager().getPartys().values()) {
+			for(Player p : party.getOnlinePlayers()) {
+				if(p == null) continue;
+				for(Player pp : party.getOnlinePlayers()) {
+					if(p.getName().equals(pp.getName())) continue;
+					Location l = pp.getLocation();
+					l.setY(l.getY() + 2.5);
+					Particle.getByName(api.getParticle()).spawn(p, l, 0, 1);
+				}
+			}
+		}
+	}
+	
+}

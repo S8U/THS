@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;ScriptManager.java&apos; to &apos;U-Channel - Common/src/main/java/su.plugin.channel.common.api.manager&apos;&#x0D;&#x0A;- Original project: &apos;U-Channel - Bungee&apos;&#x0D;&#x0A;- Destination element: &apos;U-Channel - Common/src/main/java/su.plugin.channel.common.api.manager&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.channel.bungee.api.manager.ScriptManager.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="=U-Channel - Common/src\/main\/java&lt;su.plugin.channel.common.api.manager" element1="/src\/main\/java&lt;su.plugin.channel.bungee.api.manager{ScriptManager.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1544431498774" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/U-Ability/U-Ability.iml" filepath="$PROJECT_DIR$/U-Ability/U-Ability.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-AntiRecipe/U-AntiRecipe.iml" filepath="$PROJECT_DIR$/U-AntiRecipe/U-AntiRecipe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-BuyRank/U-BuyRank.iml" filepath="$PROJECT_DIR$/U-BuyRank/U-BuyRank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Channel - Bukkit/U-Channel - Bukkit.iml" filepath="$PROJECT_DIR$/U-Channel - Bukkit/U-Channel - Bukkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Channel - Bungee/U-Channel - Bungee.iml" filepath="$PROJECT_DIR$/U-Channel - Bungee/U-Channel - Bungee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Channel - Common/U-Channel - Common.iml" filepath="$PROJECT_DIR$/U-Channel - Common/U-Channel - Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-ChannelGUI/U-ChannelGUI.iml" filepath="$PROJECT_DIR$/U-ChannelGUI/U-ChannelGUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-ChannelNPC/U-ChannelNPC.iml" filepath="$PROJECT_DIR$/U-ChannelNPC/U-ChannelNPC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Core - Bukkit/U-Core - Bukkit.iml" filepath="$PROJECT_DIR$/U-Core - Bukkit/U-Core - Bukkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Core - Bungee/U-Core - Bungee.iml" filepath="$PROJECT_DIR$/U-Core - Bungee/U-Core - Bungee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Core - Common/U-Core - Common.iml" filepath="$PROJECT_DIR$/U-Core - Common/U-Core - Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Effect/U-Effect.iml" filepath="$PROJECT_DIR$/U-Effect/U-Effect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GBroadcaster/U-GBroadcaster.iml" filepath="$PROJECT_DIR$/U-GBroadcaster/U-GBroadcaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GCCULogger/U-GCCULogger.iml" filepath="$PROJECT_DIR$/U-GCCULogger/U-GCCULogger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GCMDLocker/U-GCMDLocker.iml" filepath="$PROJECT_DIR$/U-GCMDLocker/U-GCMDLocker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GEssentials/U-GEssentials.iml" filepath="$PROJECT_DIR$/U-GEssentials/U-GEssentials.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GFriend - Bungee/U-GFriend - Bungee.iml" filepath="$PROJECT_DIR$/U-GFriend - Bungee/U-GFriend - Bungee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GLogin/U-GLogin.iml" filepath="$PROJECT_DIR$/U-GLogin/U-GLogin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GParty - Bukkit/U-GParty - Bukkit.iml" filepath="$PROJECT_DIR$/U-GParty - Bukkit/U-GParty - Bukkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GParty - Bungee/U-GParty - Bungee.iml" filepath="$PROJECT_DIR$/U-GParty - Bungee/U-GParty - Bungee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-ItemTools/U-ItemTools.iml" filepath="$PROJECT_DIR$/U-ItemTools/U-ItemTools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-LobbySystem/U-LobbySystem.iml" filepath="$PROJECT_DIR$/U-LobbySystem/U-LobbySystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-OnlineModeGift/U-OnlineModeGift.iml" filepath="$PROJECT_DIR$/U-OnlineModeGift/U-OnlineModeGift.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-PVPStats/U-PVPStats.iml" filepath="$PROJECT_DIR$/U-PVPStats/U-PVPStats.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Permission/U-Permission.iml" filepath="$PROJECT_DIR$/U-Permission/U-Permission.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Prefixer/U-Prefixer.iml" filepath="$PROJECT_DIR$/U-Prefixer/U-Prefixer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-WorldReset/U-WorldReset.iml" filepath="$PROJECT_DIR$/U-WorldReset/U-WorldReset.iml" />
+    </modules>
+  </component>
+</project>
