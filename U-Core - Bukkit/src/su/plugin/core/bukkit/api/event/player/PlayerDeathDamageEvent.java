@@ -9,7 +9,7 @@ import su.plugin.core.bukkit.api.event.UKCancellableEvent;
 
 @RequiredArgsConstructor
 @Getter
-public class PlayerDeathDamageEvent  extends UKCancellableEvent {
+public class PlayerDeathDamageEvent extends UKCancellableEvent {
 	
 	private final Player player, killer;
 	

@@ -3,6 +3,7 @@ package su.plugin.core.bukkit.listener;
 import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -15,8 +16,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
+import su.plugin.core.bukkit.api.event.entity.EntityDamageByPlayerEvent;
 import su.plugin.core.bukkit.api.event.player.FirstPlayerJoinEvent;
 import su.plugin.core.bukkit.api.event.player.LastPlayerQuitEvent;
+import su.plugin.core.bukkit.api.event.player.PlayerDamageByPlayerEvent;
 import su.plugin.core.bukkit.api.event.player.PlayerDeathDamageEvent;
 import su.plugin.core.bukkit.api.event.player.PlayerMoveLocationEvent;
 import su.plugin.core.bukkit.api.player.KPlayer;
@@ -75,6 +78,23 @@ public class PlayerListener implements Listener {
 		if(damager == null) return;
 
 		lastHits.put(PlayerKey.getPlayerKeyByPlatformPlayer((Player) e.getEntity()), PlayerKey.getPlayerKeyByPlatformPlayer(damager));
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onEntityDamageByPlayer(EntityDamageByEntityEvent e) {
+		Entity entity = e.getEntity();
+		Entity damager = e.getDamager();
+
+		if(damager instanceof Player || (damager instanceof Projectile && ((Projectile) damager).getShooter() instanceof Player)) {
+			damager = damager instanceof Projectile ? (Entity) ((Projectile) damager).getShooter() : damager;
+			Projectile projectile = damager instanceof Projectile ? (Projectile) damager : null;
+
+			EntityDamageByPlayerEvent entityDamageByPlayerEvent = entity instanceof Player ? new PlayerDamageByPlayerEvent((Player) entity, (Player) damager, projectile, e) : new EntityDamageByPlayerEvent(entity, (Player) damager, projectile, e);
+
+			Bukkit.getPluginManager().callEvent(entityDamageByPlayerEvent);
+
+			e.setCancelled(entityDamageByPlayerEvent.isCancelled());
+		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)

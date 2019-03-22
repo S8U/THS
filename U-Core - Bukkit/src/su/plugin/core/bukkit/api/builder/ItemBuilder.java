@@ -136,6 +136,16 @@ public class ItemBuilder {
     return this;
   }
 
+  public ItemBuilder clearLore() {
+    ItemMeta itemMeta = item.getItemMeta();
+
+    itemMeta.setLore(new ArrayList<>());
+
+    item.setItemMeta(itemMeta);
+
+    return this;
+  }
+
   //
 
   public ItemBuilder enchantment(Enchantment enchantment, int level) {

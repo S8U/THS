@@ -14,14 +14,14 @@ public class ItemToolsPlugin extends UKPlugin {
 	public void onUEnable() {
 		instance = this;
 		
-		setPrefix(api.getPluginPrefix());
-		
+		setPrefix("§6[ U-ItemTools ]");
+
 		registerListeners();
 		registerCommands();
-		
+
 		registerPermissions();
-		
+
 		api.makeItem();
 	}
-	
+
 }
