@@ -14,6 +14,7 @@ import su.plugin.core.common.api.command.SubCommandHandler;
 import su.plugin.core.common.api.command.UCommandListener;
 import su.plugin.core.common.api.command.UCommandSender;
 import su.plugin.core.common.api.util.NumberUtil;
+import su.plugin.core.common.api.util.StringUtil;
 import su.plugin.itemtools.PermissionList;
 import su.plugin.itemtools.api.ItemToolsAPI;
 
@@ -76,13 +77,13 @@ public class ItemToolsCommand implements UCommandListener {
 			return;
 		}
 
-		Integer armour = NumberUtil.getInteger(args[0]);
+		Double armour = NumberUtil.getDouble(args[0]);
 		if(armour == null) {
-			Core.wmsg(p, "정수만 입력 가능합니다.");
+			Core.wmsg(p, "실수만 입력 가능합니다.");
 			return;
 		}
 
-		String text = "§r§3§r§9추가 방어력: §f" + armour;
+		String text = "§r§3§r§9추가 방어력: §f" + StringUtil.getDoubleString(armour);
 
 		List<String> lore = item.hasItemMeta() && item.getItemMeta().hasLore() ? item.getItemMeta().getLore() : new ArrayList<>();
 
@@ -106,7 +107,7 @@ public class ItemToolsCommand implements UCommandListener {
 
 		p.updateInventory();
 
-		Core.msg(p, "손에 들고 있는 아이템의 추가 방어력을 " + armour + "로 설정했습니다.");
+		Core.msg(p, "손에 들고 있는 아이템의 추가 방어력을 " + StringUtil.getDoubleString(armour) + "로 설정했습니다.");
 	}
 
 	@SubCommandHandler(
@@ -124,13 +125,13 @@ public class ItemToolsCommand implements UCommandListener {
 			return;
 		}
 
-		Integer ad = NumberUtil.getInteger(args[0]);
+		Double ad = NumberUtil.getDouble(args[0]);
 		if(ad == null) {
-			Core.wmsg(p, "정수만 입력 가능합니다.");
+			Core.wmsg(p, "실수만 입력 가능합니다.");
 			return;
 		}
 
-		String text = "§r§3§r§c추가 공격력: §f" + ad;
+		String text = "§r§3§r§c추가 공격력: §f" + StringUtil.getDoubleString(ad);
 
 		List<String> lore = item.hasItemMeta() && item.getItemMeta().hasLore() ? item.getItemMeta().getLore() : new ArrayList<>();
 
@@ -154,7 +155,7 @@ public class ItemToolsCommand implements UCommandListener {
 
 		p.updateInventory();
 
-		Core.msg(p, "손에 들고 있는 아이템의 추가 공격력을 " + ad + "로 설정했습니다.");
+		Core.msg(p, "손에 들고 있는 아이템의 추가 공격력을 " + StringUtil.getDoubleString(ad) + "로 설정했습니다.");
 	}
 	
 }
