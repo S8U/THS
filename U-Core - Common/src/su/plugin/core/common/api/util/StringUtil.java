@@ -162,5 +162,9 @@ public class StringUtil {
 	public String getDecimalFormat(double d, String pattern) {
 		return new DecimalFormat(pattern).format(d);
 	}
+
+	public String getDoubleString(double d) {
+		return d == (long) d ? Long.valueOf((long) d).toString() : Double.valueOf(d).toString();
+	}
 	
 }
