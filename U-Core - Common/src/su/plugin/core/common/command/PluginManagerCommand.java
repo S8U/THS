@@ -1,5 +1,6 @@
 package su.plugin.core.common.command;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +11,7 @@ import su.plugin.core.common.api.command.SubCommandHandler;
 import su.plugin.core.common.api.command.UCommandListener;
 import su.plugin.core.common.api.command.UCommandSender;
 import su.plugin.core.common.api.plugin.UPlugin;
+import su.plugin.core.common.api.util.ReflectionUtil;
 
 public class PluginManagerCommand implements UCommandListener {
 
@@ -124,6 +126,12 @@ public class PluginManagerCommand implements UCommandListener {
       return;
     } else if(!plugin.isEnabled()) {
       sender.wmsg("활성화되어있지 않은 플러그인입니다.");
+      return;
+    }
+
+    Method method = ReflectionUtil.getMethod(plugin.getClass(), "onConfigLoad");
+    if(method == null) {
+      sender.wmsg("설정 리로드를 지원하지 않는 플러그인입니다.");
       return;
     }
 
