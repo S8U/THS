@@ -64,25 +64,27 @@ public class ItemManager {
 	
 	public void giveRankItem(Player p) {
 		if(!hasRankItemGroup(p)) return;
-		
-		RankItemGiveEvent event = new RankItemGiveEvent(p);
-		Bukkit.getPluginManager().callEvent(event);
-		if(event.isCancelled()) return;
 
-		if(api.isUsePermission()) {
-			for(ItemStack item : getRankItemList(PermissionAPI.getPlayerManager().getPermissionPlayer(PlayerKey.getPlayerKeyByPlatformPlayer(p)).getGroupName())) {
-				p.getInventory().addItem(item);
-			}
-		} else {
-			String[] group = VaultHandler.getChat().getPlayerGroups(p);
-			for(int i = 0; i < group.length; i++) {
-				for(ItemStack item : getRankItemList(group[i])) {
+		Bukkit.getScheduler().runTask(AbilityPlugin.getInstance(), () -> {
+			RankItemGiveEvent event = new RankItemGiveEvent(p);
+			Bukkit.getPluginManager().callEvent(event);
+			if(event.isCancelled()) return;
+
+			if(api.isUsePermission()) {
+				for(ItemStack item : getRankItemList(PermissionAPI.getPlayerManager().getPermissionPlayer(PlayerKey.getPlayerKeyByPlatformPlayer(p)).getGroupName())) {
 					p.getInventory().addItem(item);
 				}
+			} else {
+				String[] group = VaultHandler.getChat().getPlayerGroups(p);
+				for(int i = 0; i < group.length; i++) {
+					for(ItemStack item : getRankItemList(group[i])) {
+						p.getInventory().addItem(item);
+					}
+				}
 			}
-		}
 
-		p.updateInventory();
+			p.updateInventory();
+		});
 	}
 	
 	public void giveRankItemAll() {

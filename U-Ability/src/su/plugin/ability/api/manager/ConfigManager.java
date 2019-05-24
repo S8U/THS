@@ -117,10 +117,10 @@ public class ConfigManager {
 	
 	public void createRankItemConfig() {
 		if(rankItemConfigFile.exists() && rankItemConfigFile.length() > 0) return;
-		
+
 		rankItemConfig.loadDefaultFromYaml(YamlConfiguration.loadConfiguration(new InputStreamReader(AbilityPlugin.getInstance().getResource("rankitem-config.yml"))).saveToString());
 		rankItemConfig.save();
-		
+
 		Core.log("등급 아이템 설정 파일이 생성되었습니다.");
 	}
 	
@@ -333,7 +333,7 @@ public class ConfigManager {
 	
 	public void loadRankItem() {
 		createRankItemConfig();
-		
+
 		api.getItemManager().getRankItems().clear();
 		
 		api.setUseRankItem(rankItemConfig.getBoolean("사용"));
