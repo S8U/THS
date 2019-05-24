@@ -23,13 +23,15 @@ public class FileManager {
   public void loadRankConfig() {
     createRankConfig();
 
+    rankConfig.load();
+
     BuyRankAPI.getRankManager().getRanks().clear();
 
     for(String rankName : rankConfig.getKeys("판매 등급")) {
       Rank rank = new Rank(rankName);
-      rank.setPermission(rankConfig.getString("판매 등급." + rank + ".권한"));
-      rank.setPrice(rankConfig.getDouble("판매 등급." + rank + ".가격"));
-      rank.setKillCount(rankConfig.getInt("판매 등급." + rank + ".킬"));
+      rank.setPermission(rankConfig.getString("판매 등급." + rankName + ".권한"));
+      rank.setPrice(rankConfig.getDouble("판매 등급." + rankName + ".가격"));
+      rank.setKillCount(rankConfig.getInt("판매 등급." + rankName + ".킬"));
 
       BuyRankAPI.getRankManager().setRank(rankName, rank);
     }

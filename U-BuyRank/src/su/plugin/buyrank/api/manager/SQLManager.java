@@ -14,7 +14,7 @@ public class SQLManager extends SQLManagerBase {
 
   @Override
   public void createTable() {
-    buyLogTable = new SQLTable(this, "BuyLog", "player_id int, rank varchar(255), money double, time bigint").createTable();
+    buyLogTable = new SQLTable(this, "BuyLog", "player_id int, rank_name varchar(255), money double, time bigint").createTable();
   }
 
   public void writeBuyLog(PlayerKey playerKey, String rank, double money) {

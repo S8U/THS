@@ -30,6 +30,14 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="U-PVPStats" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../Plugins/Project/THS/U-PVPStats-0.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

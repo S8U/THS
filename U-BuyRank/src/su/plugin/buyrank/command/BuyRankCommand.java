@@ -60,7 +60,7 @@ public class BuyRankCommand implements UCommandListener {
     } else if(api.isUsePVPStats() && PVPStatsAPI.getPlayerManager().getPSPlayer(up.getPlayerKey()).getAllStats().getKillCount() < rank.getKillCount()) {
       up.wmsg("킬이 부족합니다.");
       return;
-    } else if(!VaultHandler.takeMoney(up.getName(), rank.getPrice())) {
+    } else if(VaultHandler.getMoney(up.getName()) < rank.getPrice()) {
       up.wmsg("돈이 부족합니다.");
       return;
     }
