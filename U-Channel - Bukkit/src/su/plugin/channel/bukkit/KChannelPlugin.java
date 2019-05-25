@@ -13,6 +13,7 @@ import su.plugin.channel.common.command.ChannelGroupCommand;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.plugin.UKPlugin;
 import su.plugin.core.common.api.ChatColor;
+import su.plugin.core.common.api.command.UCommandSender;
 
 public class KChannelPlugin extends UKPlugin {
 	
@@ -45,19 +46,6 @@ public class KChannelPlugin extends UKPlugin {
 		registerPermissions(PermissionList.class.getPackage().getName());
 		
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "U-Channel");
-		
-		if(api.getSQLManager().isLoad()) {
-			if(KCore.getOnlinePlayers().size() > 0) {
-				api.startChannelLoadTask();
-			}
-			api.getSQLManager().loadAllChannel();
-			api.getSQLManager().loadAllChannelGroup();
-		}
-		
-		if(api.getSQLManager().isUpload()) {
-			Bukkit.getPluginManager().registerEvents(new UpdateListener(), this);
-			api.updateThisChannelInfo(true, KCore.getOnlinePlayers().size(), Bukkit.getMaxPlayers(), KCore.getOnlinePlayers());
-		}
 	}
 	
 	@Override
@@ -71,15 +59,36 @@ public class KChannelPlugin extends UKPlugin {
 		api.getSQLManager().close();
 	}
 	
-	public void loadConfig() {
+	@Override
+	public void onConfigLoad(UCommandSender sender) {
 		getJsonConfig().addDefault("공지 접두사", "&6&l[ 공지 ] &f");
 		getJsonConfig().addDefault("번지코드 채널 이름", "channel");
 		getJsonConfig().save();
 
 		api.setBroadCastPrefix(ChatColor.translateAlternateColorCodes('&', getJsonConfig().getString("공지 접두사")));
 		api.setChannelName(getJsonConfig().getString("번지코드 채널 이름"));
-		
-		log("설정을 불러왔습니다.");
 	}
-	
+
+	private UpdateListener updateListener;
+
+	@Override
+	public void onConfigLoaded(UCommandSender sender) {
+		api.stopChannelLoadTask();
+
+		if(api.getSQLManager().isLoad()) {
+			if(KCore.getOnlinePlayers().size() > 0) {
+				api.startChannelLoadTask();
+			}
+			api.getSQLManager().loadAllChannel();
+			api.getSQLManager().loadAllChannelGroup();
+		}
+
+		if(api.getSQLManager().isUpload()) {
+			if(updateListener == null) {
+				Bukkit.getPluginManager().registerEvents(updateListener = new UpdateListener(), this);
+			}
+			api.updateThisChannelInfo(true, KCore.getOnlinePlayers().size(), Bukkit.getMaxPlayers(), KCore.getOnlinePlayers());
+		}
+	}
+
 }

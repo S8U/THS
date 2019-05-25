@@ -48,14 +48,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../Plugins/Library/U-Core/U-Core-0.0.5.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="module" module-name="U-Core - Bukkit" />
+    <orderEntry type="module" module-name="U-Core - Common" />
   </component>
 </module>
