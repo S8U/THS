@@ -1,7 +1,7 @@
 package su.plugin.core.bukkit.api.util;
 
 import java.util.Arrays;
-
+import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,35 +13,49 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import lombok.experimental.UtilityClass;
-
 @UtilityClass
 public class ItemUtil {
-	
+
+	public static Material getMaterialById(int typeId) {
+		for (Material m : Material.values()) {
+			if (m.getId() == typeId) return m;
+		}
+
+		return null;
+	}
+
+	public static ItemStack getItemById(int typeId) {
+		for (Material m : Material.values()) {
+			if (m.getId() == typeId) return new ItemStack(m);
+		}
+
+		return null;
+	}
+
 	public static ItemStack getItem(String itemCode) {
 		ItemStack item = null;
 		
 		if(itemCode.contains(":")) {
 			String[] items = itemCode.split(":");
-			item = new ItemStack(Integer.parseInt(items[0]));
+			item = getItemById(Integer.parseInt(items[0]));
 			item.setDurability(Short.parseShort(items[1]));
 		} else {
-			item = new ItemStack(Integer.parseInt(itemCode));
+			item = getItemById(Integer.parseInt(itemCode));
 		}
 		
 		return item;
 	}
 	
 	public static String getItemCode(ItemStack item) {
-		return item.getDurability() == 0 ? String.valueOf(item.getTypeId()) : item.getTypeId() + ":" + item.getDurability();
+		return item.getDurability() == 0 ? String.valueOf(item.getType().getId()) : item.getType().getId() + ":" + item.getDurability();
 	}
 	
 	public static String getItemCode(Block block) {
-		return block.getData() == 0 ? String.valueOf(block.getTypeId()) : block.getTypeId() + ":" + block.getData();
+		return block.getData() == 0 ? String.valueOf(block.getType().getId()) : block.getType().getId() + ":" + block.getData();
 	}
 	
 	public static ItemStack makeItem(int itemCode, short durability, String displayName, String...lore) {
-		ItemStack item = new ItemStack(itemCode);
+		ItemStack item = getItemById(itemCode);
 		item.setDurability(durability);
 		ItemMeta im = item.getItemMeta();
 		if(displayName != null) {
@@ -58,7 +72,7 @@ public class ItemUtil {
 	}
 	
 	public static ItemStack makeItem(int itemCode, String displayName, String...lore) {
-		ItemStack item = new ItemStack(itemCode);
+		ItemStack item = getItemById(itemCode);
 		ItemMeta im = item.getItemMeta();
 		if(displayName != null) {
 			im.setDisplayName(ChatColor.WHITE + displayName);
@@ -78,10 +92,10 @@ public class ItemUtil {
 		
 		if(itemCode.contains(":")) {
 			String[] items = itemCode.split(":");
-			item = new ItemStack(Integer.parseInt(items[0]));
+			item = getItemById(Integer.parseInt(items[0]));
 			item.setDurability(Short.parseShort(items[1]));
 		} else {
-			item = new ItemStack(Integer.parseInt(itemCode));
+			item = getItemById(Integer.parseInt(itemCode));
 		}
 		
 		ItemMeta im = item.getItemMeta();

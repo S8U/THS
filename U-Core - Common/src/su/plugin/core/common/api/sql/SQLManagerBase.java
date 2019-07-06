@@ -74,11 +74,11 @@ public class SQLManagerBase {
 		try {
 			loadJsonConfig(plugin);
 			if(useUseOption && !use) return false;
-			
+
 			connection = DriverManager.getConnection("jdbc:mysql://" + SQLAddress + ":" + SQLPort + "/" + SQLDatabase + "?autoReconnect=true", SQLUser, SQLPassword);
 			SQLConfig = new SQLConfig(this);
 			createTable();
-			
+
 			Core.log(getClass().getSimpleName() + ": MySQL에 접속되었습니다.");
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -44,7 +44,7 @@ public class GChannelPlugin extends UGPlugin {
 	@Override
 	public void onUDisable() {
 		api.getSQLManager().close();
-		
+
 		api.stopChannelLoadTask();
 	}
 	

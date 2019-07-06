@@ -15,11 +15,11 @@ public class ItemBuilder {
   private ItemStack item;
 
   public ItemBuilder(int typeId) {
-    item = new ItemStack(typeId);
+    item = ItemUtil.getItemById(typeId);
   }
 
   public ItemBuilder(int typeId, short durability) {
-    item = new ItemStack(typeId);
+    item = ItemUtil.getItemById(typeId);
     item.setDurability(durability);
   }
 
@@ -34,10 +34,10 @@ public class ItemBuilder {
 
     if (itemCode.contains(":")) {
       String[] items = itemCode.split(":");
-      item.setTypeId(Integer.parseInt(items[0]));
+      item.setType(ItemUtil.getMaterialById(Integer.parseInt(items[0])));
       item.setDurability(Short.parseShort(items[1]));
     } else {
-      item = new ItemStack(Integer.parseInt(itemCode));
+      item = ItemUtil.getItemById(Integer.parseInt(itemCode));
     }
   }
 
@@ -48,13 +48,13 @@ public class ItemBuilder {
   //
 
   public ItemBuilder type(int typeId) {
-    item.setTypeId(typeId);
+    item.setType(ItemUtil.getMaterialById(typeId));
 
     return this;
   }
 
   public ItemBuilder type(int typeId, short durability) {
-    item.setTypeId(typeId);
+    item.setType(ItemUtil.getMaterialById(typeId));
     item.setDurability(durability);
 
     return this;
@@ -69,10 +69,10 @@ public class ItemBuilder {
   public ItemBuilder type(String itemCode) {
     if (itemCode.contains(":")) {
       String[] items = itemCode.split(":");
-      item.setTypeId(Integer.parseInt(items[0]));
+      item.setType(ItemUtil.getMaterialById(Integer.parseInt(items[0])));
       item.setDurability(Short.parseShort(items[1]));
     } else {
-      item.setTypeId(Integer.parseInt(itemCode));
+      item.setType(ItemUtil.getMaterialById(Integer.parseInt(itemCode)));
     }
 
     return this;

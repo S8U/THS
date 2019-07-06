@@ -33,13 +33,6 @@ public class GUI {
 	
 	//
 	
-	public GUI(String key, Inventory inventory) {
-		this.key = key;
-		this.inventory = inventory;
-		title = inventory.getTitle();
-		row = inventory.getSize() / 9;
-	}
-	
 	public GUI(String key, String title, int row) {
 		this.key = key;
 		this.title = title;
