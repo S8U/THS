@@ -1,4 +1,4 @@
 name: U-Core
-version: 0.0.9
+version: 0.1.0
 author: ShaDow_Uni
 main: su.plugin.core.bungee.GCorePlugin
