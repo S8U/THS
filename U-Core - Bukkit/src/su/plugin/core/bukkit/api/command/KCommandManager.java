@@ -60,11 +60,11 @@ public class KCommandManager extends UCommandManager implements CommandExecutor,
 				if(anno.usePlatformPrefix()) {
 					if(aliases != null) {
 						for(String ac : aliases) {
-							aliasesArr.add("bungee" + ac);
+							aliasesArr.add("k" + ac);
 						}
 					}
 
-					aliasesArr.add("bungee" + anno.name());
+					aliasesArr.add("k" + anno.name());
 				}
 
 				if(!aliasesArr.isEmpty()) {

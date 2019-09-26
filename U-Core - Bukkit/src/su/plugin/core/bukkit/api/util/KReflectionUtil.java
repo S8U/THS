@@ -22,7 +22,7 @@ public class KReflectionUtil extends ReflectionUtil {
 	
 	@SneakyThrows(Exception.class)
 	public static Class<?> getCraftBukkitClass(String name) {
-		return Class.forName("org.bungee.craftbukkit." + KCore.getNMSVersion().getString() + "." + name);
+		return Class.forName("org.bukkit.craftbukkit." + KCore.getNMSVersion().getString() + "." + name);
 	}
 	
 	@SneakyThrows(Exception.class)
