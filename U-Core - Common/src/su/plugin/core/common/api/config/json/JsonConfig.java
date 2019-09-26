@@ -52,6 +52,11 @@ public class JsonConfig {
 	public void clearValues() {
 		values.clear();
 	}
+
+	public void clearAll() {
+		clearDefaults();
+		clearValues();
+	}
 	
 	protected void valuesToDot(String parentPath, Map<String, Object> map, Map<String, Object> originalValues) {
 		originalValues.forEach((name, value) -> {

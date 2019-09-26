@@ -56,6 +56,8 @@ public class KCorePlugin extends UKPlugin {
 		registerCommands(new DebugCommand());
 		registerCommands(new TestCommand());
 
+		registerCommands(new su.plugin.core.bukkit.command.TestCommand());
+
 		Core.getSQLManager().connect(this);
 		
 		KCore.getOnlinePlayers().forEach(p -> {
@@ -75,25 +77,23 @@ public class KCorePlugin extends UKPlugin {
 			
 			Core.getUPlayerManager().setUPlayer(playerKey, new KPlayer(playerKey, p));
 		});
-		
+
 		if(Core.getOptionSQLManager().connect(this)) {
 			registerCommands(new PlayerOptionCommand());
 			registerCommands(new ServerOptionCommand());
-			
+
 			Core.getOptionSQLManager().loadServerOptions();
-			
+
 			if(Core.getOptionSQLManager().isUseBungeeSync()) {
 				BungeeOptionListener bol = new BungeeOptionListener();
-				
+
 				Bukkit.getMessenger().registerIncomingPluginChannel(this, "U-Core", bol);
 				registerUEventListener(bol);
 			}
 		} else {
 			Core.getOptionSQLManager().setUse(false);
-			
-			Core.wlog("옵션 SQL에 연결할 수 없어 옵션 SQL 기능이 비활성화됩니다.");
 		}
-		
+
 		registerChannel();
 		
 		if(api.isUsePlaceholderAPI()) {

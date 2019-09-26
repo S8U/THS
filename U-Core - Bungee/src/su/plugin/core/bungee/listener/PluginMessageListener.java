@@ -11,6 +11,9 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import su.plugin.core.bungee.GCorePlugin;
+import su.plugin.core.bungee.api.GCore;
+import su.plugin.core.bungee.api.player.GPlayer;
 import su.plugin.core.bungee.api.util.ChannelMessageUtil;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.player.PlayerKey;
@@ -91,6 +94,56 @@ public class PluginMessageListener implements Listener {
 			if(up == null) return;
 			
 			up.setDisplayName(displayName, false);
+		}
+
+		//
+
+		else if (task.equals("BroadcastChannel")) {
+			String channel = dis.readUTF();
+			String message = dis.readUTF();
+
+			ServerInfo si = ProxyServer.getInstance().getServerInfo(channel);
+			if (si == null) return;
+
+			for (ProxiedPlayer p : si.getPlayers()) {
+				p.sendMessage(message);
+			}
+		} else if (task.equals("BroadcastAll")) {
+			String message = dis.readUTF();
+
+			ProxyServer.getInstance().broadcast(message);
+		}
+
+		//
+
+		else if (task.equals("PlaySoundTo")) {
+			int playerId = dis.readInt();
+			GPlayer gp = (GPlayer) GCore.getUPlayer(playerId);
+			if (gp == null) return;
+
+			String soundName = dis.readUTF();
+			float volume = dis.readFloat();
+			float pitch = dis.readFloat();
+
+			ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), gp.getPlatformSender().getServer().getInfo(),"U-Core", "PlaySoundTo", playerId, soundName, volume, pitch);
+		} else if (task.equals("PlaySoundChannel")) {
+			String channelName = dis.readUTF();
+			ServerInfo si = ProxyServer.getInstance().getServerInfo(channelName);
+			if (si == null || si.getPlayers().size() < 1) return;
+
+			String soundName = dis.readUTF();
+			float volume = dis.readFloat();
+			float pitch = dis.readFloat();
+
+			ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), si, "U-Core", "PlaySoundAll", soundName, volume, pitch);
+		} else if (task.equals("PlaySoundAll")) {
+			String soundName = dis.readUTF();
+			float volume = dis.readFloat();
+			float pitch = dis.readFloat();
+
+			ProxyServer.getInstance().getServers().values().stream()
+					.filter(si -> si.getPlayers().size() > 0)
+					.forEach(si -> ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), si, "U-Core", "PlaySoundAll", soundName, volume, pitch));
 		}
 	}
 	

@@ -100,6 +100,7 @@ public class GUI {
 	public void updateIcon(int pos) {
 		Icon icon = getIcon(pos);
 		if(icon == null) return;
+
 		icon.update();
 		setItem(pos, icon.getItem());
 	}

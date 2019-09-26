@@ -3,7 +3,6 @@ package su.plugin.core.common.api.sql;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.NonNull;
 import su.plugin.core.common.api.util.StringUtil;
@@ -23,7 +22,7 @@ public class SQLTable {
 		this.SQLManager = SQLManager;
 		
 		this.name = name;
-		this.columnString = column;
+
 		columns = new ArrayList<>();
 		
 		String[] cs = column.split(",");
@@ -48,12 +47,21 @@ public class SQLTable {
 			String cName = ccs[0];
 			String cType = ccs[1];
 			boolean notNull = c.toLowerCase().contains("not null");
-			boolean autoIncrement = c.toLowerCase().contains("auto_increment");
-			boolean primaryKey = c.toLowerCase().endsWith("primary key");
+			boolean autoIncrement = c.toLowerCase().contains("auto_increment") || c.toLowerCase().contains("autoincrement");
+			if (autoIncrement) {
+				if (SQLManager.getSQLType() == SQLType.SQLite) {
+					column = column.replace(c, c.replaceAll("(?i)auto_increment","autoincrement").replaceAll("(?i) int ", " integer "));
+				} else {
+					column = column.replace(c, c.replaceAll("(?i)autoincrement","auto_increment").replaceAll("(?i) int ", " integer "));
+				}
+			}
+			boolean primaryKey = c.toLowerCase().contains("primary key");
 			
 			SQLColumn sc = new SQLColumn(cName, cType, notNull, autoIncrement, primaryKey);
 			columns.add(sc);
 		}
+
+		this.columnString = column;
 	}
 	
 	public SQLColumn getColumn(String name) {
@@ -117,14 +125,14 @@ public class SQLTable {
 				values[i] = (boolean) values[i] ? 1 : 0;
 			}
 		}
-		
+
 		List<String> ds = new ArrayList<>();
 		for (int i = 0; i < columns.size(); i++) {
 			SQLColumn c = columns.get(i);
 			if(c.isPrimaryKey() || c.isAutoIncrement()) continue;
-			
+
 			String v = "=" + (values[i].toString().startsWith("$$") ? c.getName() : values[i].toString());
-			
+
 			ds.add(c.getName() + v);
 		}
 		
@@ -132,9 +140,13 @@ public class SQLTable {
 			if(!values[i].toString().startsWith("$$")) continue;
 			values[i] = values[i].toString().substring(2);
 		}
-		
-		SQLManager.update("insert into " + getTableName() + " values (" + StringUtil.connectString(values, ",") + ")"
-				+ " on duplicate key update " + StringUtil.connectString(ds, ","));
+
+		if (SQLManager.getSQLType() == SQLType.SQLite) {
+			SQLManager.update("insert or replace into " + getTableName() + " values (" + StringUtil.connectString(values, ",") + ")");
+		} else {
+			SQLManager.update("insert into " + getTableName() + " values (" + StringUtil.connectString(values, ",") + ")"
+					+ " on duplicate key update " + String.join(",", ds));
+		}
 	}
 	
 	public void update(String set) {

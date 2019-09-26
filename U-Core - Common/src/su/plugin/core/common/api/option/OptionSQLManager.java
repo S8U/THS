@@ -25,7 +25,8 @@ public class OptionSQLManager extends SQLManagerBase {
 	public OptionSQLManager() {
 		setUseUseOption(true);
 		
-		setConfigName("option-mysql-config");
+		setConfigName("option-sql-config");
+		setSQLiteFileName("option-data.db");
 	}
 	
 	@Override

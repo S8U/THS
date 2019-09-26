@@ -1,5 +1,7 @@
 package su.plugin.core.bukkit.api.util;
 
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.io.ByteArrayDataOutput;
@@ -8,6 +10,7 @@ import com.google.common.io.ByteStreams;
 import lombok.experimental.UtilityClass;
 import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.task.PluginMessageTask;
+import su.plugin.core.common.api.player.PlayerKey;
 
 @UtilityClass
 public class BungeeUtil {
@@ -54,6 +57,30 @@ public class BungeeUtil {
 	
 	public static void kickPlayer(String player, String message) {
 		sendMessageToBungeeCord(KCorePlugin.getInstance(), "BungeeCord", "KickPlayer", player, message);
+	}
+
+	public static void broadcast(String channel, String message) {
+		sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "BroadcastChannel", channel, message);
+	}
+
+	public static void broadcast(String message) {
+		sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "BroadcastAll", message);
+	}
+
+	public static void playSound(String channel, Sound sound, float volume, float pitch) {
+		sendMessageToBungeeCord(KCorePlugin.getInstance(),"U-Core","PlaySoundChannel", sound.toString(), volume, pitch);
+	}
+
+	public static void playSound(PlayerKey playerKey, Sound sound, float volume, float pitch) {
+		sendMessageToBungeeCord(KCorePlugin.getInstance(),"U-Core","PlaySoundTo", playerKey.getId(), sound.toString(), volume, pitch);
+	}
+
+	public static void playSound(Player player, Sound sound, float volume, float pitch) {
+		playSound(PlayerKey.getPlayerKeyByPlatformPlayer(player), sound, volume, pitch);
+	}
+
+	public static void playSound(Sound sound, float volume, float pitch) {
+		sendMessageToBungeeCord(KCorePlugin.getInstance(),"U-Core","PlaySoundAll", sound.toString(), volume, pitch);
 	}
 	
 	private void writeObject(ByteArrayDataOutput out, Object...objs) {

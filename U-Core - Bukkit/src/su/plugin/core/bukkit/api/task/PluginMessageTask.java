@@ -39,7 +39,7 @@ public class PluginMessageTask extends UKRunnable {
 		if(p == null) {
 			for(Player ap : KCore.getOnlinePlayers()) {
 				if(ap == null || !ap.isOnline()) continue;
-				p = ap;
+				p = ap; break;
 			}
 		}
 		

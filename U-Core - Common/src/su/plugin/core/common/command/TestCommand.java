@@ -11,6 +11,8 @@ import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.command.CommandHandler;
+import su.plugin.core.common.api.command.SubCommand;
+import su.plugin.core.common.api.command.SubCommandHandler;
 import su.plugin.core.common.api.command.UCommandListener;
 import su.plugin.core.common.api.command.UCommandSender;
 import su.plugin.core.common.api.util.DebugUtil;
@@ -24,6 +26,19 @@ public class TestCommand implements UCommandListener {
 			usage = "테스트 명령어"
 			)
 	public void test(UCommandSender sender, String[] args) {
+		Core.nmsg(sender, "§e§l[ U-Core | Test ]");
+		for(SubCommand sc : Core.getCommandManager().getSubCommands("ctest", 1)) {
+			sc.sendUsageIfHasPermission(sender, false);
+		}
+	}
+
+	@SubCommandHandler(
+			parent = "ctest",
+			name = "bci",
+			permission = "core.admin",
+			usage = "bci"
+	)
+	public void bci(UCommandSender sender, String[] args) {
 		DebugUtil.startTimeMeasurement(true);
 		try {
 			ClassPool cp = new ClassPool();
