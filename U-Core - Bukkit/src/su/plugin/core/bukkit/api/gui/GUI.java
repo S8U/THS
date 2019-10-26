@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.event.gui.GUIClickEvent;
+import su.plugin.core.common.api.player.UPlayer;
 
 @Getter
 public class GUI {
@@ -40,8 +41,7 @@ public class GUI {
 		inventory = Bukkit.createInventory(null, row * 9, ChatColor.translateAlternateColorCodes('&', title));
 	}
 	
-	//
-	
+	// Item
 	public void setItem(int x, int y, ItemStack item) {
 		inventory.setItem(x - 1 + (y - 1) * 9, item);
 	}
@@ -58,8 +58,7 @@ public class GUI {
 		return inventory.getItem(pos);
 	}
 	
-	//
-	
+	// Icon
 	public void setIcon(int x, int y, Icon icon) {
 		setIcon(x - 1 + (y - 1) * 9, icon);
 	}
@@ -77,8 +76,7 @@ public class GUI {
 		return icons.get(pos);
 	}
 	
-	//
-	
+	// Update
 	protected void onUpdate() { }
 	
 	public void update() {
@@ -104,21 +102,68 @@ public class GUI {
 		icon.update();
 		setItem(pos, icon.getItem());
 	}
+
+	public void updateFakeIcons(UPlayer up) {
+		icons.values().forEach(icon -> {
+			if (!(icon instanceof FakeIcon)) return;
+
+			((FakeIcon) icon).update(up);
+		});
+	}
+
+	public void updateFakeIcons(Player p) {
+		updateFakeIcons(KCore.getUPlayerByPlatformPlayer(p));
+	}
+
+	public void updateFakeIcons() {
+		List<Player> players = getPlayers();
+		icons.values().forEach(icon -> {
+			if (!(icon instanceof FakeIcon)) return;
+
+			players.forEach(player -> {
+				((FakeIcon) icon).update(player);
+			});
+		});
+	}
 	
-	//
-	
+	// Open
 	public void open(Player p) {
 		p.closeInventory();
 		
 		KCore.getGUIManager().setPlayerGUI(p, this);
 		
-		Bukkit.getScheduler().runTask(KCorePlugin.getInstance(), () -> p.openInventory(inventory));
+		Bukkit.getScheduler().runTask(KCorePlugin.getInstance(), () -> {
+			p.openInventory(inventory);
+
+			icons.values().forEach(icon -> {
+				if (!(icon instanceof FakeIcon)) return;
+
+				((FakeIcon) icon).update(p);
+			});
+		});
 	}
 
 	public void closeAll() {
 		getPlayers().forEach(p -> p.closeInventory());
 	}
+	
+	// Object
+	public void setObject(String key, Object value) {
+		objects.put(key, value);
+	}
+	
+	public boolean existsObject(String key) {
+		return objects.containsKey(key);
+	}
+	
+	public Object getObject(String key) {
+		return objects.get(key);
+	}
 
+	// Event
+	public void onGUIClick(GUIClickEvent e) { }
+
+	//
 	public List<Player> getPlayers() {
 		List<Player> list = new ArrayList<>();
 
@@ -130,24 +175,6 @@ public class GUI {
 		}
 
 		return list;
-	}
-	
-	//
-	
-	public void onGUIClick(GUIClickEvent e) { }
-	
-	//
-	
-	public void setObject(String key, Object value) {
-		objects.put(key, value);
-	}
-	
-	public boolean existsObject(String key) {
-		return objects.containsKey(key);
-	}
-	
-	public Object getObject(String key) {
-		return objects.get(key);
 	}
 	
 }

@@ -7,6 +7,7 @@ import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.task.PluginMessageTask;
 import su.plugin.core.bukkit.api.util.BungeeUtil;
+import su.plugin.core.bukkit.api.util.KReflectionUtil;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.player.UPlayer;
@@ -111,6 +112,12 @@ public class KPlayer extends UPlayer {
 		});
 
 		return hide = false;
+	}
+
+	//
+
+	public void sendPacket(Object packet) {
+		KReflectionUtil.sendPacket(getPlatformSender(),packet);
 	}
 
 }

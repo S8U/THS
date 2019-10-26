@@ -11,14 +11,16 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-
 import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.event.gui.GUIClickEvent;
 import su.plugin.core.bukkit.api.event.gui.GUICloseEvent;
 import su.plugin.core.bukkit.api.event.gui.IconClickEvent;
 import su.plugin.core.bukkit.api.event.gui.QuickBarClickEvent;
+import su.plugin.core.bukkit.api.gui.FakeIcon;
 import su.plugin.core.bukkit.api.gui.GUI;
+import su.plugin.core.common.api.player.PlayerKey;
+import su.plugin.core.common.api.util.DebugUtil;
 
 public class GUIListener implements Listener {
 	
@@ -26,26 +28,38 @@ public class GUIListener implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if(e.getRawSlot() < 0 || e.getRawSlot() > e.getInventory().getSize()) return;
+		if (DebugUtil.isDebugMode(PlayerKey.getPlayerKeyByPlatformPlayer(e.getWhoClicked()).getId())) {
+			DebugUtil.log("getRawSlot: " + e.getRawSlot() + " / getSlot: " + e.getSlot() + " / Inv Size: " + e.getInventory().getSize() + " / Action: " + e.getAction());
+		}
 		
 		Player p = (Player) e.getWhoClicked();
 		
 		if(api.getGUIManager().hasGUI(p.getName())) {
 			GUI gui = api.getGUIManager().getPlayerGUI(p);
-			
-			GUIClickEvent ge = new GUIClickEvent(e);
-			ge.setPickUpCancel(!gui.isCanPickUp());
-			Bukkit.getPluginManager().callEvent(ge);
-			
-			if(ge.isIconClicked()) {
-				IconClickEvent ie = new IconClickEvent(ge, null);
-				ie.getIcon().onIconClick(ie);
-				Bukkit.getPluginManager().callEvent(ie);
-				
-				ge.setPickUpCancel(ie.isPickUpCancel());
+
+			if(e.getRawSlot() < 0 || e.getRawSlot() > e.getInventory().getSize()) {
+				e.setCancelled(true);
+			} else {
+				GUIClickEvent ge = new GUIClickEvent(e);
+				ge.setPickUpCancel(!gui.isCanPickUp());
+				Bukkit.getPluginManager().callEvent(ge);
+
+				if(ge.isIconClicked()) {
+					IconClickEvent ie = new IconClickEvent(ge, null);
+					ie.getIcon().onIconClick(ie);
+					Bukkit.getPluginManager().callEvent(ie);
+
+					ge.setPickUpCancel(ie.isPickUpCancel());
+				}
+
+				e.setCancelled(ge.isPickUpCancel());
+
+				if (ge.isIconClicked() && ge.getClickedIcon() instanceof FakeIcon && ge.getClickedItem() == null) {
+					p.updateInventory();
+				}
 			}
-			
-			e.setCancelled(ge.isPickUpCancel());
+
+			Bukkit.getScheduler().runTaskLater(KCorePlugin.getInstance(),() -> gui.updateFakeIcons(p), 1);
 		} else if(e.getSlotType() == SlotType.QUICKBAR && api.getGUIManager().hasQuickBar(p.getName())) {
 			e.setCancelled(true);
 			
@@ -56,9 +70,16 @@ public class GUIListener implements Listener {
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
-		
-		if(!api.getGUIManager().hasGUI(p.getName())) return;
-		
+
+		GUI gui = api.getGUIManager().getPlayerGUI(p);
+		if (gui == null) return;
+
+		gui.getIcons().values().forEach(icon -> {
+			if (!(icon instanceof FakeIcon)) return;
+
+			((FakeIcon) icon).getItems().remove(PlayerKey.getPlayerKeyByPlatformPlayer(p));
+		});
+
 		GUICloseEvent event = new GUICloseEvent(e);
 		Bukkit.getPluginManager().callEvent(event);
 		

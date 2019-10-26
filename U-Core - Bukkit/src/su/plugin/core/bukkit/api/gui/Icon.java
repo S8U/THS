@@ -20,8 +20,7 @@ public abstract class Icon {
 	
 	private HashMap<String, Object> objects = new HashMap<>();
 	
-	//
-	
+	// Constructor
 	public Icon() {
 		key = null;
 	}
@@ -36,22 +35,19 @@ public abstract class Icon {
 		this.item = item;
 	}
 	
-	//
-	
+	// Update
 	protected abstract ItemStack updateItem();
 	
 	public void update() {
 		item = updateItem();
 	}
 	
-	//
-	
+	// Amount
 	public void setAmount(int amount) {
 		item.setAmount(amount);
 	}
 	
-	//
-	
+	// Object
 	public void setObject(String key, Object value) {
 		objects.put(key, value);
 	}
@@ -64,8 +60,7 @@ public abstract class Icon {
 		return objects.get(key);
 	}
 	
-	//
-	
+	// Event
 	public void onIconClick(IconClickEvent event) { }
 	
 }
