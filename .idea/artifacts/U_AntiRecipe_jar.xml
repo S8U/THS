@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="U-AntiRecipe:jar">
-    <output-path>$PROJECT_DIR$/../../../Plugins/Project/THS</output-path>
-    <root id="archive" name="U-AntiRecipe-0.1.1.jar">
-      <element id="module-output" name="U-AntiRecipe" />
-    </root>
-  </artifact>
-</component>

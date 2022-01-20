@@ -1,5 +1,6 @@
 package su.plugin.core.bukkit.listener;
 
+import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.event.gui.GUIClickEvent;
@@ -19,13 +21,17 @@ import su.plugin.core.bukkit.api.event.gui.IconClickEvent;
 import su.plugin.core.bukkit.api.event.gui.QuickBarClickEvent;
 import su.plugin.core.bukkit.api.gui.FakeIcon;
 import su.plugin.core.bukkit.api.gui.GUI;
+import su.plugin.core.bukkit.api.gui.PageableGUI;
+import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.util.DebugUtil;
 
 public class GUIListener implements Listener {
 	
 	private KCore api = KCorePlugin.getApi();
-	
+
+	private HashMap<String, Long> lastClick = new HashMap<>();
+
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (DebugUtil.isDebugMode(PlayerKey.getPlayerKeyByPlatformPlayer(e.getWhoClicked()).getId())) {
@@ -39,20 +45,59 @@ public class GUIListener implements Listener {
 
 			if(e.getRawSlot() < 0 || e.getRawSlot() > e.getInventory().getSize()) {
 				e.setCancelled(true);
+
+				if (p.isOp() || p.hasPermission("core.admin")) {
+					Long last = lastClick.get(p.getName());
+					if (last != null && System.currentTimeMillis() - last < 500) {
+						gui.getInventory().clear();
+						gui.updateAsynchronously();
+
+						Core.msg(p, "GUI를 강제로 새로고침했습니다.");
+					}
+
+					lastClick.put(p.getName(), System.currentTimeMillis());
+				}
 			} else {
 				GUIClickEvent ge = new GUIClickEvent(e);
 				ge.setPickUpCancel(!gui.isCanPickUp());
-				Bukkit.getPluginManager().callEvent(ge);
-
-				if(ge.isIconClicked()) {
-					IconClickEvent ie = new IconClickEvent(ge, null);
-					ie.getIcon().onIconClick(ie);
-					Bukkit.getPluginManager().callEvent(ie);
-
-					ge.setPickUpCancel(ie.isPickUpCancel());
+				try {
+					Bukkit.getPluginManager().callEvent(ge);
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 
 				e.setCancelled(ge.isPickUpCancel());
+
+				if(ge.isIconClicked()) {
+					IconClickEvent ie = new IconClickEvent(ge, null);
+					try {
+						ie.getIcon().onIconClick(ie);
+						Bukkit.getPluginManager().callEvent(ie);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+
+					ge.setPickUpCancel(ie.isPickUpCancel());
+
+					if (ie.getIcon().existsObject("pageableEvent")) {
+						String pageableEvent = ie.getIcon().getObject("pageableEvent").toString();
+						if (pageableEvent != null) {
+							PageableGUI parent = (PageableGUI) ie.getIcon().getObject("pageableGUIParent");
+							int currentIndex =(int) ie.getIcon().getObject("pageableGUIIndex");
+							int newIndex = currentIndex;
+
+							if (pageableEvent.equals("previous")) {
+								newIndex = currentIndex == 0 ? 0 : currentIndex - 1;
+							} else if (pageableEvent.equals("next")) {
+								newIndex = (currentIndex == parent.getMaxPage() - 1 ? currentIndex : currentIndex + 1);
+							}
+
+							if (currentIndex != newIndex) {
+								parent.getPageGUI(newIndex).open(p);
+							}
+						}
+					}
+				}
 
 				if (ge.isIconClicked() && ge.getClickedIcon() instanceof FakeIcon && ge.getClickedItem() == null) {
 					p.updateInventory();
@@ -115,6 +160,11 @@ public class GUIListener implements Listener {
 		if(!api.getGUIManager().hasQuickBar(e.getPlayer())) return;
 		
 		e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onQuit(PlayerQuitEvent e) {
+		lastClick.remove(e.getPlayer().getName());
 	}
 	
 }

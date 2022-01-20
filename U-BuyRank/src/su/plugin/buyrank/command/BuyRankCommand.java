@@ -74,6 +74,8 @@ public class BuyRankCommand implements UCommandListener {
 
     PermissionAPI.getPlayerManager().sendPlayerChange(up.getPlayerKey());
 
+    VaultHandler.getEconomy().withdrawPlayer(up.getName(), rank.getPrice());
+
     up.msg(rank.getName() + " §9등급을 구입했습니다.");
 
     if(api.isBroadcastOnBuy()) {
@@ -108,7 +110,7 @@ public class BuyRankCommand implements UCommandListener {
       aliases = {"set"},
       additional = "<등급> <권한> <가격> (<킬>)",
       minArgs = 3,
-      usage = "등급을 구매합니다.",
+      usage = "등급을 설정합니다.",
       permission = PermissionList.BUYRANK_ADMIN
   )
   public void buyRank_set(UCommandSender sender, String[] args) {

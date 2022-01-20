@@ -51,7 +51,7 @@ public class NormalStartTask extends UKRunnable { // 게임 시작 (능력 추�
 				api.getItemManager().giveRankItemAll();
 			}
 			
-			api.playSoundToAll(Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+			api.playSoundToAll(Sound.EXPLODE, 1, 1);
 			Core.cbc(ChatColor.DARK_GREEN, "§a게임이 시작되었습니다. (게임 참여자: §f" + api.getPlayerManager().getJoinedPlayers().size() + "§a명)");
 			api.getBarManager().getBossBar().setText(startedMessage);
 			api.getBarManager().getBossBar().setProgress(100);
@@ -63,7 +63,7 @@ public class NormalStartTask extends UKRunnable { // 게임 시작 (능력 추�
 			cancel();
 			return;
 		} else if(count > 6) {
-			api.playSoundToAll(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+			api.playSoundToAll(Sound.ORB_PICKUP, 1, 1);
 			Core.cbc(ChatColor.DARK_GREEN, 10 - count + "§a" + countMessage);
 			
 			api.getBarManager().getBossBar().setText(10 - count + countMessage);
@@ -75,7 +75,7 @@ public class NormalStartTask extends UKRunnable { // 게임 시작 (능력 추�
 		api.getBarManager().getBossBar().setProgress((float) (10 - count) / 10 * 100);
 		
 		if(count > 1) return;
-		api.playSoundToAll(Sound.ENTITY_ITEM_PICKUP, 1, 1);
+		api.playSoundToAll(Sound.ITEM_PICKUP, 1, 1);
 		Core.cbc(ChatColor.DARK_GREEN, "§a" + startMessage);
 	}
 	

@@ -45,6 +45,8 @@ public class GCMDLockerPlugin extends UGPlugin {
 		getJsonConfig().addDefault("알림 사용", true);
 		getJsonConfig().addDefault("로그인 유지", true);
 		getJsonConfig().addDefault("비밀번호", "password123!@#");
+		getJsonConfig().addDefault("채팅 차단", true);
+		getJsonConfig().addDefault("모든 명령어 차단", true);
 		getJsonConfig().addDefault("금지 명령어", Arrays.asList("end", "server", "greload"));
 
 		getJsonConfig().save();
@@ -52,6 +54,8 @@ public class GCMDLockerPlugin extends UGPlugin {
 		api.setUseNotify(getJsonConfig().getBoolean("알림 사용"));
 		api.setUseKeepLogin(getJsonConfig().getBoolean("로그인 유지"));
 		api.setPassword(getJsonConfig().getString("비밀번호"));
+		api.setBlockChat(getJsonConfig().getBoolean("채팅 차단"));
+		api.setBlockAllCommand(getJsonConfig().getBoolean("모든 명령어 차단"));
 		api.setBlacklistedCommand(getJsonConfig().getStringList("금지 명령어"));
 	}
 

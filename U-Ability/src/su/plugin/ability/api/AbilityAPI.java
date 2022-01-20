@@ -1,6 +1,7 @@
 package su.plugin.ability.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.script.Invocable;
 import lombok.Getter;
@@ -26,17 +27,21 @@ import su.plugin.ability.api.manager.ScriptManager;
 import su.plugin.ability.api.manager.SupplyManager;
 import su.plugin.ability.api.manager.TaskManager;
 import su.plugin.ability.api.manager.VoteManager;
+import su.plugin.channel.common.api.ChannelAPI;
+import su.plugin.channel.common.api.object.Channel;
+import su.plugin.channel.common.api.object.ChannelGroup;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.common.api.ChatColor;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.command.SubCommand;
 import su.plugin.core.common.api.command.UCommandSender;
+import su.plugin.core.common.api.util.StringUtil;
 
 public class AbilityAPI {
 	
 	@Setter
 	@Getter
-	private static String mapLimitParticle, bungeeLobby, waitingMOTD, playingMOTD;
+	private static String mapLimitParticle, bungeeLobby, waitingMOTD, playingMOTD, voteStartingCondition, voteStartingConditionMessage;
 	
 	@Setter
 	@Getter
@@ -55,8 +60,8 @@ public class AbilityAPI {
 	eliminateOnNatureDeath, kickOnDeath, banOnDeath, allowReconnect, useReconnectTimeLimit, useLocationNotifyMessage, useLocationNotifyFirework,
 	useAssist, useFirstBlood, useDouble, useTriple, useQuadra, usePenta, useAutoStart, useDrawTimeLimit, useAutoTeleport, useAutoTeleportRepeat,
 	useAutoMapLimit, useAutoTpAllMapLimit, useMapLimitParticle, useWatchModeQuickBar, useWaitingQuickBar,
-	useSideBar, useSideBarGameInfo, useInfinityDurability, useInfinityFoodLevel, useGameStartVote, useMapVote, useStartItem, useRankItem,
-	teleportToMapOnManyPlayer, rainOff,
+	useSideBar, useSideBarGameInfo, useInfinityDurability, useInfinityFoodLevel, useGameStartVote, useMapVote, useInvSkipVote, useStartItem, useRankItem,
+	teleportToMapOnManyPlayer, rainOff, useEndBroadcastMessage,
 	firstBlood = true;
 	
 	@Setter
@@ -65,7 +70,7 @@ public class AbilityAPI {
 
 	@Setter
 	@Getter
-	private static String winMoneyFormula;
+	private static String winMoneyFormula, endBroadcastSound;
 
 	@Setter
 	@Getter
@@ -74,6 +79,14 @@ public class AbilityAPI {
 	@Setter
 	@Getter
 	private static List<String> watchExceptionCommands = new ArrayList<>();
+
+	@Setter
+	@Getter
+	private static List<String> endBroadcastMessages = new ArrayList<>();
+
+	@Setter
+	@Getter
+	private static HashMap<String, Integer> rankRedrawCount = new HashMap<>(); // <Rank, Count>
 	
 	@Getter
 	private static AbilityManager abilityManager;
@@ -131,6 +144,31 @@ public class AbilityAPI {
 		return (double) invEngine.invokeFunction("getWinMoney", playerCount);
 	}
 
+	@SneakyThrows(Exception.class)
+	public boolean canStartVote() {
+		int lobbyCount = 0;
+		if (bungeeLobby.toLowerCase().startsWith("<channel:")) {
+			List<String> arr = StringUtil.getValue("channel", bungeeLobby);
+			Channel channel = null;
+
+			if(arr.size() > 0 && (channel = ChannelAPI.getChannelManager().getChannel(arr.get(0))) != null) {
+				lobbyCount = channel.getPlayerCount();
+			}
+		} else if (bungeeLobby.toLowerCase().startsWith("<channelgroup:")) {
+			List<String> arr = StringUtil.getValue("channelgroup", bungeeLobby);
+			ChannelGroup group = null;
+
+			if(arr.size() > 0 && (group = ChannelAPI.getChannelGroupManager().getChannelGroup(arr.get(0))) != null) {
+				lobbyCount = group.getPlayerCount();
+			}
+		}
+
+		return (boolean) ((Invocable) scriptManager.getScriptEngine()).invokeFunction("voteStartCondition",
+				useChannel ? ChannelAPI.getAllPlayerCount() : 0,
+				lobbyCount,
+				playerManager.getOnlineJoinedPlayers().size());
+	}
+
 	public boolean isAdmin(CommandSender sender, boolean msg) {
 		if(sender.isOp() || sender.hasPermission("ability.admin")) return true;
 		else if(msg) {
@@ -140,7 +178,7 @@ public class AbilityAPI {
 	}
 
 	public void playSound(Player p, Sound sound, float volume, float speed) {
-		if(!isUseSoundEffect()) return;
+		if(!isUseSoundEffect() || p == null || sound == null) return;
 		Bukkit.getScheduler().runTask(AbilityPlugin.getInstance(), () -> p.playSound(p.getLocation(), sound, volume * 0.6F, speed));
 	}
 	
@@ -165,7 +203,7 @@ public class AbilityAPI {
 						bungeeManager.sendToLobby(ap);
 					}
 				} else if(i == count) {
-					Bukkit.shutdown();
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
 				}
 			}
 		}, 0, 20);
@@ -179,6 +217,10 @@ public class AbilityAPI {
 		sender.cmsg(color, r);
 
 		return true;
+	}
+
+	public static int getRedrawCount(String rank) {
+		return rank != null && rankRedrawCount.containsKey(rank.toLowerCase()) ? rankRedrawCount.get(rank.toLowerCase()) : redrawCount;
 	}
 	
 }

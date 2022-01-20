@@ -8,7 +8,9 @@ import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 import su.plugin.core.common.api.Core;
+import su.plugin.core.common.api.command.Command;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.gcmdlocker.GCMDLockerPlugin;
 import su.plugin.gcmdlocker.api.GCMDLockerAPI;
@@ -39,16 +41,29 @@ public class PlayerListener implements Listener {
 		api.logout(p);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onChat(ChatEvent e) {
-		if(!e.isCommand() || !(e.getSender() instanceof ProxiedPlayer)) return;
+		if (!(e.getSender() instanceof ProxiedPlayer)) return;
 
 		ProxiedPlayer p = (ProxiedPlayer) e.getSender();
-		if(api.isLogged(PlayerKey.getPlayerKeyByPlatformPlayer(p)) || !api.isBlackListedCommand(e.getMessage())) return;
+		if (api.isLogged(PlayerKey.getPlayerKeyByPlatformPlayer(p))) return;
 
-		Core.msg(p, "§c명령어를 사용하려면 로그인해주세요.");
+		Command cl = Core.getCommandManager().getCommand("cmdLogin");
+		String cmd = e.getMessage().substring(1).toLowerCase();
+		if (e.isCommand()) {
+			if (cmd.startsWith(cl.getName().toLowerCase())) return;
+			for (String alias : cl.getAliases()) {
+				if (cmd.startsWith(alias.toLowerCase())) return;
+			}
 
-		e.setCancelled(true);
+			if (api.isBlackListedCommand(e.getMessage()) || (api.isBlockAllCommand() && p.hasPermission("gcmdlocker.admin"))) {
+				Core.wmsg(p, "명령어를 사용하려면 로그인해주세요.");
+				e.setCancelled(true);
+			}
+		} else if (api.isBlockChat() && p.hasPermission("gcmdlocker.admin")) {
+			Core.wmsg(p, "채팅을 사용하려면 로그인해주세요.");
+			e.setCancelled(true);
+		}
 	}
 
 }

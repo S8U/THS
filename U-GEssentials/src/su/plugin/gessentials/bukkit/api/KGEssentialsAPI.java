@@ -26,7 +26,7 @@ public class KGEssentialsAPI {
 	
 	@Getter
 	private static Set<PlayerKey> moveSpys = new HashSet<>();
-	
+
 	@Getter
 	private static ChatManager chatManager;
 	

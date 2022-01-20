@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import su.plugin.channel.common.api.ChannelAPI;
-import su.plugin.core.common.api.Core;
 
 @RequiredArgsConstructor
 @Setter
@@ -85,6 +82,8 @@ public class ChannelGroup {
 		Set<String> list = new HashSet<>();
 		
 		for(Channel ch : getChannels()) {
+			if (!ch.isOnline()) continue;
+
 			for(String player : ch.getPlayerList()) {
 				list.add(player);
 			}

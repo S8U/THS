@@ -1,0 +1,49 @@
+U-Cash
+
+Cash
+player_id, cash
+
+MoneyBoost
+player_id, money, expire_time
+
+DisplayName
+player_id, display_name, expire_time
+
+ColorDisplayName
+player_id, color_code, expire_time
+
+Prefix
+player_id, prefix, expire_time
+
+CashLog
+player_id, admin_id, type, amount, time
+
+BenefitLog
+player_id, admin_id, type, amount, expire_time, time
+
+ExpireLog
+player_id, type, time
+
+접속할때 체크, 타이머
+
+캐시 상점 GUI
+MoneyBoost 아이콘, 구매할때마다 +되어야함
+DisplayName 아이콘, 구매 시 표지판뜨고 확인까지하면 캐시 차감, 연장
+ColorDisplayName 아이콘, 구매하면 색깔 선택 GUI에서 선택 가능
+
+/캐시 설정 <닉네임> <양>
+/캐시 추가 <닉네임> <양>
+/캐시 빼기 <닉네임> <양>
+/캐시 확인 <닉네임>
+
+/캐시 돈부스트 설정 <닉네임> <yyyy-MM-dd HH:mm:ss>
+/캐시 돈부스트 추가 <닉네임> <d: h: m: s:>
+/캐시 돈부스트 빼기 <닉네임> <d: h: m: s:>
+
+/캐시 기간닉네임 설정 <닉네임> <yyyy-MM-dd HH:mm:ss> <가상닉네임>
+/캐시 기간닉네임 추가 <닉네임> <d: h: m: s:>
+/캐시 기간닉네임 빼기 <닉네임> <d: h: m: s:>
+
+/캐시 색깔닉네임 설정 <닉네임> <색깔코드> <yyyy-MM-dd HH:mm:ss>
+/캐시 색깔닉네임 추가 <닉네임> <색깔코드> <d: h: m: s:>
+/캐시 색깔닉네임 빼기 <닉네임> <색깔코드> <d: h: m: s:>

@@ -11,9 +11,11 @@ public class PlayerListener implements UEventListener {
   public void onNewPlayerJoin(UNewPlayerJoinEvent e) {
     if(!e.getPlayer().isOnlineMode()) return;
 
-    OnlineModeGiftPlugin.getCommands().forEach(cmd -> Bukkit
-        .dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("<플레이어>", e.getPlayer().getName())));
-    OnlineModeGiftPlugin.getMessages().forEach(msg -> e.getPlayer().msg(msg));
+    Bukkit.getScheduler().runTaskLater(OnlineModeGiftPlugin.getInstance(), () -> {
+      OnlineModeGiftPlugin.getCommands().forEach(cmd -> Bukkit
+          .dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("<플레이어>", e.getPlayer().getName())));
+      OnlineModeGiftPlugin.getMessages().forEach(msg -> e.getPlayer().msg(msg));
+    }, 10L);
   }
 
 }

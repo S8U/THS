@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import su.plugin.lobbysystem.api.LobbySystemAPI;
+import su.plugin.lobbysystem.ncp.NCPHandler;
 
 public class DoubleJumpListener implements Listener {
 
@@ -32,6 +33,10 @@ public class DoubleJumpListener implements Listener {
     e.getPlayer().setAllowFlight(false);
     e.getPlayer().setFlying(false);
     e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(LobbySystemAPI.getDoubleJumpForward()).setY(LobbySystemAPI.getDoubleJumpUpward()));
+
+    if (!e.getPlayer().isOp() && NCPHandler.isUseNCP()) {
+      NCPHandler.allowDoubleJump(e.getPlayer());
+    }
 
     e.setCancelled(true);
   }

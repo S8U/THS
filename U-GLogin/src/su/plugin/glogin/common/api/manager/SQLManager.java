@@ -20,7 +20,8 @@ import su.plugin.core.common.api.sql.SQLManagerBase;
 import su.plugin.core.common.api.sql.SQLTable;
 
 public class SQLManager extends SQLManagerBase {
-	
+
+	@Getter
 	private SQLTable accountTable, loginLogTable, manageLogTable;
 	
 	@Setter
@@ -43,7 +44,7 @@ public class SQLManager extends SQLManagerBase {
 	public void createJsonConfigOthers() {
 		if(Core.getPlatformType() == PlatformType.BUKKIT) return;
 		
-		getJsonConfig().set("로그 사용", false);
+		getJsonConfig().set("로그 사용", true);
 	}
 	
 	@Override
@@ -145,12 +146,12 @@ public class SQLManager extends SQLManagerBase {
 	
 	public void writeLoginLog(PlayerKey playerKey, String ip, Type type) {
 		if(!useLog) return;
-		loginLogTable.insert(null, playerKey, ip, type);
+		loginLogTable.insert(null, playerKey.getId(), ip, type.getText(), System.currentTimeMillis());
 	}
 	
 	public void writeManageLog(PlayerKey targetPlayerKey, int adminId, String adminIp, Type type) {
 		if(!useLog) return;
-		manageLogTable.insert(null, targetPlayerKey, adminId, adminIp, type.getText());
+		manageLogTable.insert(null, targetPlayerKey.getId(), adminId, adminIp, type.getText(), System.currentTimeMillis());
 	}
 	
 }

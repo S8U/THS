@@ -1,4 +1,4 @@
 name: U-ItemTools
-version: 0.1.2
+version: 0.1.5
 main: su.plugin.itemtools.ItemToolsPlugin
 depend: [U-Core]

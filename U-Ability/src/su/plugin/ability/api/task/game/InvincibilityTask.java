@@ -49,7 +49,7 @@ public class InvincibilityTask extends UKRunnable {
 				Core.cbc(ChatColor.DARK_GREEN, "§e무적 해제까지 §f" + StringUtil.buildTimeString(getRemainingCount()  * 1000) + " §e남았습니다.");
 			} else if(getRemainingCount() < 1) {
 				api.setInvincibilityTime(false);
-				api.playSoundToAll(Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+				api.playSoundToAll(Sound.EXPLODE, 1, 1);
 				Core.cbc(ChatColor.DARK_GREEN, "§a무적이 해제되었습니다.");
 				api.getBarManager().getBossBar().setText("무적이 해제되었습니다.");
 				api.getBarManager().getBossBar().setProgress(100);
@@ -62,7 +62,7 @@ public class InvincibilityTask extends UKRunnable {
 				cancel();
 				return;
 			} else if(getRemainingCount() < 11) {
-				api.playSoundToAll(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+				api.playSoundToAll(Sound.ORB_PICKUP, 1, 1);
 				Core.cbc(ChatColor.DARK_GREEN, getRemainingCount() + "§e초 후 무적이 해제됩니다.");
 			}
 		}

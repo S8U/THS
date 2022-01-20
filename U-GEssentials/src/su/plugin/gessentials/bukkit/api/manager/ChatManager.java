@@ -7,15 +7,15 @@ import su.plugin.core.common.api.player.PlayerKey;
 public class ChatManager {
 	
 	public void sendPrefixerPrefix(PlayerKey playerKey, int priority, String prefix) {
-		BungeeUtil.sendMessageToBungeeCord(KGEssentialsPlugin.getInstance(), "U-GEssentials", "SetPrefixerPrefix", playerKey.getId(), priority, prefix);
+		BungeeUtil.sendMessageToBungeeCord(KGEssentialsPlugin.getInstance(), "ugessentials:main", "SetPrefixerPrefix", playerKey.getId(), priority, prefix);
 	}
 	
 	public void sendPermissionPrefix(PlayerKey playerKey, String prefix) {
-		BungeeUtil.sendMessageToBungeeCord(KGEssentialsPlugin.getInstance(), "U-GEssentials", "SetPermissionPrefix", playerKey.getId(), prefix);
+		BungeeUtil.sendMessageToBungeeCord(KGEssentialsPlugin.getInstance(), "ugessentials:main", "SetPermissionPrefix", playerKey.getId(), prefix);
 	}
 	
 	public void sendChat(PlayerKey playerKey, String chat) {
-		BungeeUtil.sendMessageToBungeeCord(KGEssentialsPlugin.getInstance(), "U-GEssentials", "Chat", playerKey.getId(), chat);
+		BungeeUtil.sendMessageToBungeeCord(KGEssentialsPlugin.getInstance(), "ugessentials:main", "Chat", playerKey.getId(), chat);
 	}
 	
 }

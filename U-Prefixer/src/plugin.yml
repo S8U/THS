@@ -1,5 +1,5 @@
 name: U-Prefixer
-version: 0.1.0
+version: 0.1.2
 main: su.plugin.prefixer.PrefixerPlugin
 depend: [U-Core]
 softdepend: [U-Permission, HolographicDisplays]

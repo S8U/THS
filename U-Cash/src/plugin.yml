@@ -1,0 +1,4 @@
+name: U-Cash
+version: 0.0.3
+main: s8u.plugin.cash.CashPlugin
+depend: [U-Core]

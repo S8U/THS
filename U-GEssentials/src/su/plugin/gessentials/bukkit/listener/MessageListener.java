@@ -16,7 +16,7 @@ public class MessageListener implements PluginMessageListener {
 	
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-		if (!channel.equals("U-GEssentials")) return;
+		if (!channel.equals("ugessentials:main")) return;
 		
 		ByteArrayDataInput in = ByteStreams.newDataInput(message);
 		

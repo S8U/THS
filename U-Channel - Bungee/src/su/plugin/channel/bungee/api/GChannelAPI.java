@@ -20,7 +20,7 @@ public class GChannelAPI extends ChannelAPI {
 	
 	@Setter
 	@Getter
-	private static int offlineCheckInterval;
+	private static int offlineCheckInterval, offlineCheckTimeout;
 	
 	private static int channelLoadTaskId = -1;
 	

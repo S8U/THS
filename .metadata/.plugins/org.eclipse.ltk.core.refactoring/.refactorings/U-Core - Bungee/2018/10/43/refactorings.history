@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename local variable &apos;pkg&apos; in &apos;su.plugin.core.bungee.plugin.UGPlugin.setPluginPackage(...)&apos; to &apos;packageName&apos;&#x0D;&#x0A;- Original project: &apos;U-Core - Bungee&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.core.bungee.plugin.UGPlugin.setPluginPackage(String).pkg&apos;&#x0D;&#x0A;- Renamed element: &apos;pkg&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;pkg&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;su.plugin.core.bungee.plugin{UGPlugin.java[UGPlugin~setPluginPackage~QString;@pkg!3311!3320!3318!3320!QString;!0!true" name="packageName" references="true" stamp="1540124428529" version="1.0"/>
-</session>

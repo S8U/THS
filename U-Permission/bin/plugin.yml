@@ -1,4 +1,0 @@
-name: U-Permission
-version: 0.1.0
-main: su.plugin.permission.PermissionPlugin
-depend: [U-Core]

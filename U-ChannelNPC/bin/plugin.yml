@@ -1,4 +1,0 @@
-name: U-ChannelNPC
-version: 0.0.1
-main: su.plugin.channelnpc.ChannelNPCPlugin
-depend: [U-Core, U-Channel, HolographicDisplays, Citizens]

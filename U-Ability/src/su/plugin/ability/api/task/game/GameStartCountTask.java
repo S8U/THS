@@ -1,10 +1,12 @@
 package su.plugin.ability.api.task.game;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import su.plugin.ability.AbilityPlugin;
 import su.plugin.ability.api.AbilityAPI;
 import su.plugin.ability.api.category.GameState;
+import su.plugin.ability.api.event.AbilityGameStartedEvent;
 import su.plugin.core.bukkit.api.scheduler.UKRunnable;
 import su.plugin.core.common.api.ChatColor;
 import su.plugin.core.common.api.Core;
@@ -27,7 +29,7 @@ public class GameStartCountTask extends UKRunnable { // 게임 시작 (능력 �
 	public void run() {
 		count++;
 		if(count > 9) {
-			api.playSoundToAll(Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+			api.playSoundToAll(Sound.EXPLODE, 1, 1);
 			Core.cbc(ChatColor.DARK_GREEN, "§a" + startedMessage);
 			api.getBarManager().getBossBar().setText(startedMessage);
 			api.getBarManager().getBossBar().startTimer(5);
@@ -51,7 +53,7 @@ public class GameStartCountTask extends UKRunnable { // 게임 시작 (능력 �
 			cancel();
 			return;
 		} else if(count > 6) {
-			api.playSoundToAll(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+			api.playSoundToAll(Sound.ORB_PICKUP, 1, 1);
 			Core.cbc(ChatColor.DARK_GREEN, 10 - count + "§a" + countMessage);
 			api.getBarManager().getBossBar().setText(10 - count + countMessage);
 			api.getBarManager().getBossBar().setProgress((float) (10 - count) / 10 * 100);
@@ -64,9 +66,11 @@ public class GameStartCountTask extends UKRunnable { // 게임 시작 (능력 �
 		if(count > 1) return;
 		api.getGameManager().setGameState(GameState.STARTING);
 
-		api.playSoundToAll(Sound.ENTITY_ITEM_PICKUP, 1, 1);
+		api.playSoundToAll(Sound.ITEM_PICKUP, 1, 1);
 		Core.nbc(" ");
 		Core.cbc(ChatColor.DARK_GREEN, "§a" + startMessage);
+
+		Bukkit.getPluginManager().callEvent(new AbilityGameStartedEvent());
 	}
 	
 }

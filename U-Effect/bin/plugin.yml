@@ -1,4 +1,0 @@
-name: U-Effect
-version: 0.0.1
-main: su.plugin.effect.EffectPlugin
-depend: [U-Core]

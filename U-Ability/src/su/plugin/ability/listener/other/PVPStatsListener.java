@@ -1,6 +1,7 @@
 package su.plugin.ability.listener.other;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import su.plugin.ability.api.AbilityAPI;
 import su.plugin.ability.api.event.DeathEvent;
@@ -25,13 +26,12 @@ public class PVPStatsListener implements Listener {
     }
   }
 
-  @EventHandler
+  @EventHandler(priority = EventPriority.LOW)
   public void onDeath(DeathEvent e) {
     PSPlayer psp = PVPStatsAPI.getPlayerManager().getPSPlayer(e.getPlayer().getPlayerKey());
 
     psp.setWinStreak(0);
-
-    psp.savePlayerAsynchronously();
+    //psp.savePlayerAsynchronously();
   }
 
 }

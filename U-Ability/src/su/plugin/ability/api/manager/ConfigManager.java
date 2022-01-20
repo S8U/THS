@@ -39,6 +39,8 @@ public class ConfigManager {
 	@Getter
 	private File rankItemConfigFile = new File(AbilityPlugin.getInstance().getDataFolder(), "rankitem-config.json");
 	@Getter
+	private File rankRedrawConfigFile = new File(AbilityPlugin.getInstance().getDataFolder(), "rank-redraw-config.json");
+	@Getter
 	private File supplyConfigFile = new File(AbilityPlugin.getInstance().getDataFolder(), "supply-config.json");
 	@Getter
 	private File mapConfigFile = new File(AbilityPlugin.getInstance().getDataFolder(), "map-config.json");
@@ -59,6 +61,8 @@ public class ConfigManager {
 	private KJsonConfig startItemConfig = new KJsonConfig(startItemConfigFile).load();
 	@Getter
 	private KJsonConfig rankItemConfig = new KJsonConfig(rankItemConfigFile).load();
+	@Getter
+	private KJsonConfig rankRedrawConfig = new KJsonConfig(rankRedrawConfigFile).load();
 	@Getter
 	private KJsonConfig supplyConfig = new KJsonConfig(supplyConfigFile).load();
 	@Getter
@@ -123,6 +127,15 @@ public class ConfigManager {
 
 		Core.log("등급 아이템 설정 파일이 생성되었습니다.");
 	}
+
+	public void createRankRedrawConfig() {
+		if(rankRedrawConfigFile.exists() && rankRedrawConfigFile.length() > 0) return;
+
+		rankRedrawConfig.addDefault("등급.rank1", 1);
+		rankRedrawConfig.saveDefaults();
+
+		Core.log("등급 아이템 설정 파일이 생성되었습니다.");
+	}
 	
 	@SneakyThrows(IOException.class)
 	public void createMapConfig() {
@@ -183,7 +196,7 @@ public class ConfigManager {
 		api.setAllowReconnect(config.getBoolean("재접속.허용"));
 		api.setUseReconnectTimeLimit(config.getBoolean("재접속.재접속 허용 시간 제한"));
 		api.setReconnectAllowCount(config.getInt("재접속.허용 시간(초)"));
-		
+
 		api.setUseInvincibilityOnWait(config.getBoolean("게임 시작 전 조작.무적"));
 		api.setUsePvpProtectOnWait(config.getBoolean("게임 시작 전 조작.PVP 방지"));
 		api.setUseBlockProtectOnWait(config.getBoolean("게임 시작 전 조작.블럭 보호"));
@@ -203,10 +216,10 @@ public class ConfigManager {
 		api.setUseTriple(config.getBoolean("연속 킬.트리플 킬 사용"));
 		api.setUseQuadra(config.getBoolean("연속 킬.쿼드라 킬 사용"));
 		api.setUsePenta(config.getBoolean("연속 킬.펜타 킬 사용"));
-		api.setDoubleCount(config.getInt("연속 킬.더블 킬 시간"));
-		api.setTripleCount(config.getInt("연속 킬.트리플 킬 시간"));
-		api.setQuadraCount(config.getInt("연속 킬.쿼드라 킬 시간"));
-		api.setPentaCount(config.getInt("연속 킬.펜타 킬 시간"));
+		api.setDoubleCount(config.getInt("연속 킬.더블 킬 시간(초)"));
+		api.setTripleCount(config.getInt("연속 킬.트리플 킬 시간(초)"));
+		api.setQuadraCount(config.getInt("연속 킬.쿼드라 킬 시간(초)"));
+		api.setPentaCount(config.getInt("연속 킬.펜타 킬 시간(초)"));
 		
 		api.setUseAssist(config.getBoolean("어시스트.사용"));
 		api.setAssistCount(config.getInt("어시스트.시간(초)"));
@@ -231,7 +244,10 @@ public class ConfigManager {
 		
 		api.setUseBungeeCord(getConfig().getBoolean("번지코드.사용"));
 		api.setBungeeLobby(getConfig().getString("번지코드.로비"));
-		
+		api.setUseEndBroadcastMessage(getConfig().getBoolean("번지코드.게임 종료 공지.사용"));
+		api.setEndBroadcastSound(getConfig().getString("번지코드.게임 종료 공지.사운드"));
+		api.setEndBroadcastMessages(getConfig().getStringList("번지코드.게임 종료 공지.메시지"));
+
 		Core.log("설정을 불러왔습니다.");
 	}
 	
@@ -244,7 +260,8 @@ public class ConfigManager {
 		api.setUseWaitingQuickBar(barConfig.getBoolean("퀵바.대기 중 사용"));
 		api.setUseWatchModeQuickBar(barConfig.getBoolean("퀵바.관전 중 사용"));
 	}
-	
+
+	@SneakyThrows(Exception.class)
 	public void loadAutoConfig() {
 		createAutoConfig();
 		
@@ -255,8 +272,13 @@ public class ConfigManager {
 		api.setUseGameStartVote(autoConfig.getBoolean("시작 투표.사용"));
 		api.setVoteTimeoutCount(autoConfig.getInt("시작 투표.시간 제한(초)"));
 		api.setRevotePeriod(autoConfig.getInt("시작 투표.재투표 간격(초)"));
+		api.setVoteStartingCondition(autoConfig.getString("시작 투표.시작 조건"));
+		api.getScriptManager().getScriptEngine().eval("function voteStartCondition(bungee_count, lobby_count, player_count) {return " + api.getVoteStartingCondition() + "}");
+		api.setVoteStartingConditionMessage(ChatColor.translateAlternateColorCodes('&', autoConfig.getString("시작 투표.시작 조건 불충족 메시지")));
 
 		api.setUseMapVote(autoConfig.getBoolean("맵 투표.사용"));
+
+		api.setUseInvSkipVote(autoConfig.getBoolean("무적 해제 투표.사용"));
 		
 		api.setUseDrawTimeLimit(autoConfig.getBoolean("능력 확정 시간 제한.사용"));
 		api.setDrawSkipCount(autoConfig.getInt("능력 확정 시간 제한.제한 시간(초)"));
@@ -344,19 +366,31 @@ public class ConfigManager {
 		
 		Core.log(api.getItemManager().getRankItems().size() + "개 등급의 아이템을 등록했습니다.");
 	}
-	
+
 	public void loadSupply() {
 		createSupplyConfig();
 		
 		api.getSupplyManager().getSupplies().clear();
-		
+
 		for(String name : getSupplyConfig().getKeys("보급품")) {
 			api.getSupplyManager().setSupply(name, getItems(getSupplyConfig().getStringList("보급품." + name)));
 		}
 		
 		Core.log(api.getSupplyManager().getSupplies().size() + "개의 보급품을 등록했습니다.");
 	}
-	
+
+	public void loadRankRedraw() {
+		createRankRedrawConfig();
+
+		api.getRankRedrawCount().clear();
+
+		for (String rank : getRankRedrawConfig().getKeys("등급")) {
+			api.getRankRedrawCount().put(rank.toLowerCase(), rankRedrawConfig.getInt("등급." + rank));
+		}
+
+		Core.log(api.getRankRedrawCount().size() + "개 등급의 재추첨 횟수를 불러왔습니다.");
+	}
+
 	private List<ItemStack> getItems(List<String> list) {
 		List<ItemStack> itemList = new ArrayList<>();
 		
@@ -460,6 +494,9 @@ public class ConfigManager {
 		
 		if(getMapConfig().getString(loc + "tpall.world") != null) {
 			World tworld = Bukkit.getWorld(getMapConfig().getString(loc + "tpall.world"));
+			if (tworld == null) {
+				tworld = Bukkit.createWorld(new WorldCreator(getMapConfig().getString(loc + "tpall.world")));
+			}
 			double tx;
 			double ty;
 			double tz;
@@ -525,7 +562,7 @@ public class ConfigManager {
 		
 		for(String line : blackListConfig.getStringList("블랙리스트")) {
 			String abilityName = line.substring(0, line.lastIndexOf(" "));
-			String pluginName = line.substring(line.indexOf(" ") + 1, line.length());
+			String pluginName = line.substring(line.lastIndexOf(" ") + 1, line.length());
 			
 			api.getAbilityManager().addBlackList(abilityName, pluginName);
 		}
@@ -591,7 +628,7 @@ public class ConfigManager {
 	
 	public void saveKit(Inventory inv) {
 		try {
-			File kitfile = new File(AbilityPlugin.getInstance().getDataFolder(), "kit/" + inv.getName() + ".yml");
+			File kitfile = new File(AbilityPlugin.getInstance().getDataFolder(), "kit/" + inv.getName() + ".json");
 			if(kitfile.exists()) {
 				kitfile.delete();
 			}

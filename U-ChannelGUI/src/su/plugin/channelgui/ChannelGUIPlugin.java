@@ -5,6 +5,7 @@ import lombok.Getter;
 import su.plugin.channelgui.api.ChannelGUIAPI;
 import su.plugin.core.bukkit.api.plugin.UKPlugin;
 import su.plugin.core.common.api.ChatColor;
+import su.plugin.core.common.api.command.UCommandSender;
 import su.plugin.core.common.api.util.NumberUtil;
 
 public class ChannelGUIPlugin extends UKPlugin {
@@ -19,18 +20,16 @@ public class ChannelGUIPlugin extends UKPlugin {
 		setPrefix("§e[ U-ChannelGUI ]");
 		setColor(ChatColor.YELLOW);
 		api.init();
-		
-		onConfigLoad();
-		
-		api.getConfigManager().createFolder();
-		api.getConfigManager().loadGUIs();
-		
+
+		loadConfig();
+
 		registerListeners();
 		registerCommands();
 		registerPermissions();
 	}
-	
-	public void onConfigLoad() {
+
+	@Override
+	public void onConfigLoad(UCommandSender sender) {
 		getJsonConfig().addDefault("상태 메시지.온라인", "&a온라인");
 		getJsonConfig().addDefault("상태 메시지.오프라인", "&c오프라인");
 		getJsonConfig().addDefault("오프라인 아이템 코드", "351:8");
@@ -56,7 +55,8 @@ public class ChannelGUIPlugin extends UKPlugin {
 		}
 		api.setUabilityOfflineMessage(ChatColor.translateAlternateColorCodes('&', getJsonConfig().getString("형식.U-Ability.상태 메시지.오프라인")));
 
-		log("설정을 불러왔습니다.");
+		api.getConfigManager().createFolder();
+		api.getConfigManager().loadGUIs();
 	}
-	
+
 }

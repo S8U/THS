@@ -1,4 +1,4 @@
 name: U-GLogin
-version: 0.0.1
+version: 0.0.3
 main: su.plugin.glogin.bukkit.KGLoginPlugin
 depend: [U-Core]

@@ -1,4 +1,4 @@
 name: U-GEssentials
-version: 0.0.3
+version: 0.0.8
 main: su.plugin.gessentials.bukkit.KGEssentialsPlugin
 depend: [U-Core, U-Channel]

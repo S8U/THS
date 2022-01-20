@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename local variable &apos;uuid&apos; in &apos;su.plugin.core.common.sql.SQLManager.getPlayerKey(...)&apos; to &apos;uuidString&apos;&#x0D;&#x0A;- Original project: &apos;U-Core - Common&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.core.common.sql.SQLManager.getPlayerKey(UUID).uuid&apos;&#x0D;&#x0A;- Renamed element: &apos;uuid&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;uuid&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;su.plugin.core.common.sql{SQLManager.java[SQLManager~getPlayerKey~QUUID;@uuid!2438!2476!2445!2448!QString;!0!false" name="uuidString" references="true" stamp="1538312891177" version="1.0"/>
-</session>

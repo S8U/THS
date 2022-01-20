@@ -116,11 +116,11 @@ public class GUIManager {
 					} else if(api.getPlayerManager().getTeamAmount() < 2) {
 						Core.cbc(ChatColor.RED, "§c인원이 부족하여 투표가 중단되었습니다.");
 
-						api.getVoteManager().stopVote();
+						api.getVoteManager().stopGameStartVote();
 					} else {
-						api.getVoteManager().joinGameStartVote(up.getPlayerKey(), true);
+						up.cmsg(ChatColor.DARK_AQUA, "§a게임 시작 투표에 찬성했습니다.");
 
-						up.cmsg(ChatColor.DARK_AQUA, "§a투표에 찬성했습니다.");
+						api.getVoteManager().joinGameStartVote(up.getPlayerKey(), true);
 					}
 
 					e.getPlayer().closeInventory();
@@ -152,11 +152,11 @@ public class GUIManager {
 					} else if(api.getPlayerManager().getTeamAmount() < 2) {
 						Core.cbc(ChatColor.RED, "§c인원이 부족하여 투표가 중단되었습니다.");
 
-						api.getVoteManager().stopVote();
+						api.getVoteManager().stopGameStartVote();
 					} else {
-						api.getVoteManager().joinGameStartVote(up.getPlayerKey(), false);
+						up.cmsg(ChatColor.DARK_AQUA, "§c게임 시작 투표에 반대했습니다.");
 
-						up.cmsg(ChatColor.DARK_AQUA, "§c투표에 반대했습니다.");
+						api.getVoteManager().joinGameStartVote(up.getPlayerKey(), false);
 					}
 
 					e.getPlayer().closeInventory();

@@ -37,7 +37,7 @@ public class RankingCommand implements UCommandListener, UnregisterableCommandLi
 			int num = (page -  1) * 7 + i;
 			if(rankings.size() < num + 1) break;
 
-			Stats s = rankings.get(i);
+			Stats s = rankings.get(num);
 
 			sender.nmsg("§e" + (num + 1) + ": §f" + s.getPlayerKey().getDisplayName() + " §e- §f" + s.getKillCount() + " §e킬 §f" + s.getDeathCount() + " §e데스 §f" + s.getAssistCount() + " §e어시스트 §f" + s.getWinStreak() + " §e우승");
 		}

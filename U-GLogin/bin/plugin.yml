@@ -1,4 +1,0 @@
-name: U-BLogin
-version: 0.2.1
-main: KGLoginPlugin
-depend: [U-Core]

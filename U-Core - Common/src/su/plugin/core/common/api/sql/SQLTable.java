@@ -92,7 +92,7 @@ public class SQLTable {
 	public void insert(Object...values) {
 		for (int i = 0; i < values.length; i++) {
 			if(values[i] == null) {
-				values[i] = "null";
+				values[i] = "null"; continue;
 			} else if(values[i].toString().startsWith("$$")) {
 				values[i] = values[i].toString().substring(2);
 			} else if(!(values[i] instanceof String)) continue;

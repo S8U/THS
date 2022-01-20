@@ -11,8 +11,8 @@ import su.plugin.ability.api.object.GamePlayer;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.util.NotDuplicatedArrayList;
 import su.plugin.gparty.bukkit.api.KGPartyAPI;
-import su.plugin.gparty.bukkit.api.object.KParty;
-import su.plugin.gparty.bukkit.api.object.KPartyPlayer;
+import su.plugin.gparty.common.api.object.Party;
+import su.plugin.gparty.common.api.object.PartyPlayer;
 
 public class PlayerManager {
 	
@@ -114,10 +114,10 @@ public class PlayerManager {
 	public int getTeamAmount() {
 		if(api.isUseGParty()) {
 		  int individual = 0;
-      List<KParty> parties = new NotDuplicatedArrayList<>();
+      List<Party> parties = new NotDuplicatedArrayList<>();
 
 			for(GamePlayer gp : getOnlineJoinedPlayers()) {
-				KPartyPlayer pp = KGPartyAPI.getPlayerManager().getPartyPlayer(gp.getPlayerKey());
+				PartyPlayer pp = KGPartyAPI.getPlayerManager().getPartyPlayers().get(gp.getPlayerKey());
 				if(pp.hasParty()) {
           parties.add(pp.getParty());
         } else {

@@ -134,12 +134,16 @@ public class Ability implements Cloneable, UnregisterableListener {
 		setRemainingCoolTime(getCoolTime());
 		if(coolDownTask != null && coolDownTask.getTaskId() != -1) return;
 		coolDownTask = new CoolDownTask(this);
-		onCoolDownStart();
-		coolDownTask.runTaskTimerAsynchronously(0, 20);
+
+		Bukkit.getScheduler().runTask(AbilityPlugin.getInstance(), () -> onCoolDownStart());
+
+		coolDownTask.runTaskTimerAsynchronously(20, 20);
 	}
 	
 	public void stopCoolDownTask() {
 		if(coolDownTask == null || coolDownTask.getTaskId() == -1) return;
+		Bukkit.getScheduler().runTask(AbilityPlugin.getInstance(), () -> onCoolDownEnd());
+
 		coolDownTask.cancel();
 		coolDownTask = null;
 	}
@@ -148,12 +152,18 @@ public class Ability implements Cloneable, UnregisterableListener {
 		setRemainingDurationTime(getDurationTime());
 		if(durationTask != null && durationTask.getTaskId() != -1) return;
 		durationTask = new DurationTask(this);
-		onDurationStart();
-		durationTask.runTaskTimerAsynchronously(0, 20);
+
+		Bukkit.getScheduler().runTask(AbilityPlugin.getInstance(), () -> onDurationStart());
+
+		durationTask.runTaskTimerAsynchronously(20, 20);
 	}
 	
 	public void stopDurationTask() {
 		if(durationTask == null || durationTask.getTaskId() == -1) return;
+		runCoolDownTask();
+
+		Bukkit.getScheduler().runTask(AbilityPlugin.getInstance(), () -> onDurationEnd());
+
 		durationTask.cancel();
 		durationTask = null;
 	}
@@ -172,20 +182,18 @@ public class Ability implements Cloneable, UnregisterableListener {
 	
 	public void excute(PlayerInteractEvent e, ItemStack castingItem, ClickType clickType) {
 		if(api.isInvincibilityTime()) return;
-		if(getRemainingDurationTime() > 0) {
-			Core.cmsg(getPlayer(), ChatColor.RED, (getGamePlayer().getAbilities().size() < 2 ? "" : name + " ") + "§c능력 지속 종료 시간까지 §f" + StringUtil.buildTimeString(getRemainingDurationTime()) + " §c남았습니다.");
+		if(getRemainingDurationTime() > 0 || durationTask != null && durationTask.getTaskId() != -1) {
+			Core.cmsg(getPlayer(), ChatColor.RED, (getGamePlayer().getAbilities().size() < 2 ? "" : name + " ") + "§c능력 지속 종료 시간까지 §f" + StringUtil.buildTimeString(getRemainingDurationTime() * 1000) + " §c남았습니다.");
 			return;
-		} else if(getRemainingCoolTime() > 0) {
-			Core.cmsg(getPlayer(), ChatColor.GOLD, (getGamePlayer().getAbilities().size() < 2 ? "" : name + " ") + "§e능력 사용 가능 시간까지 §f" + StringUtil.buildTimeString(getRemainingCoolTime()) + " §e남았습니다.");
+		} else if(getRemainingCoolTime() > 0 || coolDownTask != null && coolDownTask.getTaskId() != -1) {
+			Core.cmsg(getPlayer(), ChatColor.GOLD, (getGamePlayer().getAbilities().size() < 2 ? "" : name + " ") + "§e능력 사용 가능 시간까지 §f" + StringUtil.buildTimeString(getRemainingCoolTime() * 1000) + " §e남았습니다.");
 			return;
 		}
 		onUseCastingItem(e, castingItem, clickType);
 		if(type.equals(AbilityType.ACTIVE_CONTINUE)) {
 			runDurationTask();
-			onDurationStart();
 		} else {
 			runCoolDownTask();
-			onCoolDownStart();
 		}
 		
 		if(getType() != AbilityType.PASSIVE) {

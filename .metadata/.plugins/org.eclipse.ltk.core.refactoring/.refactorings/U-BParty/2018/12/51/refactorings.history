@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename local variable &apos;tp&apos; in &apos;su.plugin.bparty.bungee.command.UserCommand.party_invite(...)&apos; to &apos;targetPartyPlayer&apos;&#x0D;&#x0A;- Original project: &apos;U-BParty&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.bparty.bungee.command.UserCommand.party_invite(UPlayer, String[], Command).tp&apos;&#x0D;&#x0A;- Renamed element: &apos;tp&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;tp&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;su.plugin.bparty.bungee.command{UserCommand.java[UserCommand~party_invite~QUPlayer;~\[QString;~QCommand;@tp!2114!2176!2126!2127!QPartyPlayer;!0!false" name="targetPartyPlayer" references="true" stamp="1544947395550" version="1.0"/>
-</session>

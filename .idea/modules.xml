@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/U-AFKMover/U-AFKMover.iml" filepath="$PROJECT_DIR$/U-AFKMover/U-AFKMover.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Ability/U-Ability.iml" filepath="$PROJECT_DIR$/U-Ability/U-Ability.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-AntiRecipe/U-AntiRecipe.iml" filepath="$PROJECT_DIR$/U-AntiRecipe/U-AntiRecipe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-BlockHideNSeek/U-BlockHideNSeek.iml" filepath="$PROJECT_DIR$/U-BlockHideNSeek/U-BlockHideNSeek.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-BuyRank/U-BuyRank.iml" filepath="$PROJECT_DIR$/U-BuyRank/U-BuyRank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Cash/U-Cash.iml" filepath="$PROJECT_DIR$/U-Cash/U-Cash.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Channel - Bukkit/U-Channel - Bukkit.iml" filepath="$PROJECT_DIR$/U-Channel - Bukkit/U-Channel - Bukkit.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Channel - Bungee/U-Channel - Bungee.iml" filepath="$PROJECT_DIR$/U-Channel - Bungee/U-Channel - Bungee.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Channel - Common/U-Channel - Common.iml" filepath="$PROJECT_DIR$/U-Channel - Common/U-Channel - Common.iml" />
@@ -13,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/U-Core - Bukkit/U-Core - Bukkit.iml" filepath="$PROJECT_DIR$/U-Core - Bukkit/U-Core - Bukkit.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Core - Bungee/U-Core - Bungee.iml" filepath="$PROJECT_DIR$/U-Core - Bungee/U-Core - Bungee.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Core - Common/U-Core - Common.iml" filepath="$PROJECT_DIR$/U-Core - Common/U-Core - Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-CrackWhiteList - Bungee/U-CrackWhiteList.iml" filepath="$PROJECT_DIR$/U-CrackWhiteList - Bungee/U-CrackWhiteList.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Effect/U-Effect.iml" filepath="$PROJECT_DIR$/U-Effect/U-Effect.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-GBroadcaster/U-GBroadcaster.iml" filepath="$PROJECT_DIR$/U-GBroadcaster/U-GBroadcaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-GCCULogger/U-GCCULogger.iml" filepath="$PROJECT_DIR$/U-GCCULogger/U-GCCULogger.iml" />
@@ -22,13 +26,23 @@
       <module fileurl="file://$PROJECT_DIR$/U-GLogin/U-GLogin.iml" filepath="$PROJECT_DIR$/U-GLogin/U-GLogin.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-GParty - Bukkit/U-GParty - Bukkit.iml" filepath="$PROJECT_DIR$/U-GParty - Bukkit/U-GParty - Bukkit.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-GParty - Bungee/U-GParty - Bungee.iml" filepath="$PROJECT_DIR$/U-GParty - Bungee/U-GParty - Bungee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GParty2 - Bukkit/U-GParty2 - Bukkit.iml" filepath="$PROJECT_DIR$/U-GParty2 - Bukkit/U-GParty2 - Bukkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GParty2 - Bungee/U-GParty2 - Bungee.iml" filepath="$PROJECT_DIR$/U-GParty2 - Bungee/U-GParty2 - Bungee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-GParty2 - Common/U-GParty2 - Common.iml" filepath="$PROJECT_DIR$/U-GParty2 - Common/U-GParty2 - Common.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-ItemTools/U-ItemTools.iml" filepath="$PROJECT_DIR$/U-ItemTools/U-ItemTools.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-LobbySystem/U-LobbySystem.iml" filepath="$PROJECT_DIR$/U-LobbySystem/U-LobbySystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-MiniGameCore/U-MiniGameCore.iml" filepath="$PROJECT_DIR$/U-MiniGameCore/U-MiniGameCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-NoKeepInventory/U-NoKeepInventory.iml" filepath="$PROJECT_DIR$/U-NoKeepInventory/U-NoKeepInventory.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-OnlineModeGift/U-OnlineModeGift.iml" filepath="$PROJECT_DIR$/U-OnlineModeGift/U-OnlineModeGift.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-OptionGUI/U-OptionGUI.iml" filepath="$PROJECT_DIR$/U-OptionGUI/U-OptionGUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-PVPStats/U-PVPStats.iml" filepath="$PROJECT_DIR$/U-PVPStats/U-PVPStats.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Permission/U-Permission.iml" filepath="$PROJECT_DIR$/U-Permission/U-Permission.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-PhysicalFightersPack/U-PhysicalFightersPack.iml" filepath="$PROJECT_DIR$/U-PhysicalFightersPack/U-PhysicalFightersPack.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-Prefixer/U-Prefixer.iml" filepath="$PROJECT_DIR$/U-Prefixer/U-Prefixer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-SaveDisabler/U-SaveDisabler.iml" filepath="$PROJECT_DIR$/U-SaveDisabler/U-SaveDisabler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/U-Test/U-Test.iml" filepath="$PROJECT_DIR$/U-Test/U-Test.iml" />
       <module fileurl="file://$PROJECT_DIR$/U-WorldReset/U-WorldReset.iml" filepath="$PROJECT_DIR$/U-WorldReset/U-WorldReset.iml" />
+      <module fileurl="file://$PROJECT_DIR$/untitled/untitled.iml" filepath="$PROJECT_DIR$/untitled/untitled.iml" />
     </modules>
   </component>
 </project>

@@ -108,6 +108,13 @@ public enum ChatColor {
     private final static Map<Integer, ChatColor> BY_ID = new HashMap<>();
     private final static Map<Character, ChatColor> BY_CHAR = new HashMap<>();
 
+    static {
+        for (ChatColor color : values()) {
+            BY_ID.put(color.intCode, color);
+            BY_CHAR.put(color.code, color);
+        }
+    }
+
     private ChatColor(char code, int intCode) {
         this(code, intCode, false);
     }
@@ -170,7 +177,7 @@ public enum ChatColor {
      *     or null if it doesn't exist
      */
     public static ChatColor getByChar(String code) {
-        if(code == null || code.length() > 0) return null;
+        if(code == null || code.length() > 1) return null;
 
         return BY_CHAR.get(code.charAt(0));
     }

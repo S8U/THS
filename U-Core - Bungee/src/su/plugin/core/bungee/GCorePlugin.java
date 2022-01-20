@@ -52,7 +52,7 @@ public class GCorePlugin extends UGPlugin {
 		registerCommands(new DebugCommand());
 		registerCommands(new TestCommand());
 		
-		ProxyServer.getInstance().registerChannel("U-Core");
+		ProxyServer.getInstance().registerChannel("ucore:main");
 		
 		Core.getSQLManager().connect(this);
 		
@@ -99,11 +99,13 @@ public class GCorePlugin extends UGPlugin {
 	}
 	
 	public void onConfigLoad() {
+		getJsonConfig().addDefault("닉네임 허용 문자", "[a-zA-Z0-9_]{1,16}");
 		getJsonConfig().addDefault("Tab 자동 완성.플레이어 닉네임 사용", true);
 		getJsonConfig().addDefault("Tab 자동 완성.플레이어 표기 닉네임 사용", true);
 		
 		getJsonConfig().save();
-		
+
+		Core.setAllowNicknameRegex(getJsonConfig().getString("닉네임 허용 문자"));
 		Core.getCommandManager().setPlayerNameTabComplete(getJsonConfig().getBoolean("Tab 자동 완성.플레이어 닉네임 사용"));
 		Core.getCommandManager().setPlayerDisplayNameTabComplete(getJsonConfig().getBoolean("Tab 자동 완성.플레이어 표기 닉네임 사용"));
 		

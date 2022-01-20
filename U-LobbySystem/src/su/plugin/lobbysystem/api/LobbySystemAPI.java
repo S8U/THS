@@ -22,6 +22,7 @@ import su.plugin.core.common.api.util.StringUtil;
 import su.plugin.lobbysystem.LobbySystemPlugin;
 import su.plugin.lobbysystem.api.task.SideBarTask;
 import su.plugin.lobbysystem.api.task.TimeLockTask;
+import su.plugin.lobbysystem.ncp.NCPHandler;
 
 public class LobbySystemAPI {
 	
@@ -74,6 +75,8 @@ public class LobbySystemAPI {
 		if(useChannel = PluginUtil.existsPlugin("U-Channel")) {
 			Core.log("U-Channel 플러그인과 연동되었습니다.");
 		}
+
+		NCPHandler.checkPlugin();
 	}
 
 	public static void createConfig() {
@@ -97,7 +100,7 @@ public class LobbySystemAPI {
 		plugin.getJsonConfig().addDefault("시간 고정.시간", 4000);
 		
 		plugin.getJsonConfig().addDefault("블럭 보호.사용", true);
-		plugin.getJsonConfig().addDefault("블럭 보호.파괴 예외 블럭", Arrays.asList(14, 15, 16, 21, 56, 129, 73));
+		plugin.getJsonConfig().addDefault("블럭 보호.파괴 보호 예외 블럭", Arrays.asList(14, 15, 16, 21, 56, 129, 73));
 		plugin.getJsonConfig().addDefault("블럭 보호.설치 보호 예외 블럭", Arrays.asList(0));
 		plugin.getJsonConfig().addDefault("블럭 보호.예외 월드", Arrays.asList("exception_world"));
 		
@@ -137,9 +140,11 @@ public class LobbySystemAPI {
 		lockTime = plugin.getJsonConfig().getInt("시간 고정.시간");
 		
 		blockProtect = plugin.getJsonConfig().getBoolean("블럭 보호.사용");
-		breakExceptions = (ArrayList<Integer>) plugin.getJsonConfig().getList("블럭 보호.파괴 보호 예외 블럭");
-		placeExceptions = (ArrayList<Integer>) plugin.getJsonConfig().getList("블럭 보호.설치 보호 예외 블럭");
-		protectExceptionWorlds = (ArrayList<String>) plugin.getJsonConfig().getStringList("블럭 보호.예외 월드");
+		breakExceptions.clear();
+		plugin.getJsonConfig().getList("블럭 보호.파괴 보호 예외 블럭").forEach(s -> breakExceptions.add((int) Double.parseDouble(s.toString())));
+		placeExceptions.clear();
+		plugin.getJsonConfig().getList("블럭 보호.설치 보호 예외 블럭").forEach(s -> placeExceptions.add((int) Double.parseDouble(s.toString())));
+		protectExceptionWorlds = plugin.getJsonConfig().getStringList("블럭 보호.예외 월드");
 		
 		craftProtect = plugin.getJsonConfig().getBoolean("조합 방지.사용");
 		craftProtectExceptionWorlds = plugin.getJsonConfig().getStringList("조합 방지.예외 월드");

@@ -24,10 +24,12 @@ import su.plugin.core.bukkit.api.command.KCommandManager;
 import su.plugin.core.bukkit.api.command.KConsoleSender;
 import su.plugin.core.bukkit.api.enumeration.NMSVersion;
 import su.plugin.core.bukkit.api.gui.GUIManager;
+import su.plugin.core.bukkit.api.gui.sign.SignGUIManager;
 import su.plugin.core.bukkit.api.lib.VaultHandler;
 import su.plugin.core.bukkit.api.permission.PermissionManager;
 import su.plugin.core.bukkit.api.util.KReflectionUtil;
-import su.plugin.core.bukkit.platform.KProvider;
+import su.plugin.core.bukkit.api.util.PluginUtil;
+import su.plugin.core.bukkit.platform.KHandler;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.platform.PlatformType;
 import su.plugin.core.common.api.player.PlayerKey;
@@ -41,16 +43,18 @@ public class KCore extends Core {
 	
 	@Setter
 	@Getter
-	private static boolean useVault, usePlaceholderAPI, useProtocolSupport;
+	private static boolean useVault, usePlaceholderAPI, useProtocolSupport, useProtocolLib;
 	
 	@Getter
 	private static GUIManager GUIManager = new GUIManager();
+	@Getter
+	private static SignGUIManager signGUIManager;
 	@Getter
 	private static PermissionManager permissionManager = new PermissionManager();
 	
 	public static void init() {
 		platformType = PlatformType.BUKKIT;
-		platformProvider = new KProvider();
+		platformProvider = new KHandler();
 		
 		//
 		
@@ -83,6 +87,11 @@ public class KCore extends Core {
 		
 		if(useProtocolSupport = Bukkit.getPluginManager().isPluginEnabled("ProtocolSupport")) {
 			log("ProtocolSupport 플러그인과 연동되었습니다.");
+		}
+
+		if (useProtocolLib = PluginUtil.existsPlugin("ProtocolLib")) {
+			signGUIManager = new SignGUIManager();
+			log("ProtocolLib 플러그인과 연동되었습니다.");
 		}
 	}
 	
@@ -124,6 +133,7 @@ public class KCore extends Core {
 			if(player.getVehicle() != null) {
 				player.leaveVehicle();
 			}
+
 			player.teleport(location);
 		});
 	}

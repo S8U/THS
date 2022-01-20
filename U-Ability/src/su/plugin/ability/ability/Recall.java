@@ -68,7 +68,7 @@ public class Recall extends Ability implements Listener {
 	@Override
 	public void onUseCastingItem(PlayerInteractEvent e, ItemStack castingItem, ClickType clickType) {
 		if(isUsing(getPlayerKey())) return;
-		api.playSound(getPlayer(), Sound.BLOCK_PORTAL_TRAVEL, 1, 1);
+		api.playSound(getPlayer(), Sound.PORTAL_TRAVEL, 1, 1);
 
 		playFireworkEffect(getPlayer().getLocation());
 

@@ -29,7 +29,7 @@ public class TeleportAllTask extends UKRunnable {
 		if(count >= tpAllCount) {
 			api.getGameManager().setTeleportedAll(api.isTeleportToMapOnManyPlayer() ? api.getPlayerManager().getOnlineJoinedPlayers().size() >= api.getMapTeleportPlayerCount() : true);
 			for(Player ap : KCore.getOnlinePlayers()) {
-				KCore.teleport(ap, api.getGameManager().isTeleportedAll() ? api.getMapManager().getPlayingMap().getMapLocation() : api.getMapManager().getPlayingMap().getTPAllLocation());
+				KCore.teleport(ap, api.getGameManager().isTeleportedAll() ? api.getMapManager().getPlayingMap().getTPAllLocation() : api.getMapManager().getPlayingMap().getMapLocation());
 				for(GamePlayer asp : api.getPlayerManager().getOnlineJoinedPlayers()) {
 					ap.showPlayer(asp.getPlayer());
 				}

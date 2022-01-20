@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,8 +34,8 @@ public class BossBar implements Listener, UnregisterableListener {
 	@Getter
 	private double progress;
 	
-	@Getter
-	private org.bukkit.boss.BossBar bukkitBar;
+	//@Getter
+	//private org.bukkit.boss.BossBar bukkitBar;
 	
 	@Getter
 	private int timerTaskId = -1;
@@ -50,23 +48,23 @@ public class BossBar implements Listener, UnregisterableListener {
 	
 	public BossBar() {
 		if(KCore.getNMSVersion().isBefore(NMSVersion.v1_9_R1)) return;
-		bukkitBar = Bukkit.createBossBar(null, BarColor.PINK, BarStyle.SOLID);
+		//bukkitBar = Bukkit.createBossBar(null, BarColor.PINK, BarStyle.SOLID);
 	}
 	
 	public BossBar(String text) {
 		if(KCore.getNMSVersion().isBefore(NMSVersion.v1_9_R1)) return;
-		bukkitBar = Bukkit.createBossBar(text, BarColor.PINK, BarStyle.SOLID);
+		//bukkitBar = Bukkit.createBossBar(text, BarColor.PINK, BarStyle.SOLID);
 	}
 	
-	public BossBar(String text, BarColor color) {
+	/*public BossBar(String text, BarColor color) {
 		if(KCore.getNMSVersion().isBefore(NMSVersion.v1_9_R1)) return;
 		bukkitBar = Bukkit.createBossBar(text, color, BarStyle.SOLID);
 	}
-	
+
 	public BossBar(String text, BarColor color, BarStyle style) {
 		if(KCore.getNMSVersion().isBefore(NMSVersion.v1_9_R1)) return;
 		bukkitBar = Bukkit.createBossBar(text, color, style);
-	}
+	}*/
 	
 	public void addPlayers(Player... players) {
 		addPlayers(Arrays.asList(players));
@@ -86,7 +84,7 @@ public class BossBar implements Listener, UnregisterableListener {
 				
 				entityBars.put(player.getUniqueId(), eb);
 			} else {
-				bukkitBar.addPlayer(player);
+				//bukkitBar.addPlayer(player);
 			}
 		}
 	}
@@ -102,7 +100,7 @@ public class BossBar implements Listener, UnregisterableListener {
 				
 				entityBars.put(player.getUniqueId(), eb);
 			} else {
-				bukkitBar.addPlayer(player);
+				//bukkitBar.addPlayer(player);
 			}
 		}
 	}
@@ -134,7 +132,7 @@ public class BossBar implements Listener, UnregisterableListener {
 				
 				unRegisterListener();
 			} else {
-				bukkitBar.removePlayer(player);
+				//bukkitBar.removePlayer(player);
 			}
 		}
 	}
@@ -142,7 +140,7 @@ public class BossBar implements Listener, UnregisterableListener {
 	public void removeAllPlayers() {
 		playerUuids.clear();
 		
-		bukkitBar.removeAll();
+		//bukkitBar.removeAll();
 		
 		for(UUID uuid : entityBars.keySet()) {
 			if(Bukkit.getPlayer(uuid) != null) {
@@ -158,7 +156,7 @@ public class BossBar implements Listener, UnregisterableListener {
 	}
 	
 	public boolean hasBar(Player player) {
-		return bukkitBar.getPlayers().contains(player) || entityBars.containsKey(player.getUniqueId());
+		return entityBars.containsKey(player.getUniqueId()); //|| bukkitBar.getPlayers().contains(player);
 	}
 	
 	public List<Player> getOnlinePlayers() {
@@ -179,7 +177,7 @@ public class BossBar implements Listener, UnregisterableListener {
 		
 		addBars();
 		
-		bukkitBar.setTitle(text);
+		//bukkitBar.setTitle(text);
 		
 		for(EntityBar eb : entityBars.values()) {
 			eb.setText(text);
@@ -191,28 +189,28 @@ public class BossBar implements Listener, UnregisterableListener {
 		
 		addBars();
 		
-		bukkitBar.setProgress(progress / 100);
+		//bukkitBar.setProgress(progress / 100);
 		
 		for(EntityBar eb : entityBars.values()) {
 			eb.setProgress(progress / 100);
 		}
 	}
 	
-	public void setBarColor(BarColor color) {
+	/*public void setBarColor(BarColor color) {
 		if(KCore.getNMSVersion().isBefore(NMSVersion.v1_9_R1)) return;
 		
 		addBars();
 		
 		bukkitBar.setColor(color);
-	}
+	}*/
 	
-	public void setBarStyle(BarStyle style) {
+	/*public void setBarStyle(BarStyle style) {
 		if(KCore.getNMSVersion().isBefore(NMSVersion.v1_9_R1)) return;
 		
 		addBars();
 		
 		bukkitBar.setStyle(style);
-	}
+	}*/
 	
 	public void startTimer(int seconds) {
 		if(timerTaskId != -1) return;
@@ -245,7 +243,7 @@ public class BossBar implements Listener, UnregisterableListener {
 				entityBars.get(player.getUniqueId()).sendDestroyPacket();
 				entityBars.remove(player.getUniqueId());
 			} else {
-				bukkitBar.removePlayer(player);
+				//bukkitBar.removePlayer(player);
 			}
 		}
 		

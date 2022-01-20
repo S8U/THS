@@ -11,6 +11,9 @@ import su.plugin.core.common.api.util.StringUtil;
 
 public class OnlineModeGiftPlugin extends UKPlugin {
 
+  @Getter
+  private static OnlineModeGiftPlugin instance;
+
   @Setter
   @Getter
   private static List<String> messages = new ArrayList<>();
@@ -21,6 +24,8 @@ public class OnlineModeGiftPlugin extends UKPlugin {
 
   @Override
   public void onUEnable() {
+    instance = this;
+
     setPrefix("§e[ U-OnlineModeGift ]");
     setColor(ChatColor.YELLOW);
 

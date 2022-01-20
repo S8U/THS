@@ -26,7 +26,7 @@ public class ItemToolsAPI {
 		anvilTool = ItemUtil.makeItem(145, "§6[도구] §f모루", "§6우클릭 시 모루가 열립니다.");
 	}
 
-	public static Double getArmourPoint(LivingEntity entity) {
+	public static double getArmourPoint(LivingEntity entity) {
 		double total = 0;
 
 		for(ItemStack armour : entity.getEquipment().getArmorContents()) {
@@ -39,10 +39,11 @@ public class ItemToolsAPI {
 				double point = Double.parseDouble(line.substring("§r§3§r§9추가 방어력: §f".length(), line.length()));
 
 				total += point;
+				break;
 			}
 		}
 
-		return total == 0 ? null : total;
+		return total;
 	}
 
 	public static Double getAttackDamagePoint(LivingEntity entity) {

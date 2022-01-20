@@ -12,25 +12,25 @@ public class KProvider implements PlatformProvider {
 	public boolean sendToChannel(Channel channel, String playerName) {
 		if(channel.hasPlayer(playerName)) return false;
 		
-		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "U-Channel", "SendToChannel", channel.getName(), playerName);
+		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "uchannel:main", "SendToChannel", channel.getName(), playerName);
 		return true;
 	}
 	
 	@Override
 	public Channel sendToOptimizeChannel(ChannelGroup group, String playerName) {
-		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "U-Channel", "SendToOptimizeChannel", group.getName(), playerName);
+		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "uchannel:main", "SendToOptimizeChannel", group.getName(), playerName);
 		
 		return null;
 	}
 
 	@Override
 	public void broadCast(Channel channel, String message) {
-		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "U-Channel", "BroadCastChannel", channel.getName(), message);
+		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "uchannel:main", "BroadCastChannel", channel.getName(), message);
 	}
 
 	@Override
 	public void broadCast(ChannelGroup channelGroup, String message) {
-		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "U-Channel", "BroadCastChannelGroup", channelGroup.getName(), message);
+		BungeeUtil.sendMessageToBungeeCord(KChannelPlugin.getInstance(), "uchannel:main", "BroadCastChannelGroup", channelGroup.getName(), message);
 	}
 
 }

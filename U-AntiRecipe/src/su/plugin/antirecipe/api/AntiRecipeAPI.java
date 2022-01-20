@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import lombok.Getter;
 import lombok.Setter;
+import su.plugin.core.bukkit.api.util.ItemUtil;
 
 @Getter
 public class AntiRecipeAPI {
@@ -19,7 +20,7 @@ public class AntiRecipeAPI {
 	
 	public boolean isBannedItem(ItemStack i) {
 		for(ItemStack banitem : banRecipes) {
-			if(i.equals(banitem)) return true;
+			if (ItemUtil.equalsItem(i, banitem)) return true;
 		}
 		return false;
 	}

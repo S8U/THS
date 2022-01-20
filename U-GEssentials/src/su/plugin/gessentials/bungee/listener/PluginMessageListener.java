@@ -17,7 +17,7 @@ public class PluginMessageListener implements Listener {
 	
 	@EventHandler
 	public void onPluginMessage(PluginMessageEvent e) {
-		if(!e.getTag().equals("U-GEssentials")) return;
+		if(!e.getTag().equals("ugessentials:main")) return;
 		
 		ByteArrayDataInput in = ByteStreams.newDataInput(e.getData());
 		

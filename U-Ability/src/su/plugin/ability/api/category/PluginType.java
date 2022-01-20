@@ -6,7 +6,8 @@ public enum PluginType {
 	
 	DEFAULT(ChatColor.DARK_GREEN + "U-Ability"),
 	BITABILITY(ChatColor.BLUE + "BitAbility"),
-	PHYSICALFIGHTERS(ChatColor.RED + "PhysicalFighters");
+	PHYSICALFIGHTERS(ChatColor.RED + "PhysicalFighters"),
+	ABILITY_WAR(ChatColor.GOLD + "AbilityWar");
 	
 	private String text = null;
 	

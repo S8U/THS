@@ -1,4 +1,4 @@
 name: U-PVPStats
-version: 0.0.3
+version: 0.0.4
 main: su.plugin.pvpstats.PVPStatsPlugin
 depend: [U-Core]

@@ -34,7 +34,7 @@ public class KGLoginPlugin extends UKPlugin {
 		registerListeners(new ControlListener().getClass().getPackage().getName());
 		registerUEventListeners(new ControlListener().getClass().getPackage().getName());
 		
-		Bukkit.getMessenger().registerIncomingPluginChannel(this, "U-GLogin", new MessageListener());
+		Bukkit.getMessenger().registerIncomingPluginChannel(this, "uglogin:main", new MessageListener());
 	}
 	
 }

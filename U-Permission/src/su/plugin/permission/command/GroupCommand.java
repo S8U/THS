@@ -1,11 +1,14 @@
 package su.plugin.permission.command;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-
+import lombok.Cleanup;
+import lombok.SneakyThrows;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.command.Command;
@@ -13,6 +16,7 @@ import su.plugin.core.common.api.command.SubCommand;
 import su.plugin.core.common.api.command.SubCommandHandler;
 import su.plugin.core.common.api.command.UCommandListener;
 import su.plugin.core.common.api.command.UCommandSender;
+import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.util.NumberUtil;
 import su.plugin.core.common.api.util.StringUtil;
 import su.plugin.permission.PermissionList;
@@ -47,7 +51,7 @@ public class GroupCommand implements UCommandListener {
 			page = Integer.parseInt(args[0]);
 		}
 		
-		int maxPage = (int) (Math.ceil(api.getGroupManager().getPermissionGroups().size() / 7) + 1);
+		int maxPage = (int) (Math.floor(api.getGroupManager().getPermissionGroups().size() / 7) + 1);
 		if(page > maxPage) {
 			Core.wmsg(sender, "페이지는 1부터 " + maxPage + "까지의 정수만 입력 가능합니다.");
 			return;
@@ -139,7 +143,7 @@ public class GroupCommand implements UCommandListener {
 		
 		Core.msg(sender, args[0] + " §7그룹을 삭제했습니다.");
 	}
-	
+
 	@SubCommandHandler(
 			parent = "pm group",
 			name = "info",
@@ -152,49 +156,97 @@ public class GroupCommand implements UCommandListener {
 			api.getSQLManager().loadConfig();
 			api.getSQLManager().loadGroup(args[0]);
 		}
-		
+
 		PermissionGroup group = api.getGroupManager().getGroup(args[0]);
-		
+
 		if(group == null) {
 			Core.wmsg(sender, "존재하지 않는 그룹입니다.");
 			return;
 		}
-		
+
 		Core.nmsg(sender, "§7[ §f" + group.getName() + " §7그룹 정보 ]");
 		Core.nmsg(sender, "§7접두사: §f" + (group.hasPrefix() ? group.getPrefix() : "없음"));
 		Core.nmsg(sender, "§7접미사: §f" + (group.hasSuffix() ? group.getSuffix() : "없음"));
 		Core.nmsg(sender, "§7기본 그룹: §f" + (group.isDefaultGroup() ? "O" : "X"));
-		
+
 		Core.nmsg(sender, "§7부모 그룹: §f" + (group.hasParents() ? "" : "없음"));
-		
+
 		if(group.hasParents()) {
 			Collections.sort(group.getParents());
-			
+
 			for(String node : group.getParents()) {
 				Core.nmsg(sender, node);
 			}
-			
+
 			//
-			
+
 			List<String> n = group.getParentNodes();
-			
+
 			Core.nmsg(sender, "§7부모 그룹 노드: §f" + (n.size() < 1 ? "없음" : ""));
-			
+
 			if(n.size() > 0) {
 				Collections.sort(n);
-				
+
 				for(String node : n) {
 					Core.nmsg(sender, node);
 				}
 			}
 		}
-		
+
 		Core.nmsg(sender, "§7노드: §f" + (group.getNodes().size() < 1 ? "없음" : ""));
-		
+
 		Collections.sort(group.getNodes());
-		
+
 		for(String node : group.getNodes()) {
 			Core.nmsg(sender, node);
+		}
+	}
+
+	@SubCommandHandler(
+			parent = "pm group",
+			name = "users",
+			additional = "<그룹> (<페이지>)",
+			permission = PermissionList.PERMISSION_ADMIN,
+			minArgs = 1,
+			usage = "그룹에 속한 플레이어를 확인합니다.")
+	@SneakyThrows(SQLException.class)
+	public void pm_group_users(CommandSender sender, String[] args, Command command) {
+		if(api.isUseBungeecord() && KCore.getOnlinePlayers().size() < 1) {
+			api.getSQLManager().loadGroup(args[0]);
+		}
+
+		PermissionGroup group = api.getGroupManager().getGroup(args[0]);
+
+		if(group == null) {
+			Core.wmsg(sender, "존재하지 않는 그룹입니다.");
+			return;
+		}
+
+		int groupPlayerCount = api.getSQLManager().getGroupPlayerCount(group.getName());
+		if (groupPlayerCount < 1) {
+			Core.wmsg(sender, "그룹에 속한 플레이어가 없습니다.");
+
+			return;
+		}
+
+		int page = 1;
+		int maxPage = (int) Math.floor(groupPlayerCount / 10) + 1;
+
+		if (args.length > 1) {
+			if (!NumberUtil.isInteger(args[1]) || (page = Integer.parseInt(args[1])) > maxPage) {
+				Core.wmsg(sender,"페이지는 " + page + " ~ " + maxPage + "의 정수만 입력 가능합니다.");
+
+				return;
+			}
+		}
+
+		@Cleanup PreparedStatement state
+				= api.getSQLManager().getUserTable().select("player_id","where group_name ='" + group.getName() + "' limit " + ((page - 1) * 10) + ", 10");
+		@Cleanup ResultSet result = state.executeQuery();
+
+		Core.nmsg(sender, "§7[ §f" + group.getName() + " §7그룹 플레이어 목록 ( " + page + " / " + maxPage + " ) ]");
+		for (int i = 1; result.next(); i++) {
+			Core.nmsg(sender,"§7" + i + " ) §f" + PlayerKey.getPlayerKey(result.getInt("player_id")).getName());
 		}
 	}
 	

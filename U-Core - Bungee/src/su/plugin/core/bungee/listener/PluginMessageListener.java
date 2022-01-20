@@ -25,7 +25,7 @@ public class PluginMessageListener implements Listener {
 	@SneakyThrows(IOException.class)
 	@EventHandler
 	public void onPluginMessage(PluginMessageEvent e) {
-		if(!e.getTag().equals("U-Core")) return;
+		if(!e.getTag().equals("ucore:main")) return;
 		
 		@Cleanup ByteArrayInputStream bis = new ByteArrayInputStream(e.getData());
 		@Cleanup DataInputStream dis = new DataInputStream(bis);
@@ -62,26 +62,26 @@ public class PluginMessageListener implements Listener {
 
 			Core.getOptionSQLManager().loadPlayerOption(PlayerKey.getPlayerKey(player), option);
 
-			ChannelMessageUtil.sendToAllChannelExistsPlayers("U-Core", "PlayerOptionChange", player, option);
+			ChannelMessageUtil.sendToAllChannelExistsPlayers("ucore:main", "PlayerOptionChange", player, option);
 		} else if(task.equals("PlayerOptionDelete")) {
 			String player = dis.readUTF();
 			String option = dis.readUTF();
 
 			Core.getOptionManager().deletePlayerOption(PlayerKey.getPlayerKey(player), option, false);
 			
-			ChannelMessageUtil.sendToAllChannelExistsPlayers("U-Core", "PlayerOptionDelete", player, option);
+			ChannelMessageUtil.sendToAllChannelExistsPlayers("ucore:main", "PlayerOptionDelete", player, option);
 		} else if(task.equals("ServerOptionChange")) {
 			String option = dis.readUTF();
 
 			Core.getOptionSQLManager().loadServerOption(option);
 			
-			ChannelMessageUtil.sendToAllChannelExistsPlayers("U-Core", "ServerOptionChange", option);
+			ChannelMessageUtil.sendToAllChannelExistsPlayers("ucore:main", "ServerOptionChange", option);
 		} else if(task.equals("ServerOptionDelete")) {
 			String option = dis.readUTF();
 
 			Core.getOptionManager().deleteServerOption(option, false);
 
-			ChannelMessageUtil.sendToAllChannelExistsPlayers("U-Core", "ServerOptionDelete", option);
+			ChannelMessageUtil.sendToAllChannelExistsPlayers("ucore:main", "ServerOptionDelete", option);
 		}
 		
 		//
@@ -125,7 +125,7 @@ public class PluginMessageListener implements Listener {
 			float volume = dis.readFloat();
 			float pitch = dis.readFloat();
 
-			ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), gp.getPlatformSender().getServer().getInfo(),"U-Core", "PlaySoundTo", playerId, soundName, volume, pitch);
+			ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), gp.getPlatformSender().getServer().getInfo(),"ucore:main", "PlaySoundTo", playerId, soundName, volume, pitch);
 		} else if (task.equals("PlaySoundChannel")) {
 			String channelName = dis.readUTF();
 			ServerInfo si = ProxyServer.getInstance().getServerInfo(channelName);
@@ -135,7 +135,7 @@ public class PluginMessageListener implements Listener {
 			float volume = dis.readFloat();
 			float pitch = dis.readFloat();
 
-			ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), si, "U-Core", "PlaySoundAll", soundName, volume, pitch);
+			ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), si, "ucore:main", "PlaySoundAll", soundName, volume, pitch);
 		} else if (task.equals("PlaySoundAll")) {
 			String soundName = dis.readUTF();
 			float volume = dis.readFloat();
@@ -143,7 +143,7 @@ public class PluginMessageListener implements Listener {
 
 			ProxyServer.getInstance().getServers().values().stream()
 					.filter(si -> si.getPlayers().size() > 0)
-					.forEach(si -> ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), si, "U-Core", "PlaySoundAll", soundName, volume, pitch));
+					.forEach(si -> ChannelMessageUtil.sendToChannel(GCorePlugin.getInstance(), si, "ucore:main", "PlaySoundAll", soundName, volume, pitch));
 		}
 	}
 	

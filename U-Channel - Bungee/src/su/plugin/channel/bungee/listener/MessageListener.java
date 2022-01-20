@@ -24,7 +24,7 @@ public class MessageListener implements Listener {
 	@SneakyThrows(IOException.class)
 	@EventHandler
 	public void onPluginMessage(PluginMessageEvent e) {
-		if(!e.getTag().equals("U-Channel")) return;
+		if(!e.getTag().equals("uchannel:main")) return;
 		
 		@Cleanup ByteArrayInputStream bis = new ByteArrayInputStream(e.getData());
 		@Cleanup DataInputStream dis = new DataInputStream(bis);

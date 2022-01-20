@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import su.plugin.core.PackageNameProvider;
 import su.plugin.core.common.api.command.UCommandManager;
@@ -21,17 +22,21 @@ import su.plugin.core.common.api.player.UPlayerManager;
 import su.plugin.core.common.api.plugin.UPlugin;
 import su.plugin.core.common.api.plugin.UPluginManager;
 import su.plugin.core.common.api.sql.SQLManager;
-import su.plugin.core.common.platform.PlatformProvider;
+import su.plugin.core.common.platform.PlatformHandler;
 
 public abstract class Core {
 	
 	@Getter
 	private static final String corePrefix = "§e[ U-Core ]";
+
+	@Setter
+	@Getter
+	private static String allowNicknameRegex;
 	
 	@Getter
 	protected static PlatformType platformType;
 	
-	protected static PlatformProvider platformProvider;
+	protected static PlatformHandler platformProvider;
 	
 	@Getter
 	protected static UConsoleSender UConsoleCommandSender;
@@ -91,6 +96,19 @@ public abstract class Core {
 	
 	public static List<UPlayer> getOnlineUPlayers() {
 		return UPlayerManager.getOnlineUPlayers();
+	}
+
+	public static void setDisplayName(PlayerKey playerKey, String displayName) {
+		UPlayer up = getUPlayer(playerKey);
+		if (up == null) {
+			if(playerKey.getName().equals(displayName)) {
+				Core.getSQLManager().deleteDisplayName(playerKey);
+			} else {
+				Core.getSQLManager().setDisplayName(playerKey, displayName);
+			}
+		} else {
+			up.setDisplayName(displayName);
+		}
 	}
 	
 	public static String getDisplayName(PlayerKey playerKey) {

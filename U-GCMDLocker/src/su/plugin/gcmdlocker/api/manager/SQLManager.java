@@ -19,7 +19,7 @@ public class SQLManager extends SQLManagerBase {
 	public void writeLog(PlayerKey playerKey, String ip, String type) {
 		if(!isUse()) return;
 
-		loginLogTable.insert(playerKey, ip, type, System.currentTimeMillis());
+		loginLogTable.insert(playerKey.getId(), ip, type, System.currentTimeMillis());
 	}
 	
 }

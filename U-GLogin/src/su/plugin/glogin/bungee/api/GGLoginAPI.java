@@ -58,7 +58,7 @@ public class GGLoginAPI extends GLoginAPI {
 		out.writeInt(playerKey.getId());
 		out.writeBoolean(login);
 		
-		new PluginMessageTask(GGLoginPlugin.getInstance(), p.getServer().getInfo(), "U-GLogin", out.toByteArray()).runAsync();
+		new PluginMessageTask(GGLoginPlugin.getInstance(), p.getServer().getInfo(), "uglogin:main", out.toByteArray()).runAsync();
 	}
 	
 }

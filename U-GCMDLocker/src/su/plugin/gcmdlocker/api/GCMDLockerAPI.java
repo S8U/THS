@@ -17,7 +17,7 @@ public class GCMDLockerAPI {
 	
 	@Setter
 	@Getter
-	private static boolean useGLogin, useNotify, useKeepLogin;
+	private static boolean useGLogin, useNotify, useKeepLogin, blockChat, blockAllCommand;
 	
 	@Setter
 	@Getter

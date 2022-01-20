@@ -60,6 +60,20 @@ public class AbilityManager {
 
 		return list;
 	}
+
+	public HashMap<String, List<Ability>> getPluginAbilities() { // PluginName, Ability
+		HashMap<String, List<Ability>> map = new HashMap<>();
+
+		for(Ability ab : abilities.values()) {
+			List<Ability> list = map.containsKey(ab.getPluginName()) ? map.get(ab.getPluginName()) : new ArrayList<>();
+
+			list.add(ab);
+
+			map.put(ab.getPluginName(), list);
+		}
+
+		return map;
+	}
 	
 	public List<Ability> getAssignedAbilities() { // 할당된 능력
 		List<Ability> assigned = new ArrayList<>();
@@ -87,7 +101,6 @@ public class AbilityManager {
 	public void giveRandomAbility(GamePlayer p, boolean overlap) {
 		Ability ab = getRandomAbility(overlap);
 		p.addAbility(ab);
-		p.getAbility(ab.getAbilityId()).setPlayer(p.getPlayer());
 	}
 	
 	public void giveRandomAbilityToAll(boolean overlap) {

@@ -20,7 +20,7 @@ public class SQLManager extends SQLManagerBase {
   public void writeBuyLog(PlayerKey playerKey, String rank, double money) {
     if(!isUse()) return;
 
-    buyLogTable.insert(playerKey, rank, money, System.currentTimeMillis());
+    buyLogTable.insert(playerKey.getId(), rank, money, System.currentTimeMillis());
   }
 
 }

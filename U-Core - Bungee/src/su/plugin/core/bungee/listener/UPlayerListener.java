@@ -41,6 +41,15 @@ public class UPlayerListener implements Listener {
 	@EventHandler
 	public void onLogin(LoginEvent e) {
 		String name = e.getConnection().getName();
+
+		if (!name.matches(Core.getAllowNicknameRegex())) {
+			e.setCancelled(true);
+			e.setCancelReason("사용할 수 없는 닉네임입니다.");
+
+			DebugUtil.log("허용되지 않은 닉네임: " + name);
+
+			return;
+		}
 		
 		//
 		DebugUtil.log(name + " PlayerKey 처리 시작");
@@ -134,14 +143,17 @@ public class UPlayerListener implements Listener {
 	@EventHandler
 	public void onJoin(ServerConnectedEvent e) {
 		ProxiedPlayer p = e.getPlayer();
-		
-		if(connected.contains(p.getName().toLowerCase())) return;
-
-		connected.add(p.getName().toLowerCase());
 
 		PlayerKey playerKey = PlayerKey.getPlayerKey(p.getName());
-		
 		GPlayer gp = (GPlayer) Core.getUPlayer(playerKey);
+
+		if (gp.hasDisplayName()) {
+			p.setDisplayName(gp.getDisplayName());
+		}
+
+		if(connected.contains(p.getName().toLowerCase())) return;
+		connected.add(p.getName().toLowerCase());
+
 		gp.setProxiedPlayer(p);
 		
 		if(Core.getSQLManager().isUseConsoleLog()) {
@@ -167,7 +179,7 @@ public class UPlayerListener implements Listener {
 			out.writeUTF("NewPlayerJoin");
 			out.writeUTF(p.getName());
 
-			new PluginMessageTask(GCorePlugin.getInstance(), e.getServer().getInfo(), "U-Core", out.toByteArray()).runAsync();
+			new PluginMessageTask(GCorePlugin.getInstance(), e.getServer().getInfo(), "ucore:main", out.toByteArray()).runAsync();
 
 			DebugUtil.log(p.getName() + ": NewPlayerJoin 패킷 전송 종료 (" + (System.currentTimeMillis() - now) + ")");
 

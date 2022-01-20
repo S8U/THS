@@ -55,7 +55,6 @@ public abstract class UGRunnable implements Runnable {
 		if(taskId == -1) return false;
 		ProxyServer.getInstance().getScheduler().cancel(taskId);
 		taskId = -1;
-		this.plugin = null;
 		scheduled = false;
 		return true;
 	}

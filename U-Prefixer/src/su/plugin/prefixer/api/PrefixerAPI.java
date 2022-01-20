@@ -54,7 +54,7 @@ public class PrefixerAPI {
 		if(usePermission = PluginUtil.existsPlugin("U-Permission")) {
 			Core.log("U-Permisison 플러그인과 연동되었습니다.");
 		}
-		
+
 		if(useProtocolLib = PluginUtil.existsPlugin("ProtocolLib")) {
 			Core.log("ProtocolLib 플러그인과 연동되었습니다.");
 		}
@@ -132,6 +132,12 @@ public class PrefixerAPI {
 		PrefixPlayer pp = playerManager.getPrefixPlayer(playerKey);
 		
 		return pp == null ? SQLManager.hasPrefix(playerKey, prefix) : pp.hasPrefix(prefix);
+	}
+
+	public static List<String> getPrefixes(PlayerKey playerKey) {
+		PrefixPlayer pp = playerManager.getPrefixPlayer(playerKey);
+
+		return pp == null ? SQLManager.getPrefixes(playerKey) : pp.getPrefixes();
 	}
 	
 	public static void setMainPrefix(PlayerKey playerKey, int priority, String prefix) {

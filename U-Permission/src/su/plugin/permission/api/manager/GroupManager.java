@@ -45,6 +45,36 @@ public class GroupManager {
 		
 		return l;
 	}
+
+	public List<PermissionGroup> getChildGroups(PermissionGroup group) {
+		List<PermissionGroup> list = new ArrayList<>();
+
+		for (PermissionGroup pg : permissionGroups.values()) {
+			for (String parentName : pg.getParents()) {
+				if (group.getName().equals(parentName)) {
+					list.add(pg);
+					list.addAll(getChildGroups(pg));
+					break;
+				}
+			}
+		}
+
+		return list;
+	}
+
+	public List<PermissionGroup> getParentGroups(PermissionGroup group) {
+		List<PermissionGroup> list = new ArrayList<>();
+
+		for (String parentName : group.getParents()) {
+			PermissionGroup pg = getGroup(parentName);
+			if (pg == null) continue;
+
+			list.add(pg);
+			list.addAll(getParentGroups(pg));
+		}
+
+		return list;
+	}
 	
 	public void sendGroupUpdateToAllChannel(String group) {
 		if(!PermissionAPI.isUseBungeecord()) return;

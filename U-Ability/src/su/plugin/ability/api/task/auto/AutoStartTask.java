@@ -18,7 +18,7 @@ import su.plugin.core.common.api.ChatColor;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.util.NotDuplicatedArrayList;
 import su.plugin.gparty.bukkit.api.KGPartyAPI;
-import su.plugin.gparty.bukkit.api.object.KPartyPlayer;
+import su.plugin.gparty.common.api.object.PartyPlayer;
 
 public class AutoStartTask extends UKRunnable {
 	
@@ -65,14 +65,14 @@ public class AutoStartTask extends UKRunnable {
 				if(teleported.contains(agp.getPlayer())) continue;
 
 				if(api.isUseGParty() && map.isRandomTeleport()) {
-					KPartyPlayer pp = KGPartyAPI.getPlayerManager().getPartyPlayer(agp.getPlayerKey());
+					PartyPlayer pp = KGPartyAPI.getPlayerManager().getPartyPlayers().get(agp.getPlayerKey());
 					if(pp != null && pp.hasParty()) {
 						Location rLoc = map.getRandomLocation(false);
 
-						for(Player pap : pp.getParty().getOnlinePlayers()) {
+						pp.getParty().getPlayers().stream().map(ptp -> (Player) ptp.getPlayerKey().getPlatformPlayer()).forEach(pap -> {
 							KCore.teleport(pap, rLoc);
 							teleported.add(pap);
-						}
+						});
 
 						continue;
 					}
@@ -81,16 +81,18 @@ public class AutoStartTask extends UKRunnable {
 				KCore.teleport(agp.getPlayer(), map.isRandomTeleport() ? map.getRandomLocation(false) : map.getMapLocation());
 				teleported.add(agp.getPlayer());
 			}
-			
-			if(api.isUseStartItem()) {
-				api.getItemManager().giveStartItemAll();
-			}
-			
-			if(api.isUseRankItem()) {
-				api.getItemManager().giveRankItemAll();
-			}
-			
-			api.playSoundToAll(Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+
+			Bukkit.getScheduler().runTaskLater(AbilityPlugin.getInstance(), () -> {
+				if(api.isUseStartItem()) {
+					api.getItemManager().giveStartItemAll();
+				}
+
+				if(api.isUseRankItem()) {
+					api.getItemManager().giveRankItemAll();
+				}
+			}, 20);
+
+			api.playSoundToAll(Sound.EXPLODE, 1, 1);
 			Core.cbc(ChatColor.DARK_GREEN, "§a게임이 시작되었습니다. (게임 참여자: " + api.getPlayerManager().getOnlineJoinedPlayers().size() + "명)");
 			
 			api.getGameManager().setTeleportedInMap(true);
@@ -112,7 +114,7 @@ public class AutoStartTask extends UKRunnable {
 			cancel();
 			return;
 		} else if(count > 6) {
-			api.playSoundToAll(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+			api.playSoundToAll(Sound.ORB_PICKUP, 1, 1);
 			Core.cbc(ChatColor.DARK_GREEN, 10 - count + "§a" + countMessage);
 			api.getBarManager().getBossBar().setText(10 - count + countMessage);
 			api.getBarManager().getBossBar().setProgress((float) (10 - count) / 10 * 100);
@@ -123,7 +125,7 @@ public class AutoStartTask extends UKRunnable {
 		api.getBarManager().getBossBar().setProgress((float) (10 - count) / 10 * 100);
 		
 		if(count > 1) return;
-		api.playSoundToAll(Sound.ENTITY_ITEM_PICKUP, 1, 1);
+		api.playSoundToAll(Sound.ITEM_PICKUP, 1, 1);
 		Core.cbc(ChatColor.DARK_GREEN, "§a" + startMessage);
 	}
 	

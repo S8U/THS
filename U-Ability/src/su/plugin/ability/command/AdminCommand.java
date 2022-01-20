@@ -17,6 +17,7 @@ import su.plugin.core.common.api.command.SubCommandHandler;
 import su.plugin.core.common.api.command.UCommandListener;
 import su.plugin.core.common.api.command.UCommandSender;
 import su.plugin.core.common.api.player.PlayerKey;
+import su.plugin.core.common.api.player.UPlayer;
 import su.plugin.core.common.api.util.NumberUtil;
 
 public class AdminCommand implements UCommandListener {
@@ -98,7 +99,7 @@ public class AdminCommand implements UCommandListener {
   )
   public void ability_go(UCommandSender sender, String[] args) {
     if(!api.getTaskManager().stopInvincbilityTask()) {
-    sender.wmsg("무적 시간이 아닙니다.");
+      sender.wmsg("무적 시간이 아닙니다.");
       return;
     } else if(api.getGameManager().isAutoMode() && api.isUseAutoTeleport()) {
       api.getTaskManager().runTeleportAllTask(20 * 3, api.getAutoTeleportCount());
@@ -421,6 +422,20 @@ public class AdminCommand implements UCommandListener {
     fw.close();
 
     sender.cmsg(ChatColor.BLUE, "능력 목록 파일이 생성되었습니다.");
+  }
+
+  @SubCommandHandler(
+      parent = "능력자",
+      name = "관전모드해제",
+      aliases = {"watchModeOff", "offWatchMode"},
+      permission = PermissionList.ABILITY_ADMIN,
+      usage = "관전모드를 강제로 해제합니다."
+  )
+  public void ability_watchModeOff(UPlayer up, String[] args) {
+    GamePlayer gp = api.getPlayerManager().getGamePlayer(up.getPlayerKey());
+    gp.toggleWatchMode(false, false);
+
+    up.cmsg(ChatColor.BLUE, "관전모드를 해제했습니다.");
   }
 
 }

@@ -1,0 +1,5 @@
+name: U-GParty
+version: 0.1.2
+author: ShaDow_Uni
+main: su.plugin.gparty.bukkit.KGPartyPlugin
+depend: [U-Core]

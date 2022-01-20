@@ -327,7 +327,7 @@ public class RankingManager {
                 dailyRankingHologram.getVisibilityManager().hideTo(player);
                 weeklyRankingHologram.getVisibilityManager().showTo(player);
 
-                player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 0.7F, 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 0.7F, 1);
 
                 Core.msg(player, "§e랭킹 표기를 §f주간§e으로 변경했습니다.");
               }
@@ -340,7 +340,7 @@ public class RankingManager {
                 weeklyRankingHologram.getVisibilityManager().hideTo(player);
                 monthlyRankingHologram.getVisibilityManager().showTo(player);
 
-                player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 0.7F, 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 0.7F, 1);
 
                 Core.msg(player, "§e랭킹 표기를 §f월간§e으로 변경했습니다.");
               }
@@ -353,7 +353,7 @@ public class RankingManager {
                 monthlyRankingHologram.getVisibilityManager().hideTo(player);
                 allRankingHologram.getVisibilityManager().showTo(player);
 
-                player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 0.7F, 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 0.7F, 1);
 
                 Core.msg(player, "§e랭킹 표기를 §f전체§e로 변경했습니다.");
               }
@@ -366,7 +366,7 @@ public class RankingManager {
                 allRankingHologram.getVisibilityManager().hideTo(player);
                 dailyRankingHologram.getVisibilityManager().showTo(player);
 
-                player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 0.7F, 1);
+                player.playSound(player.getLocation(), Sound.CLICK, 0.7F, 1);
 
                 Core.msg(player, "§e랭킹 표기를 §f일간§e으로 변경했습니다.");
               }

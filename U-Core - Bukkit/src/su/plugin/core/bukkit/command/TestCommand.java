@@ -21,11 +21,10 @@ public class TestCommand implements UCommandListener {
       usage = "getLang"
   )
   public void getLang(Player p, String[] args) {
-    Core.msg(p, p.getLocale());
+    //Core.msg(p, p.getLocale());
   }
 
   // Fake Icon Test
-
   private GUI fakeIconGUI;
 
   @SubCommandHandler(
@@ -80,6 +79,21 @@ public class TestCommand implements UCommandListener {
     fakeIconGUI.open(p);
 
     Core.msg(p,"FakeIcon GUI를 열었습니다.");
+  }
+
+  // Collidable Test
+  @SubCommandHandler(
+      parent = "ctest",
+      name = "setCollidable",
+      additional = "<true | false>",
+      minArgs = 1,
+      permission = "core.admin",
+      usage = "Set Collidable"
+  )
+  public void setCollidable(Player p, String[] args) {
+    //p.setCollidable(args[0].equalsIgnoreCase("true") ? true : false);
+
+    Core.msg(p, "Set Collidable " + (args[0].equalsIgnoreCase("true") ? true : false));
   }
 
 }

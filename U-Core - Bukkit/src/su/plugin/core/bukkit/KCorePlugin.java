@@ -8,6 +8,7 @@ import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.enumeration.NMSVersion;
 import su.plugin.core.bukkit.api.player.KPlayer;
 import su.plugin.core.bukkit.api.plugin.UKPlugin;
+import su.plugin.core.bukkit.command.QuickBarCommand;
 import su.plugin.core.bukkit.listener.BungeeMessageListener;
 import su.plugin.core.bukkit.listener.BungeeOptionListener;
 import su.plugin.core.bukkit.listener.GUIListener;
@@ -54,6 +55,8 @@ public class KCorePlugin extends UKPlugin {
 
 		registerCommands(new DisplayNameCommand());
 		registerCommands(new DebugCommand());
+
+		registerCommands(new QuickBarCommand());
 		registerCommands(new TestCommand());
 
 		registerCommands(new su.plugin.core.bukkit.command.TestCommand());
@@ -87,7 +90,7 @@ public class KCorePlugin extends UKPlugin {
 			if(Core.getOptionSQLManager().isUseBungeeSync()) {
 				BungeeOptionListener bol = new BungeeOptionListener();
 
-				Bukkit.getMessenger().registerIncomingPluginChannel(this, "U-Core", bol);
+				Bukkit.getMessenger().registerIncomingPluginChannel(this, "ucore:main", bol);
 				registerUEventListener(bol);
 			}
 		} else {
@@ -96,9 +99,13 @@ public class KCorePlugin extends UKPlugin {
 
 		registerChannel();
 		
-		if(api.isUsePlaceholderAPI()) {
+		if (api.isUsePlaceholderAPI()) {
 			new PlayerOptionPlaceHolder().hook();
 			new ServerOptionPlaceHolder().hook();
+		}
+
+		if (api.isUseProtocolLib()) {
+			KCore.getSignGUIManager().registerListener();
 		}
 		
 		onConfigLoad();
@@ -117,18 +124,20 @@ public class KCorePlugin extends UKPlugin {
 	}
 	
 	public void registerChannel() {
-		Bukkit.getMessenger().registerIncomingPluginChannel(this, "U-Core", new BungeeMessageListener());
-		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "U-Core");
+		Bukkit.getMessenger().registerIncomingPluginChannel(this, "ucore:main", new BungeeMessageListener());
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "ucore:main");
 		
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	}
 	
 	public void onConfigLoad() {
+		getJsonConfig().addDefault("닉네임 허용 문자", "[a-zA-Z0-9_]{1,16}");
 		getJsonConfig().addDefault("Tab 자동 완성.플레이어 닉네임 사용", true);
 		getJsonConfig().addDefault("Tab 자동 완성.플레이어 표기 닉네임 사용", true);
 		
 		getJsonConfig().save();
-		
+
+		Core.setAllowNicknameRegex(getJsonConfig().getString("닉네임 허용 문자"));
 		Core.getCommandManager().setPlayerNameTabComplete(getJsonConfig().getBoolean("Tab 자동 완성.플레이어 닉네임 사용"));
 		Core.getCommandManager().setPlayerDisplayNameTabComplete(getJsonConfig().getBoolean("Tab 자동 완성.플레이어 표기 닉네임 사용"));
 		

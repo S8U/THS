@@ -45,7 +45,7 @@ public class KChannelPlugin extends UKPlugin {
 		
 		registerPermissions(PermissionList.class.getPackage().getName());
 		
-		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "U-Channel");
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "uchannel:main");
 	}
 	
 	@Override

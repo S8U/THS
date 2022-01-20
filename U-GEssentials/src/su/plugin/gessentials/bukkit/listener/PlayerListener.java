@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.player.UPlayer;
+import su.plugin.core.common.api.util.DebugUtil;
 import su.plugin.gessentials.bukkit.KGEssentialsPlugin;
 import su.plugin.gessentials.bukkit.api.KGEssentialsAPI;
 
@@ -17,19 +18,20 @@ public class PlayerListener implements Listener {
 	
 	private KGEssentialsAPI api = KGEssentialsPlugin.getApi();
 	
-	@EventHandler()
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onJoin(PlayerJoinEvent e) {
+		DebugUtil.log("MoveSpy:" + PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer()));
 		if(!api.isMoveSpy(PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer()))) return;
 		
 		e.setJoinMessage(null);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent e) {
 		if(!api.isMoveSpy(PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer()))) return;
 
 		api.getMoveSpys().remove(PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer()));
-		
+
 		e.setQuitMessage(null);
 	}
 	

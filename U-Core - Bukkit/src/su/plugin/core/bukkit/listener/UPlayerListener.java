@@ -36,6 +36,14 @@ public class UPlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onLogin(PlayerLoginEvent e) {
 		Player p = e.getPlayer();
+
+		if (!p.getName().matches(Core.getAllowNicknameRegex())) {
+			e.disallow(Result.KICK_OTHER, "사용할 수 없는 닉네임입니다.");
+
+			DebugUtil.log("허용되지 않은 닉네임: " + p.getName());
+
+			return;
+		}
 		
 		//
 		DebugUtil.log(p.getName() + ": PlayerKey 처리 시작");
@@ -130,6 +138,10 @@ public class UPlayerListener implements Listener {
 
 		if (Core.getSQLManager().isUseConsoleLog()) {
 			Core.log(p.getName() + " 님이 접속했습니다. (PlayerKey: id=" + playerKey + ", name=" + playerKey.getName() + ", uuid=" + playerKey.getUuid() + ", onlineMode=" + playerKey.isOnlineMode() + ")");
+		}
+
+		if (KCore.getUPlayer(playerKey).hasDisplayName()) {
+			p.setDisplayName(playerKey.getDisplayName());
 		}
 
 		//

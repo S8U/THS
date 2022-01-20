@@ -12,7 +12,7 @@ import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.common.api.ChatColor;
 import su.plugin.core.common.api.Core;
 import su.plugin.gparty.bukkit.api.KGPartyAPI;
-import su.plugin.gparty.bukkit.api.object.KPartyPlayer;
+import su.plugin.gparty.common.api.object.PartyPlayer;
 
 public class GPartyListener implements Listener {
 	
@@ -21,7 +21,7 @@ public class GPartyListener implements Listener {
 	@EventHandler
 	public void onDeath(DeathEvent e) {
 		GamePlayer gp = e.getPlayer();
-		KPartyPlayer pp = KGPartyAPI.getPlayerManager().getPartyPlayer(gp.getPlayerKey());
+		PartyPlayer pp = KGPartyAPI.getPlayerManager().getPartyPlayers().get(gp.getPlayerKey());
 		if(pp == null || !pp.hasParty() || gp == null || !gp.isEliminate() || gp.isWatchMode()) return;
 		
 		gp.toggleWatchMode(true, false);

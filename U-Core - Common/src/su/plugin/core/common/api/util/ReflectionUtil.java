@@ -16,6 +16,19 @@ public class ReflectionUtil {
     return null;
   }
 
+  public static Method getMethodAll(Class<?> clazz, String name) {
+    Class<?> f = clazz;
+    while (f != null && f != Object.class) {
+      for(Method method : clazz.getDeclaredMethods()) {
+        if(method.getName().equals(name)) return method;
+      }
+
+      f = f.getSuperclass();
+    }
+
+    return null;
+  }
+
   @SneakyThrows(Exception.class)
   public static Field getField(Class<?> clazz, String field_name) {
     return clazz.getDeclaredField(field_name);

@@ -18,9 +18,11 @@ public abstract class Command {
 	
 	protected final String name;
 	protected List<String> aliases = new ArrayList<>();
-	protected String additional, usage;
+	protected String additional;
+	protected String usage;
 	
-	protected int minArgs, maxArgs;
+	protected int minArgs;
+	protected int maxArgs;
 	
 	protected boolean usePlatformPrefix;
 	
@@ -29,6 +31,8 @@ public abstract class Command {
 	
 	protected String playerOnlyMessage;
 	protected String consoleOnlyMessage;
+
+	protected boolean helpCommand;
 
 	//
 

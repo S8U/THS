@@ -50,7 +50,7 @@ public class Stats implements Comparable<Stats> {
     deathCount = result.getInt("death_count");
     assistCount = result.getInt("assist_count");
     winCount = result.getInt("win_count");
-    quitCount = result.getByte("quit_count");
+    quitCount = result.getInt("quit_count");
 
     killStreak = result.getInt("kill_streak");
     deathStreak = result.getInt("death_streak");

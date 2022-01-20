@@ -35,7 +35,7 @@ public class SQLManager extends SQLManagerBase {
 		getJsonConfig().addDefault("콘솔 로그 사용", true);
 
 		if(Core.getPlatformType() == PlatformType.BUNGEECORD) {
-			getJsonConfig().addDefault("새로운 플레이어 버킷에서 처리 안정화", true);
+			getJsonConfig().addDefault("MySQL.새로운 플레이어 버킷에서 처리 안정화", true);
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class SQLManager extends SQLManagerBase {
 		useConsoleLog = getJsonConfig().getBoolean("콘솔 로그 사용");
 
 		if(Core.getPlatformType() == PlatformType.BUNGEECORD) {
-			stableNewPlayerBukkitHandling = getJsonConfig().getBoolean("새로운 플레이어 버킷에서 처리 안정화");
+			stableNewPlayerBukkitHandling = getJsonConfig().getBoolean("MySQL.새로운 플레이어 버킷에서 처리 안정화");
 		}
 	}
 	

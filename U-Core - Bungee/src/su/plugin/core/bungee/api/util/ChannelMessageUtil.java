@@ -13,7 +13,7 @@ import su.plugin.core.bungee.api.task.PluginMessageTask;
 public class ChannelMessageUtil {
 	
 	public static void sendToChannel(ServerInfo si, byte[] byteArray) {
-		new PluginMessageTask(GCorePlugin.getInstance(), si, "U-Core", byteArray).runAsync();
+		new PluginMessageTask(GCorePlugin.getInstance(), si, "ucore:main", byteArray).runAsync();
 	}
 	
 	public static void sendToChannel(Plugin plugin, ServerInfo si, String messageChannel, Object...objs) {

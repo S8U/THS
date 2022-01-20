@@ -41,6 +41,8 @@ public class ChannelAPI {
 		List<String> list = new NotDuplicatedArrayList<>();
 
 		for(Channel channel : channelManager.getChannels().values()) {
+			if (!channel.isOnline()) continue;
+
 			for(String player : channel.getPlayerList()) {
 				list.add(player);
 			}

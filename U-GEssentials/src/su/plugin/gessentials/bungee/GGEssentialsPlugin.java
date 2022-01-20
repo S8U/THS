@@ -39,7 +39,7 @@ public class GGEssentialsPlugin extends UGPlugin {
 		
 		registerCommands(new AdminChatCommand().getClass().getPackage().getName());
 		
-		ProxyServer.getInstance().registerChannel("U-GEssentials");
+		ProxyServer.getInstance().registerChannel("ugessentials:main");
 
 		loadConfig();
 		

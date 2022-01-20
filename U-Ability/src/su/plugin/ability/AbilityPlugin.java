@@ -11,9 +11,8 @@ import su.plugin.ability.command.AdminCommand;
 import su.plugin.ability.command.KitCommand;
 import su.plugin.ability.command.MainCommand;
 import su.plugin.ability.command.MapCommand;
-import su.plugin.ability.command.MapVoteCommand;
 import su.plugin.ability.command.RankItemCommand;
-import su.plugin.ability.command.GameStartVoteCommand;
+import su.plugin.ability.command.VoteCommand;
 import su.plugin.ability.command.SupplyCommand;
 import su.plugin.ability.command.UserCommand;
 import su.plugin.ability.listener.AbilityListener;
@@ -48,6 +47,7 @@ public class AbilityPlugin extends UKPlugin {
 		api.getConfigManager().loadStartItem();
 		api.getConfigManager().loadRankItem();
 		api.getConfigManager().loadSupply();
+		api.getConfigManager().loadRankRedraw();
 		api.getConfigManager().loadBlackList();
 		api.getConfigManager().loadInjectConfig();
 
@@ -109,12 +109,7 @@ public class AbilityPlugin extends UKPlugin {
 	public void registerACommands() {
 		registerCommands(new MainCommand());
 		registerCommands(new UserCommand());
-		if(api.isUseGameStartVote()) {
-			registerCommands(new GameStartVoteCommand());
-		}
-		if(api.isUseMapVote()) {
-			registerCommands(new MapVoteCommand());
-		}
+		registerCommands(new VoteCommand());
 		registerCommands(new AdminCommand());
 		registerCommands(new MapCommand());
 		registerCommands(new KitCommand());

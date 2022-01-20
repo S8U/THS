@@ -1,6 +1,7 @@
 package su.plugin.ability.command;
 
 import java.util.List;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import su.plugin.ability.AbilityPlugin;
 import su.plugin.ability.api.AbilityAPI;
@@ -111,7 +112,9 @@ public class UserCommand implements UCommandListener {
     for(Ability ability : gp.getAbilities()) {
       up.nmsg("");
       up.cmsg(ChatColor.DARK_GREEN, ability.getName() + " | " + ability.getRank().getText() + " | " + ability.getPluginName());
-      up.cmsg(ChatColor.YELLOW, ability.getManual());
+      for (String line : ability.getManual()) {
+        up.cmsg(ChatColor.YELLOW, line);
+      }
 
       String time = "";
       if(ability.getCoolTime() > 0) {
@@ -144,6 +147,11 @@ public class UserCommand implements UCommandListener {
     }
 
     GamePlayer gp = api.getPlayerManager().getGamePlayer(up.getPlayerKey());
+
+    if(gp.getRedrawCount() < 1) {
+      up.wmsg("남은 재추첨 횟수가 없습니다.");
+      return;
+    }
 
     gp.setRedrawCount(0);
 
@@ -242,14 +250,16 @@ public class UserCommand implements UCommandListener {
 
     gp.toggleWatchMode(true, true);
 
-    if(api.getGameManager().finish()) {
-      api.shutdown(13);
-    } else if(api.getGameManager().isAutoMode() // 자동 모드일 경우
-        && !api.getGameManager().getGameState().equals(GameState.END) && api.getPlayerManager().getTeamAmount() < 2) { // 끝나지 않았을 경우 && 팀이 2보다 적을 경우
-      api.getGameManager().stopGame();
+    Bukkit.getScheduler().runTaskLater(AbilityPlugin.getInstance(), () -> {
+      if(api.getGameManager().finish()) {
+        api.shutdown(13);
+      } else if(api.getGameManager().isAutoMode() // 자동 모드일 경우
+          && !api.getGameManager().getGameState().equals(GameState.END) && api.getPlayerManager().getTeamAmount() < 2) { // 끝나지 않았을 경우 && 팀이 2보다 적을 경우
+        api.getGameManager().stopGame();
 
-      Core.cbc(ChatColor.RED, "§c인원이 부족하여 게임이 중단됩니다.");
-    }
+        Core.cbc(ChatColor.RED, "§c인원이 부족하여 게임이 중단됩니다.");
+      }
+    }, 1L);
   }
 
   @CommandHandler(

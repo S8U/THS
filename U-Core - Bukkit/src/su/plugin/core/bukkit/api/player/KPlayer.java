@@ -1,7 +1,11 @@
 package su.plugin.core.bukkit.api.player;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
@@ -18,6 +22,9 @@ public class KPlayer extends UPlayer {
 	private final PlayerKey playerKey;
 	
 	private final Player player;
+
+	@Setter
+	private LivingEntity lastHit;
 
 	private boolean hide;
 	
@@ -37,7 +44,7 @@ public class KPlayer extends UPlayer {
 		}
 
 		if(sql) {
-			BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "SetDisplayName", name, displayName);
+			BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "ucore:main", "SetDisplayName", name, displayName);
 
 			if(playerKey.getName().equals(displayName)) {
 				Core.getSQLManager().deleteDisplayName(playerKey);
@@ -112,6 +119,22 @@ public class KPlayer extends UPlayer {
 		});
 
 		return hide = false;
+	}
+
+	@SneakyThrows (Exception.class)
+	public void setAbsorptionHearts(float health) {
+		/*Object entityPlayer = KReflectionUtil.getHandle(getPlayer());
+		ReflectionUtil.getMethod(entityPlayer.getClass(), "setAbsorptionHearts").invoke(entityPlayer, health);*/
+
+		((CraftPlayer) getPlayer()).getHandle().setAbsorptionHearts(health);
+	}
+
+	@SneakyThrows (Exception.class)
+	public float getAbsorptionHearts() {
+		/*Object entityPlayer = KReflectionUtil.getHandle(getPlayer());
+		return (float) ReflectionUtil.getMethod(entityPlayer.getClass(), "getAbsorptionHearts").invoke(entityPlayer, null);*/
+
+		return ((CraftPlayer) getPlayer()).getHandle().getAbsorptionHearts();
 	}
 
 	//

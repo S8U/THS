@@ -78,3 +78,8 @@ MOTD:
 번지코드:
   사용: false
   로비: lobby
+  게임 종료 공지:
+    사용: false
+    사운드: none
+    메시지:
+    - '\n§e[ ! ] §f<channel_name> §e채널의 게임이 종료되었습니다.\n'

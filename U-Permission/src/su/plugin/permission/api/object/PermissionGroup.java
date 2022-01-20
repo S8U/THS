@@ -130,31 +130,11 @@ public class PermissionGroup {
 	}
 	
 	public List<PermissionGroup> getChildGroups() {
-		List<PermissionGroup> l = new ArrayList<>();
-		
-		for(PermissionGroup pg : PermissionAPI.getGroupManager().getPermissionGroups().values()) {
-			if(!pg.getParentGroups().contains(this)) continue;
-			l.add(pg);
-		}
-		
-		return l;
+		return PermissionAPI.getGroupManager().getChildGroups(this);
 	}
 	
 	public List<PermissionGroup> getParentGroups() {
-		List<PermissionGroup> l = new ArrayList<>();
-		
-		for(String p : getParents()) {
-			PermissionGroup pg = PermissionAPI.getGroupManager().getGroup(p);
-			if(pg == null) continue;
-			
-			l.add(pg);
-
-			if(pg.hasParents()) {
-				l.addAll(pg.getParentGroups());
-			}
-		}
-		
-		return l;
+		return PermissionAPI.getGroupManager().getParentGroups(this);
 	}
 	
 	public List<String> getParentNodes() {

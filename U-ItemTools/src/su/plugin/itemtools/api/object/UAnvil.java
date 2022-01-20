@@ -1,17 +1,16 @@
 package su.plugin.itemtools.api.object;
 
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.ChatMessage;
+import net.minecraft.server.v1_8_R3.ContainerAnvil;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutOpenWindow;
+import net.minecraft.server.v1_8_R3.PlayerInventory;
+import net.minecraft.server.v1_8_R3.World;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import net.minecraft.server.v1_12_R1.BlockPosition;
-import net.minecraft.server.v1_12_R1.ChatMessage;
-import net.minecraft.server.v1_12_R1.ContainerAnvil;
-import net.minecraft.server.v1_12_R1.EntityHuman;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow;
-import net.minecraft.server.v1_12_R1.PlayerInventory;
-import net.minecraft.server.v1_12_R1.World;
 import su.plugin.itemtools.api.ItemToolsAPI;
 
 public class UAnvil extends ContainerAnvil {
@@ -33,7 +32,7 @@ public class UAnvil extends ContainerAnvil {
 		ep.activeContainer.windowId = c;
 		ep.activeContainer.addSlotListener(ep);
 		
-		player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5F, 0.5F);
+		player.playSound(player.getLocation(), Sound.ANVIL_USE, 0.5F, 0.5F);
 	}
 	
 }

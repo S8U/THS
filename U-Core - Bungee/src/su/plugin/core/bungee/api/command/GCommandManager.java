@@ -62,6 +62,8 @@ public class GCommandManager extends UCommandManager implements Listener {
 				ProxyServer.getInstance().getPluginManager().registerCommand((Plugin) plugin.getPlatformPlugin(), pc);
 				
 				MainCommand mc = new MainCommand(plugin, anno.name());
+
+				mc.setAliases(aliasesArr);
 				
 				if(!anno.usage().equals("")) {
 					mc.setUsage(anno.usage());

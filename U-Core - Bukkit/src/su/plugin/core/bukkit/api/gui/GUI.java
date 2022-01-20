@@ -21,7 +21,8 @@ public class GUI {
 	private final String title, key;
 	
 	private final int row;
-	
+
+	@Setter
 	private boolean canPickUp;
 	
 	private Inventory inventory;

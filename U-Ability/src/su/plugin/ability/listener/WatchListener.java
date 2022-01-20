@@ -1,9 +1,6 @@
 package su.plugin.ability.listener;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,9 +21,7 @@ import su.plugin.ability.AbilityPlugin;
 import su.plugin.ability.api.AbilityAPI;
 import su.plugin.ability.api.category.GameState;
 import su.plugin.ability.api.object.GamePlayer;
-import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.common.api.Core;
-import su.plugin.core.common.api.util.NumberUtil;
 
 public class WatchListener implements Listener {
 	
@@ -88,7 +83,7 @@ public class WatchListener implements Listener {
 		e.setCancelled(true);
 	}
 	
-	@EventHandler(ignoreCancelled=true, priority=EventPriority.LOWEST)
+	/*@EventHandler(ignoreCancelled=true, priority=EventPriority.LOWEST)
 	public void onGamePlayerInteractWatchPlayer(PlayerInteractEvent e) {
 		GamePlayer gp = api.getPlayerManager().getGamePlayer(e.getPlayer());
 		if(e.getClickedBlock() == null || gp.isEliminate() || gp.isWatchMode()) return;
@@ -97,7 +92,7 @@ public class WatchListener implements Listener {
 			KCore.teleport(wp.getPlayer(), getEmptyLocation(e.getPlayer().getLocation()));
 			// Core.wmsg(wp.getPlayers(), "게임 중인 플레이어에게 방해되어 텔레포트되었습니다.");
 		}
-	}
+	}*/
 	
 	@EventHandler(ignoreCancelled=true, priority=EventPriority.LOWEST)
 	public void onInteract(PlayerInteractEvent e) {
@@ -159,7 +154,7 @@ public class WatchListener implements Listener {
 		e.setCancelled(true);
 	}
 	
-	private boolean isOverLap(Location block, Location player) {
+/*	private boolean isOverLap(Location block, Location player) {
 		return Math.pow(block.getY() - player.getY(), 2) <= 4 && Math.pow(block.getX() - player.getX(), 2) < Math.pow(1.3, 2) && Math.pow(block.getZ() - player.getZ(), 2) < Math.pow(1.3, 2);
 	}
 	
@@ -177,6 +172,6 @@ public class WatchListener implements Listener {
 		}
 		if(locs.size() < 1) return api.getGameManager().isGameStarted() ? (api.getGameManager().isTeleportedAll() ? api.getMapManager().getPlayingMap().getTPAllLocation() : api.getMapManager().getPlayingMap().getMapLocation()) : api.getMapManager().getSpawn();
 		return locs.get(NumberUtil.random(0, locs.size() - 1));
-	}
+	}*/
 	
 }

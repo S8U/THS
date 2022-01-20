@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="U-Permission:jar">
-    <output-path>$PROJECT_DIR$/../../../Plugins/Project/THS</output-path>
-    <root id="archive" name="U-Permission-0.1.1.jar">
-      <element id="module-output" name="U-Permission" />
-    </root>
-  </artifact>
-</component>

@@ -116,6 +116,11 @@ public class ChatManager {
 	}
 	
 	public void sendWhisper(UCommandSender sender, UCommandSender target, String msg) {
+		if (sender.equals(target)) {
+			sender.wmsg("자신에게는 귓속말을 보낼 수 없습니다.");
+			return;
+		}
+
 		boolean ignored = false;
 
 		if(!target.isConsole()) {
@@ -127,7 +132,7 @@ public class ChatManager {
 				}
 			}
 
-			if(!sender.isConsole()) {
+			if(!sender.isConsole() && !sender.hasPermission("gessentials.ignorewhisperbypass")) {
 				EPlayer tp = GGEssentialsAPI.getPlayerManager().getEPlayer(target.getName());
 				if(tp.getWhisperAllow() == Allow.BLOCK || (tp.getWhisperAllow() == Allow.FRIEND && api.isUseGFriend() && !GFriendAPI
 						.getPlayerManager().getFriendPlayer(((UPlayer) sender).getPlayerKey()).isFriend(((UPlayer) target).getPlayerKey()))) {
@@ -147,8 +152,8 @@ public class ChatManager {
 			ignored = ignored ? ignored : !sender.isConsole() && tp.isWhisperIgnored(PlayerKey.getPlayerKey(sender.getName()));
 		}
 
-		if(!ignored) {
-			Core.nmsg(sender, "§7[§f나 → §e" + target.getDisplayName() + "§7] " + message);
+		Core.nmsg(sender, "§7[§f나 → §e" + target.getDisplayName() + "§7] " + message);
+		if(!ignored || sender.hasPermission("gessentials.ignorewhisperbypass")) {
 			Core.nmsg(target, "§7[§e" + sender.getDisplayName() + " → §f나§7] " + message);
 		}
 		

@@ -350,5 +350,13 @@ public class SQLManager extends SQLManagerBase {
 		
 		return h;
 	}
+
+	@SneakyThrows(SQLException.class)
+	public int getGroupPlayerCount(String groupName) {
+		@Cleanup PreparedStatement state = userTable.select("count(player_id)", "where group_name = '" + groupName + "'");
+		@Cleanup ResultSet result = state.executeQuery();
+
+		return result.next() ? result.getInt("count(player_id)") : 0;
+	}
 	
 }

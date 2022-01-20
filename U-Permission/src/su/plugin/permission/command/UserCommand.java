@@ -51,7 +51,7 @@ public class UserCommand implements UCommandListener {
 			page = Integer.parseInt(args[0]);
 		}
 		
-		int maxPage = (int) (Math.ceil(api.getSQLManager().getPlayerCount() / 7) + 1);
+		int maxPage = (int) (Math.floor(api.getSQLManager().getPlayerCount() / 7) + 1);
 		if(page > maxPage) {
 			Core.wmsg(sender, "페이지는 1부터 " + maxPage + "까지의 정수만 입력 가능합니다.");
 			return;
@@ -358,7 +358,11 @@ public class UserCommand implements UCommandListener {
 			Core.wmsg(sender, "존재하지 않는 플레이어입니다.");
 			return;
 		}
-		
+
+		if(api.isUseBungeecord() && KCore.getOnlinePlayers().size() < 1) {
+			api.getSQLManager().loadGroup(args[1]);
+		}
+
 		PermissionGroup group = api.getGroupManager().getGroup(args[1]);
 		if(group == null) {
 			Core.wmsg(sender, "존재하지 않는 그룹입니다.");

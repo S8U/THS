@@ -1,6 +1,0 @@
-name: U-BParty
-version: 0.1.0
-author: ShaDow_Uni
-main: su.plugin.bparty.bukkit.KBPartyPlugin
-softdepends: [U-BEssentials]
-depend: [U-Library]

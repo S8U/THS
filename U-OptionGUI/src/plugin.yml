@@ -1,0 +1,4 @@
+name: U-OptionGUI
+version: 0.0.2
+main: s8u.plugin.optiongui.OptionGUIPlugin
+depend: [U-Core]

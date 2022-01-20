@@ -4,6 +4,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.util.StringUtil;
@@ -17,7 +18,7 @@ public class ChatListener implements Listener {
 	
 	private GGEssentialsAPI api = GGEssentialsPlugin.getApi();
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGHEST)
 	public void onChat(ChatEvent e) {
 		if(e.isCancelled() || e.isCommand()) return;
 

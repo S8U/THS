@@ -68,6 +68,9 @@ public class ConfigManager {
 	}
 
 	public void loadGUIs() {
+		api.getGUIManager().getGUIs().values().forEach(gui -> gui.closeAll());
+		api.getGUIManager().getGUIs().clear();
+
 		File[] files = GUIFolder.listFiles();
 		if(files.length < 1) return;
 
@@ -107,8 +110,9 @@ public class ConfigManager {
 				ChannelIcon icon = new ChannelIcon(gui);
 
 				icon.setName(key);
-				icon.setItemCode(config.getString(path + "아이템 코드"));
+				icon.setItemCode(config.getString(path + "아이템 코드") + "");
 				icon.setAmount(config.getInt(path + "아이템 개수"));
+				icon.setDynamicAmountFormula(config.getString(path + "동적 아이템 개수"));
 
 				icon.setPlayerAmountIcon(gui.isPlayerAmountMenu());
 
@@ -117,6 +121,10 @@ public class ConfigManager {
 				if(lore != null) {
 					icon.setLore(lore);
 				}
+
+				icon.setLeftCommands(config.getStringList(path + "좌클릭"));
+				icon.setRightCommands(config.getStringList(path + "우클릭"));
+				icon.setShiftCommands(config.getStringList(path + "쉬프트 클릭"));
 
 				String channel = config.getString(path + "채널");
 				if(channel != null) {

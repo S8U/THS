@@ -4,6 +4,7 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -14,7 +15,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.event.entity.EntityDamageByPlayerEvent;
 import su.plugin.core.bukkit.api.event.player.FirstPlayerJoinEvent;
@@ -38,7 +38,8 @@ public class PlayerListener implements Listener {
 			KPlayer kap = (KPlayer) uap;
 			if(!kap.isOnline() || !kap.isHide()) continue;
 
-			e.getPlayer().hidePlayer(KCorePlugin.getInstance(), kap.getPlayer());
+			e.getPlayer().hidePlayer(kap.getPlayer());
+			//e.getPlayer().hidePlayer(KCorePlugin.getInstance(), kap.getPlayer());
 		}
 
 		Bukkit.getPluginManager().callEvent(new FirstPlayerJoinEvent(e.getPlayer(), e));
@@ -96,6 +97,21 @@ public class PlayerListener implements Listener {
 			e.setCancelled(entityDamageByPlayerEvent.isCancelled());
 		}
 	}
+
+	@EventHandler (priority = EventPriority.LOWEST)
+	public void onPlayerDamageByEntity(EntityDamageByEntityEvent e) {
+		if (!(e.getEntity() instanceof Player)) return;
+
+		KPlayer kp = (KPlayer) KCore.getUPlayerByPlatformPlayer((Player) e.getEntity());
+		if (e.getDamager() instanceof Projectile) {
+			if (!(((Projectile) e.getDamager()).getShooter() instanceof LivingEntity)) return;
+
+			kp.setLastHit((LivingEntity) ((Projectile) e.getDamager()).getShooter());
+		} else {
+			if (!(e.getDamager() instanceof LivingEntity)) return;
+			kp.setLastHit((LivingEntity) e.getDamager());
+		}
+	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void onPlayerDamage(EntityDamageEvent e) {
@@ -109,5 +125,5 @@ public class PlayerListener implements Listener {
 		
 		e.setCancelled(event.isCancelled());
 	}
-	
+
 }

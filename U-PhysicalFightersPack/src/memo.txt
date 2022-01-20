@@ -1,0 +1,35 @@
+    "닌자 PhysicalFighters", ㅇ
+    "타임 PhysicalFighters", ㅇ
+    "플라이 PhysicalFighters", ㅇ
+    "클로킹 PhysicalFighters", ㅇ
+    "조로 PhysicalFighters", ㅇ
+    "거식증 PhysicalFighters", ㅇ
+    "공격반사 PhysicalFighters", ㅇ
+    "멀티샷 PhysicalFighters", ㅇ
+    "미러링 PhysicalFighters", ㅇ
+    "무통증 PhysicalFighters", ㅇ
+    "이지스 PhysicalFighters", ㅇ
+    "썬더볼트 PhysicalFighters", ㅇ
+    "익스플로젼 PhysicalFighters" ㅇ
+    "이슈타르의 링 PhysicalFighters", ㅇ2
+    "반 연금술 PhysicalFighters", ㅇ2
+    "나서스 PhysicalFighters", ㅇ2
+    "가아라 PhysicalFighters", ㅇ2
+    "야스오 PhysicalFighters", ㅇ2
+    "점퍼 PhysicalFighters", ㅇ----
+    "트위스티드 페이트 PhysicalFighters",
+    "아마테라스 PhysicalFighters",
+    "팔라딘 PhysicalFighters",
+    "기관총 PhysicalFighters",
+    "낙하화살 PhysicalFighters",
+    "중력장화 PhysicalFighters",
+    "선풍기 PhysicalFighters",
+    "자석 PhysicalFighters",
+    "목둔 PhysicalFighters",
+    "루피 PhysicalFighters",
+    "포세이돈 PhysicalFighters",
+    "트레이서 PhysicalFighters", X
+    "흡수 PhysicalFighters", X
+    "봉인 PhysicalFighters", X
+    "겐지 PhysicalFighters", X
+    "불사조 PhysicalFighters", X

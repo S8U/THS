@@ -145,11 +145,11 @@ public class FriendCommand implements UCommandListener {
 		FriendPlayer fp = api.getPlayerManager().getFriendPlayer(up.getPlayerKey());
 
 		int page = 1;
-		int maxPage = (int) Math.ceil(fp.getFriends().size() / 10) + 1;
+		int maxPage = (int) Math.ceil((double) fp.getFriends().size() / 10);
 
 		if(args.length > 0) {
 			if(NumberUtil.isInteger(args[0])) {
-				page = args.length < 2 ? 1 : Integer.parseInt(args[1]);
+				page = Integer.parseInt(args[0]);
 			} else {
 				up.wmsg("페이지는 1 ~ " + maxPage + " 사이의 정수만 입력 가능합니다.");
 				return;

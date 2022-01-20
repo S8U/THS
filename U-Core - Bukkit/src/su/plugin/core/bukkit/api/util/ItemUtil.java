@@ -12,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import su.plugin.core.bukkit.api.builder.ItemBuilder;
 
 @UtilityClass
 public class ItemUtil {
@@ -246,7 +248,7 @@ public class ItemUtil {
 		int space = 0;
 
 		if(inventory instanceof PlayerInventory) {
-			for(ItemStack ii : ((PlayerInventory) inventory).getStorageContents()) {
+			for(ItemStack ii : ((PlayerInventory) inventory).getContents()) {
 				if(ii == null || ii.getType() == Material.AIR) {
 					space += 64;
 				} else if(ii.isSimilar(item)) {
@@ -279,6 +281,27 @@ public class ItemUtil {
 	
 	public static ItemStack addEnchantOnEnchantBook(ItemStack enchantBook, String enchantName, int level) {
 		return addEnchantOnEnchantBook(enchantBook, Enchantment.getByName(enchantName), level);
+	}
+
+	public static ItemStack getSkull(String playerName) {
+		ItemStack item = new ItemBuilder(397).durability((short) 3).build();
+
+		ItemMeta meta = item.getItemMeta();
+		((SkullMeta) meta).setOwner(playerName);
+		item.setItemMeta(meta);
+
+		return item;
+	}
+
+	public static ItemStack getSkull(ItemStack item, String playerName) {
+		item.setType(getMaterialById(397));
+		item.setDurability((short) 3);
+
+		ItemMeta meta = item.getItemMeta();
+		((SkullMeta) meta).setOwner(playerName);
+		item.setItemMeta(meta);
+
+		return item;
 	}
 	
 }

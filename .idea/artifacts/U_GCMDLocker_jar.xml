@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="U-GCMDLocker:jar">
-    <output-path>$PROJECT_DIR$/../../../Plugins/Project/THS</output-path>
-    <root id="archive" name="U-GCMDLocker-0.0.1.jar">
-      <element id="module-output" name="U-GCMDLocker" />
-    </root>
-  </artifact>
-</component>

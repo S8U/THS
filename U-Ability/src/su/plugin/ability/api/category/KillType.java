@@ -21,8 +21,6 @@ public enum KillType {
 	
 	public static KillType getKillType(int number) {
 		switch(number) {
-		case 1:
-			return NORMAL;
 		case 2:
 			return DOUBLE;
 		case 3:
@@ -32,7 +30,7 @@ public enum KillType {
 		case 5:
 			return PENTA;
 		}
-		return null;
+		return NORMAL;
 	}
 	
 	public int getKillCount() {
@@ -48,6 +46,21 @@ public enum KillType {
 		}
 		return 0;
 	}
+
+	public boolean useContinueKill() {
+		switch(number) {
+			case 2:
+				return api.isUseDouble();
+			case 3:
+				return api.isUseTriple();
+			case 4:
+				return api.isUseQuadra();
+			case 5:
+				return api.isUsePenta();
+		}
+
+		return false;
+	}
 	
 	public double getKillMoney() {
 		switch(number) {
@@ -62,5 +75,5 @@ public enum KillType {
 		}
 		return 0;
 	}
-	
+
 }

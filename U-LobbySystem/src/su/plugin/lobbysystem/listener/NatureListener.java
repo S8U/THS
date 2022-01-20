@@ -29,6 +29,12 @@ public class NatureListener implements Listener {
 		if(api.getProtectExceptionWorlds().contains(e.getBlock().getWorld().getName())) return;
 		e.setCancelled(true);
 	}
+
+	@EventHandler
+	public void onWeatherChange(WeatherChangeEvent e) {
+		if (!e.toWeatherState()) return;
+		e.setCancelled(true);
+	}
 	
 	
 }

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.HoverEvent.Action;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -38,7 +42,7 @@ public class BarManager {
 	private ABossBar bossBar = new ABossBar();
 	
 	public void initQuickBar() {
-		Icon watchIcon = new Icon() {
+		Icon lobbyIcon = new Icon() {
 			@Override
 			protected ItemStack updateItem() {
 				return ItemUtil.makeItem(Material.BED, "§e§l로비로 이동 §f§l(우클릭)", "§f우클릭 시 로비로 이동합니다.");
@@ -56,7 +60,7 @@ public class BarManager {
 		
 		if(api.isUseWaitingQuickBar()) {
 			waitingQuickBar = new QuickBar();
-			waitingQuickBar.setIcon(9, watchIcon);
+			waitingQuickBar.setIcon(9, lobbyIcon);
 
 			if(api.isUseGameStartVote()) {
 				Icon gameStartVoteIcon = new Icon() {
@@ -80,11 +84,24 @@ public class BarManager {
 							Core.wmsg(e.getPlayer(),"인원이 적어 투표를 진행할 수 없습니다.");
 						} else if((System.currentTimeMillis() - api.getVoteManager().getLastGameStartVote()) < api.getRevotePeriod() * 1000) {
 							Core.wmsg(e.getPlayer(), "아직 시작 투표를 진행할 수 없습니다.");
+						} else if (!api.canStartVote()) {
+							Core.wmsg(e.getPlayer(), api.getVoteStartingConditionMessage());
 						} else {
 							api.getVoteManager().startGameStartVote(api.getVoteTimeoutCount());
 
+							Core.nbc("");
 							Core.cbc(ChatColor.DARK_AQUA, "§b게임 시작 투표가 시작되었습니다.");
-							Core.cbc(ChatColor.DARK_AQUA, "'/찬성' §b또는 §f'/반대' §b명령어를 사용하여 투표에 참여하세요!");
+							Core.cbc(ChatColor.YELLOW, new ComponentBuilder("§a'/찬성'")
+											.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/찬성"))
+											.event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("클릭 시 투표에 찬성합니다.").create()))
+											.create(),
+									" §e또는 ",
+									new ComponentBuilder("§c'/반대'")
+											.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/반대"))
+											.event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("클릭 시 투표에 반대합니다.").create()))
+											.create(),
+									" §e명령어를 사용하여 투표에 참여하세요!");
+							Core.nbc("");
 						}
 					}
 				};
@@ -149,7 +166,7 @@ public class BarManager {
 			
 			watchModeQuickBar = new QuickBar();
 			watchModeQuickBar.setIcon(1, teleportIcon);
-			watchModeQuickBar.setIcon(9, watchIcon);
+			watchModeQuickBar.setIcon(9, lobbyIcon);
 			watchModeQuickBar.update();
 		}
 	}

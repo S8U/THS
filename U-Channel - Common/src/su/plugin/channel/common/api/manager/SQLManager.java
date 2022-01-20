@@ -1,15 +1,12 @@
 package su.plugin.channel.common.api.manager;
 
+import com.google.gson.Gson;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.script.ScriptEngine;
-
-import com.google.gson.Gson;
-
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -32,6 +29,10 @@ public abstract class SQLManager extends SQLManagerBase {
 	private int loadInterval;
 	
 	//
+
+	public SQLManager() {
+		// setSQLType(su.plugin.core.common.api.sql.SQLType.MySQL);
+	}
 	
 	@Override
 	public void createTable() {

@@ -52,6 +52,8 @@ public class BAbility extends Ability {
 	
 	@Override
 	public void setPlayer(Player p) {
+		if(p == null) return;
+
 		super.setPlayer(p);
 
 		abilityBase.SetPlayer(p, false);

@@ -44,8 +44,8 @@ public class KGEssentialsPlugin extends UKPlugin {
 			registerListener(new PrefixerListener());
 		}
 		
-		Bukkit.getMessenger().registerIncomingPluginChannel(this, "U-GEssentials", new MessageListener());
-		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "U-GEssentials");
+		Bukkit.getMessenger().registerIncomingPluginChannel(this, "ugessentials:main", new MessageListener());
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "ugessentials:main");
 	}
 	
 }

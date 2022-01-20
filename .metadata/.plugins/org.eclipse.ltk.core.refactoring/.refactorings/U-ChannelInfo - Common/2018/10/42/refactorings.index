@@ -1,8 +1,0 @@
-1539674996152	Delete elements
-1539675458158	Rename field 'channelInfos'
-1539676575791	Rename package 'su.plugin.channelinfo.common.api.task'
-1540020687801	Delete element
-1540020730573	Rename package 'su.plugin.channelinfo.common'
-1540020734003	Rename package 'su.plugin.channelinfo.common.provider'
-1540020802193	Rename field 'channels'
-1540020844221	Rename local variable 'channel'

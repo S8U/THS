@@ -18,7 +18,7 @@ public class MessageListener implements PluginMessageListener {
 	
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-		if(!channel.equals("U-GLogin")) return;
+		if(!channel.equals("uglogin:main")) return;
 		
 		ByteArrayDataInput in = ByteStreams.newDataInput(message);
 		String task = in.readUTF();

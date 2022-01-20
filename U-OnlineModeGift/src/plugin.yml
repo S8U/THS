@@ -1,4 +1,4 @@
 name: U-OnlineModeGift
-version: 0.0.1
+version: 0.0.2
 main: su.plugin.onlinemodegift.OnlineModeGiftPlugin
 depend: [U-Core]

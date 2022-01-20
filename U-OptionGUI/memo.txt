@@ -1,0 +1,28 @@
+채팅 전체 차단
+playeroption set %player% gessentials_chat_ignore_all true
+채팅 전체 허용
+playeroption delete %player% gessentials_chat_ignore_all
+
+귓속말 전체 차단
+playeroption set %player% gessentials_allow_whisper block
+귓속말 친구 허용
+playeroption set %player% gessentials_allow_whisper friend
+귓속말 전체 허용
+playeroption delete %player% gessentials_allow_whisper
+
+친구 요청 전체 차단
+playeroption set %player% gfriend_allow_request block
+친구 요청 전체 허용
+playeroption delete %player% gfriend_allow_request
+
+파티 초대 전체 차단
+playeroption set %player% gparty_allow_invite block
+파티 초대 친구 허용
+playeroption set %player% gparty_allow_invite friend
+파티 초대 전체 허용
+playeroption delete %player% gparty_allow_invite
+
+자동 공지 차단
+playeroption set %player% gbroadcaster_hide true
+자동 공지 허용
+playeroption delete %player% gbroadcaster_hide

@@ -1,5 +1,5 @@
 name: U-Core
-version: 0.1.1
+version: 0.1.6
 author: ShaDow_Uni
 main: su.plugin.core.bukkit.KCorePlugin
-softdepend: [Vault, PlaceholderAPI, ProtocolSupport]
+softdepend: [Vault, PlaceholderAPI, ProtocolSupport, ProtocolLib]

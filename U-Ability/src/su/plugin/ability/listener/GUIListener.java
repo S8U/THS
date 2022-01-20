@@ -2,6 +2,7 @@ package su.plugin.ability.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -17,7 +18,7 @@ public class GUIListener implements Listener {
 	
 	private AbilityAPI api = AbilityPlugin.getApi();
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGH)
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		if(api.isUseWaitingQuickBar() && (api.getGameManager().getGameState() == GameState.WAITING || api.getGameManager().getGameState() == GameState.PREPARING)) {
 			api.getBarManager().getWaitingQuickBar().setTo(e.getPlayer());

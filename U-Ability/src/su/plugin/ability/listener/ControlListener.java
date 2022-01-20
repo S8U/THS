@@ -1,5 +1,6 @@
 package su.plugin.ability.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -10,6 +11,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -26,7 +28,12 @@ import su.plugin.core.common.api.Core;
 public class ControlListener implements Listener {
 	
 	private AbilityAPI api = AbilityPlugin.getApi();
-	
+
+	@EventHandler
+	public void onInteract(PlayerBedEnterEvent e) {
+		e.setCancelled(true);
+	}
+
 	@EventHandler
 	public void onFoodLevelChange(FoodLevelChangeEvent e) {
 		if(!api.isUseInfinityFoodLevel()) return;
@@ -130,8 +137,8 @@ public class ControlListener implements Listener {
 	
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
-		if(!(e.getEntity() instanceof  Player)) return;
-		if(api.isInvincibilityTime() || (api.isUseInvincibilityOnWait() && api.getGameManager().getGameState().getProgress() < GameState.PLAYING.getProgress())) {
+		if(!(e.getEntity() instanceof Player)) return;
+		if(api.isInvincibilityTime() || (api.isUseInvincibilityOnWait() && api.getGameManager().getGameState().getProgress() < GameState.PLAYING.getProgress()) || api.getGameManager().getGameState() == GameState.END) {
 			e.setCancelled(true);
 		}
 	}
@@ -160,17 +167,19 @@ public class ControlListener implements Listener {
 		if(api.getGameManager().isTeleportedAll()) {
 			if(api.isUseAutoTpAllMapLimit() && map.isInMap(e.getTo(), api.getTpAllLimitRange(), true)) return;
 			else if(map.getMinTPAllLocation() == null || map.getMaxTPAllLocation() == null || map.isInMap(e.getTo(), true)) return;
-			to = api.isUseAutoTpAllMapLimit() && map.isInMap(e.getFrom(), false) ? e.getFrom() : map.getTPAllLocation();
+			to = api.isUseAutoTpAllMapLimit() && map.isInMap(e.getFrom(), true) ? e.getFrom() : map.getTPAllLocation();
 		} else {
 			if(api.isUseAutoMapLimit() && map.isInMap(e.getTo(), api.getMapLimitRange(), false)) return;
 			else if(map.getMinMapLocation() == null || map.getMaxMapLocation() == null || map.isInMap(e.getTo(), false)) return;
 			to = api.isUseAutoMapLimit() && map.isInMap(e.getFrom(), false) ? e.getFrom() : map.getMapLocation();
 		}
 		
-		if(to == null) return;
+		if(to == null || to.getWorld() == null) return;
 		
 		RangeOutEvent event = new RangeOutEvent(e.getPlayer(), map);
+		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) return;
+		
 		e.setTo(to);
 	}
 	

@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename local variable &apos;components&apos; in &apos;su.plugin.core.bukkit.platform.KProvider.makeComponent(...)&apos; to &apos;messages&apos;&#x0D;&#x0A;- Original project: &apos;U-Core - Bukkit&apos;&#x0D;&#x0A;- Original element: &apos;su.plugin.core.bukkit.platform.KProvider.makeComponent(boolean, Object...).components&apos;&#x0D;&#x0A;- Renamed element: &apos;components&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;components&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;su.plugin.core.bukkit.platform{KProvider.java[KProvider~makeComponent~Z~\[QObject;@components!1868!1887!1878!1887!\[QObject;!0!true" name="messages" references="true" stamp="1543989463310" version="1.0"/>
-</session>

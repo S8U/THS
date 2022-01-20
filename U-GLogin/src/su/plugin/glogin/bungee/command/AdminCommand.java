@@ -1,14 +1,14 @@
 package su.plugin.glogin.bungee.command;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import lombok.Cleanup;
+import lombok.SneakyThrows;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import su.plugin.glogin.bungee.GGLoginPlugin;
-import su.plugin.glogin.bungee.api.GGLoginAPI;
-import su.plugin.glogin.common.api.category.Type;
-import su.plugin.glogin.common.api.object.Account;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.command.Command;
 import su.plugin.core.common.api.command.CommandHandler;
@@ -17,7 +17,12 @@ import su.plugin.core.common.api.command.UCommandListener;
 import su.plugin.core.common.api.command.UCommandSender;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.player.UPlayer;
+import su.plugin.core.common.api.util.NumberUtil;
 import su.plugin.core.common.api.util.StringUtil;
+import su.plugin.glogin.bungee.GGLoginPlugin;
+import su.plugin.glogin.bungee.api.GGLoginAPI;
+import su.plugin.glogin.common.api.category.Type;
+import su.plugin.glogin.common.api.object.Account;
 
 public class AdminCommand implements UCommandListener {
 	
@@ -149,19 +154,20 @@ public class AdminCommand implements UCommandListener {
 		
 		sender.nmsg("§6[ §f" + account.getName() + "§6 계정 정보 ]");
 		sender.nmsg("§6가입일: §f" + StringUtil.buildDateString(account.getRegisterTime(), "yyyy-MM-dd HH:mm:ss"));
+		sender.nmsg("§6IP: §f" + account.getIp());
 		sender.nmsg("§6마지막 로그인: §f" + (account.getLastLogin() == 0 ? "기록 없음" : StringUtil.buildTimeString(System.currentTimeMillis() - account.getLastLogin()) + " 전"));
 	}
 	
 	@SubCommandHandler(
 			parent="로그인관리",
-			name="계정",
-			aliases="accountList",
+			name="계정목록",
+			aliases="accounts",
 			additional="<플레이어 | IP>",
 			minArgs=1,
 			permission="glogin.admin",
 			usage="플레이어의 계정 목록을 확인합니다."
 			)
-	public void loginManager_account(UCommandSender sender, String[] args, Command command) {
+	public void loginManager_accounts(UCommandSender sender, String[] args, Command command) {
 		List<Account> accounts = new ArrayList<>();
 		
 		if(args[0].contains(".")) {
@@ -185,8 +191,115 @@ public class AdminCommand implements UCommandListener {
 		}
 		
 		sender.nmsg("§6[ §f" + args[0] + "§6 계정 목록 ]");
+		sender.nmsg("§6IP: §f" + accounts.get(0).getIp());
 		for(Account account : accounts) {
 			sender.nmsg(account.getName() + " §6- 가입일: §f" + StringUtil.buildDateString(account.getRegisterTime(), "yyyy-MM-dd HH:mm:ss") + " / §6마지막 로그인: §f" + (account.getLastLogin() == 0 ? "기록 없음" : StringUtil.buildTimeString(System.currentTimeMillis() - account.getLastLogin()) + " 전"));
+		}
+	}
+
+	@SneakyThrows(SQLException.class)
+	@SubCommandHandler(
+			parent="로그인관리",
+			name="로그인로그",
+			aliases="loginLog",
+			additional="<페이지> (<플레이어>)",
+			minArgs = 1,
+			permission="glogin.admin",
+			usage="로그인 로그를 확인합니다."
+
+	)
+	public void loginManager_loginLog(UCommandSender sender, String[] args, Command command) {
+		if (!NumberUtil.isInteger(args[0])) {
+			sender.wmsg("페이지는 정수만 입력 가능합니다.");
+			return;
+		}
+
+		@Cleanup PreparedStatement state = api.getSQLManager().getLoginLogTable().select("count(*)");
+		@Cleanup ResultSet result = state.executeQuery();
+		if (!result.next()) return;
+
+		int count = result.getInt("count(*)");
+
+		int page = NumberUtil.getInteger(args[0]);
+		int maxPage = (int) Math.ceil((double) count / 10);
+
+		if (page < 0 || maxPage < page) {
+			sender.wmsg("페이지는 1 ~ " + maxPage+ " 의 정수만 입력 가능합니다. ");
+			return;
+		}
+
+		else if (args.length > 1) {
+			PlayerKey target = PlayerKey.getPlayerKey(args[0]);
+			if (target == null) {
+				sender.wmsg("존재하지 않는 플레이어입니다.");
+				return;
+			}
+
+			args[0] = target.getName();
+		}
+
+		@Cleanup PreparedStatement state2 = api.getSQLManager().getLoginLogTable().select("id, type, time");
+		@Cleanup ResultSet result2 = state2.executeQuery();
+
+		sender.nmsg("§6[ §f" + (args.length < 2 ? "" : args[0]) + "§6 로그인 로그 ( " + page + " / " + maxPage + " ) ]");
+		while (result2.next()) {
+			sender.nmsg("§6" + result2.getInt("id")
+					+ " | 타입: §f" + result2.getString("type")
+					+ " §6| 시간: §f" + StringUtil.buildTimeString(result2.getLong("time")));
+		}
+	}
+
+	@SneakyThrows(SQLException.class)
+	@SubCommandHandler(
+			parent="로그인관리",
+			name="관리로그",
+			aliases="manageLog",
+			additional="(<플레이어>)",
+			minArgs = 1,
+			permission="glogin.admin",
+			usage="로그인 관리 로그를 확인합니다."
+	)
+	public void loginManager_manageLog(UCommandSender sender, String[] args, Command command) {
+		if (!NumberUtil.isInteger(args[0])) {
+			sender.wmsg("페이지는 정수만 입력 가능합니다.");
+			return;
+		}
+
+		@Cleanup PreparedStatement state = api.getSQLManager().getLoginLogTable().select("count(*)");
+		@Cleanup ResultSet result = state.executeQuery();
+		if (!result.next()) return;
+
+		int count = result.getInt("count(*)");
+
+		int page = NumberUtil.getInteger(args[0]);
+		int maxPage = (int) Math.ceil((double) count / 10);
+
+		if (page < 0 || maxPage < page) {
+			sender.wmsg("페이지는 1 ~ " + maxPage+ " 의 정수만 입력 가능합니다. ");
+			return;
+		}
+
+		else if (args.length > 1) {
+			PlayerKey target = PlayerKey.getPlayerKey(args[0]);
+			if (target == null) {
+				sender.wmsg("존재하지 않는 플레이어입니다.");
+				return;
+			}
+
+			args[0] = target.getName();
+		}
+
+		@Cleanup PreparedStatement state2 = api.getSQLManager().getLoginLogTable().select("id, type, time");
+		@Cleanup ResultSet result2 = state2.executeQuery();
+
+		sender.nmsg("§6[ §f" + (args.length < 2 ? "" : args[0]) + "§6 로그인 관리 로그 ( " + page + " / " + maxPage + " ) ]");
+		while (result2.next()) {
+			sender.nmsg("§6" + result2.getInt("id")
+					+ " §6| 타겟: §f" + PlayerKey.getPlayerKey(result2.getInt("target_id")).getName()
+					+ " §6| 처리자: §f" + PlayerKey.getPlayerKey(result2.getInt("admin_id")).getName()
+					+ " §6| 처리자 IP: §f" + result2.getString("admin_ip")
+					+ " §6| 타입: §f" + result2.getString("type")
+					+ " §6| 시간: §f" + StringUtil.buildTimeString(result2.getLong("time")));
 		}
 	}
 	

@@ -3,8 +3,10 @@ package su.plugin.pvpstats.api.object;
 import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import su.plugin.core.common.api.player.PlayerKey;
+import su.plugin.pvpstats.PVPStatsPlugin;
 import su.plugin.pvpstats.api.PVPStatsAPI;
 
 @Getter
@@ -124,7 +126,7 @@ public class PSPlayer {
 	}
 
 	public void savePlayerAsynchronously() {
-		PVPStatsAPI.getSQLManager().savePlayer(this);
+		Bukkit.getScheduler().runTaskAsynchronously(PVPStatsPlugin.getInstance(), () -> PVPStatsAPI.getSQLManager().savePlayer(this));
 	}
 	
 }

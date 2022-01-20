@@ -86,8 +86,8 @@ public class AbilityPluginManager {
         for(CtMethod method : clazz.getMethods()) {
           method.instrument(new ExprEditor() {
             public void edit(MethodCall m) throws CannotCompileException {
-              if(!m.getMethodName().equals("getOnlinePlayers") || !m.getSignature().equals("()[Lorg/bukkit/entity/Player;")) return;
-              m.replace("{ $_ = su.plugin.ability.api.manager.AbilityPluginManager.getOnlinePlayers(); }");
+              if(!m.getMethodName().equals("getOnlinePlayers") || !m.getSignature().equals("()[Lorg/bungee/entity/Player;")) return;
+              m.replace("{ $_ = su.plugin.ability.api.sql.AbilityPluginManager.getOnlinePlayers(); }");
 
               injectedClassNames.add(className);
             }

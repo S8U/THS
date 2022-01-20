@@ -21,7 +21,7 @@ public class ChannelMessageUtil {
 		
 		writeObject(out, objs);
 		
-		new PluginMessageTask(KCorePlugin.getInstance(), "U-Core", out.toByteArray()).runTaskAsynchronously();
+		new PluginMessageTask(KCorePlugin.getInstance(), "ucore:main", out.toByteArray()).runTaskAsynchronously();
 	}
 	
 	private void sendToAllChannelDefault(String bungeeTask, String key, String task, Object...objs) {
@@ -33,7 +33,7 @@ public class ChannelMessageUtil {
 		
 		writeObject(out, objs);
 		
-		new PluginMessageTask(KCorePlugin.getInstance(), "U-Core", out.toByteArray()).runTaskAsynchronously();
+		new PluginMessageTask(KCorePlugin.getInstance(), "ucore:main", out.toByteArray()).runTaskAsynchronously();
 	}
 	
 	public static void sendToChannel(String channelName, String key, String task, Object...objs) {

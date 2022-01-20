@@ -51,7 +51,7 @@ public class KJsonConfig extends JsonConfig {
 	}
 	
 	public void loadFromYaml(String yamlString) {
-		HashMap<String, Object> tempValues = new Yaml().load(yamlString);
+		HashMap<String, Object> tempValues = (HashMap<String, Object>) new Yaml().load(yamlString);
 		
 		tempValues.forEach((path, value) -> {
 			if(value instanceof Map<?, ?>) {
@@ -63,7 +63,7 @@ public class KJsonConfig extends JsonConfig {
 	}
 	
 	public void loadDefaultFromYaml(String yamlString) {
-		HashMap<String, Object> tempValues = new Yaml().load(yamlString);
+		HashMap<String, Object> tempValues = (HashMap<String, Object>) new Yaml().load(yamlString);
 		
 		tempValues.forEach((path, value) -> {
 			if(value instanceof Map<?, ?>) {
@@ -125,7 +125,7 @@ public class KJsonConfig extends JsonConfig {
 		set(path + ".type", itemStack.getType().name());
 		
 		if(itemStack.getDurability() > 0) {
-			set(path + ".data", itemStack.getDurability());
+			set(path + ".storage", itemStack.getDurability());
 		}
 		
 		set(path + ".amount", itemStack.getAmount());
@@ -254,12 +254,12 @@ public class KJsonConfig extends JsonConfig {
 			} else if(meta instanceof MapMeta) {
 				MapMeta mmeta = (MapMeta) meta;
 
-				if(mmeta.hasLocationName()) {
+				/*if(mmeta.hasLocationName()) {
 					set(path + ".item-meta.extra-meta.location-name", mmeta.getLocationName());
 				}
 				if(mmeta.hasColor()) {
 					set(path + ".item-meta.extra-meta.color", Integer.toHexString(mmeta.getColor().asRGB()));
-				}
+				}*/
 				set(path + ".item-meta.extra-meta.scaling", mmeta.isScaling());
 			}
 		}
@@ -269,7 +269,7 @@ public class KJsonConfig extends JsonConfig {
 		String type = getString(path + ".type");
 		if(type == null) return null;
 		
-		short data = (short) getInt(path + ".data", 0);
+		short data = (short) getInt(path + ".storage", 0);
 		
 		int amount = getInt(path + ".amount", 1);
 		
@@ -487,7 +487,7 @@ public class KJsonConfig extends JsonConfig {
 			boolean scaling = getBoolean(path + ".item-meta.extra-meta.scaling");
 			mmeta.setScaling(scaling);
 			
-			String locationName = getString(path + ".item-meta.extra-meta.location-name");
+			/*String locationName = getString(path + ".item-meta.extra-meta.location-name");
 			if(locationName != null) {
 				mmeta.setLocationName(locationName);	
 			}
@@ -495,7 +495,7 @@ public class KJsonConfig extends JsonConfig {
 			String color = getString(path + ".item-meta.extra-meta.color");
 			if(color != null) {
 				mmeta.setColor(Color.fromRGB(Integer.parseInt(color, 16)));
-			}
+			}*/
 		}
 		
 		itemStack.setItemMeta(meta);

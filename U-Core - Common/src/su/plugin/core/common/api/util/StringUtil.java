@@ -73,14 +73,24 @@ public class StringUtil {
 		Date date = new Date(time);
 		return new SimpleDateFormat(pattern).format(date);
 	}
-	
+
 	public static String buildTimeString(long time) {
 		String[] times = new String[4];
 		times[0] = (int) (time / 86400000) < 1 ? null : (int) (time / 86400000) + "일";
 		times[1] = (int) (time / 3600000 % 24) < 1 ? null : (int) (time / 3600000 % 24) + "시";
 		times[2] = (int) (time / 60000 % 60) < 1 ? null : (int) (time / 60000 % 60) + "분";
 		times[3] = (int) (time / 1000 % 60) < 1 ? null : (int) (time / 1000 % 60) + "초";
-		
+
+		return connectString(times, " ");
+	}
+
+	public static String buildTimeString(long time, ChatColor color) {
+		String[] times = new String[4];
+		times[0] = (int) (time / 86400000) < 1 ? null : (int) (time / 86400000) + (color + "일");
+		times[1] = (int) (time / 3600000 % 24) < 1 ? null : (int) (time / 3600000 % 24) +  (color + "시");
+		times[2] = (int) (time / 60000 % 60) < 1 ? null : (int) (time / 60000 % 60) + (color + "분");
+		times[3] = (int) (time / 1000 % 60) < 1 ? null : (int) (time / 1000 % 60) +  (color + "초");
+
 		return connectString(times, " ");
 	}
 
@@ -113,6 +123,22 @@ public class StringUtil {
 
 			String value = text.substring(startIndex + (2 + key.length()), endIndex);
 			text = text.replace(text.subSequence(startIndex, endIndex + 1), method.invoke(method, value).toString());
+		}
+
+		return text;
+	}
+
+	@SneakyThrows(Exception.class)
+	public static String replaceValue(String key, String text, ReplaceHandler handler) {
+		List<String> values = new ArrayList<>();
+
+		Pattern pattern = Pattern.compile("<" + key + ":.*>");
+		for(int i = 0; pattern.matcher(text).find(); i++) {
+			int startIndex = text.indexOf("<" + key + ":");
+			int endIndex = text.indexOf(">", startIndex);
+
+			String value = text.substring(startIndex + (2 + key.length()), endIndex);
+			text = text.replace(text.subSequence(startIndex, endIndex + 1), handler.getReplacedValue(value).toString());
 		}
 
 		return text;

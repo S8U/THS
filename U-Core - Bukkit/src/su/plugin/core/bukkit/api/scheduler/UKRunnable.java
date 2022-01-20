@@ -16,6 +16,8 @@ public abstract class UKRunnable implements Runnable {
 	private int taskId = -1;
 	
 	public synchronized void cancel() throws IllegalStateException {
+		if (taskId == -1) return;
+
 		Bukkit.getScheduler().cancelTask(getTaskId());
 		taskId = -1;
 	}
@@ -64,7 +66,7 @@ public abstract class UKRunnable implements Runnable {
 		checkState();
 		return setupId(runTaskTimer((long) Math.ceil((firstTime.getTime() - System.currentTimeMillis()) / 50), period));
 	}
-	
+
 	public BukkitTask scheduleAsynchronously(Date time) {
 		checkState();
 		return setupId(runTaskLaterAsynchronously((long) Math.ceil((time.getTime() - System.currentTimeMillis()) / 50)));

@@ -19,7 +19,7 @@ public class GameStartVoteTask extends UKRunnable {
 		
 		Core.cbc(ChatColor.RED, "§c투표 시간이 초과하여 투표가 부결되었습니다.");
 
-		api.getVoteManager().stopVote();
+		api.getVoteManager().stopGameStartVote();
 	}
 
 }

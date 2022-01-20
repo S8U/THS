@@ -1,5 +1,5 @@
 name: U-GFriend
-version: 0.0.2
+version: 0.0.3
 author: ShaDow_Uni
 main: su.plugin.gfriend.GFriendPlugin
 depends: [U-Core]

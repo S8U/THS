@@ -139,7 +139,8 @@ public class BAbilityListener implements Listener {
 			try {
 				ba.excute(event, data);
 			} catch (Exception e) {
-				Core.log(ability.getName() + " / " + ability.getPluginName() + " 에서 오류가 발생했습니다. :" + e.getMessage());
+				e.printStackTrace();
+				Core.log(ability.getName() + " / " + ability.getPluginName() + " 에서 오류가 발생했습니다.");
 			}
 		}
 	}

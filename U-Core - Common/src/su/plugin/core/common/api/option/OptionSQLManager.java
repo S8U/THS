@@ -26,7 +26,7 @@ public class OptionSQLManager extends SQLManagerBase {
 		setUseUseOption(true);
 		
 		setConfigName("option-sql-config");
-		setSQLiteFileName("option-data.db");
+		setSQLiteFileName("option-storage.db");
 	}
 	
 	@Override
@@ -37,12 +37,12 @@ public class OptionSQLManager extends SQLManagerBase {
 	
 	@Override
 	public void createJsonConfigOthers() {
-		getJsonConfig().addDefault("번지코드 채널들과 옵션 연동", false);
+		getJsonConfig().addDefault("MySQL.번지코드 채널들과 옵션 연동", false);
 	}
 	
 	@Override
 	public void loadJsonConfigOthers() {
-		useBungeeSync = getJsonConfig().getBoolean("번지코드 채널들과 옵션 연동");
+		useBungeeSync = getJsonConfig().getBoolean("MySQL.번지코드 채널들과 옵션 연동");
 	}
 	
 	//

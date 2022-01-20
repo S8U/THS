@@ -1,4 +1,4 @@
 name: U-ChannelGUI
-version: 0.0.1
+version: 0.0.3
 main: su.plugin.channelgui.ChannelGUIPlugin
 depend: [U-Core, U-Channel]

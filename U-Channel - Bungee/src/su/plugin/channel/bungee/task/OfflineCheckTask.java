@@ -2,10 +2,7 @@ package su.plugin.channel.bungee.task;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Arrays;
-
-import com.google.gson.internal.LinkedTreeMap;
-
+import lombok.Cleanup;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import su.plugin.channel.bungee.GChannelPlugin;
@@ -25,8 +22,6 @@ public class OfflineCheckTask extends UGRunnable {
 	@Override
 	public void run() {
 		for(Channel channel : api.getChannelManager().getChannels().values()) {
-			if(!channel.isOnline()) continue;
-			
 			ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(channel.getName());
 			if(serverInfo == null) {
 				Core.wlog(channel.getName() + "은 존재하지 않습니다.");
@@ -37,16 +32,20 @@ public class OfflineCheckTask extends UGRunnable {
 			int port = serverInfo.getAddress().getPort();
 			
 			try {
-				Socket socket = new Socket();
-				socket.connect(new InetSocketAddress(ip, port), 1500);
-				socket.close();
+				@Cleanup Socket socket = new Socket();
+				socket.setSoTimeout(api.getOfflineCheckTimeout());
+				socket.connect(new InetSocketAddress(ip, port), api.getOfflineCheckTimeout());
+
+				if (!channel.isOnline()) {
+					channel.setOnline(true);
+
+					if(api.getSQLManager().isUpload()) {
+						api.getSQLManager().saveChannel(channel);
+					}
+				}
 			} catch(Exception e) {
 				channel.setOnline(false);
-				channel.setPlayerCount(0);
-				channel.setMaxPlayerCount(0);
-				channel.setPlayerList(Arrays.asList());
-				channel.setETCs(new LinkedTreeMap<>());
-				
+
 				if(api.getSQLManager().isUpload()) {
 					api.getSQLManager().saveChannel(channel);
 				}

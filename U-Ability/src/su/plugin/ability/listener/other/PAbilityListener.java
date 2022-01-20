@@ -172,7 +172,8 @@ public class PAbilityListener implements Listener {
 					try {
 						ability.excute(e, 1);
 					} catch (Exception ex) {
-						Core.log(ability.getName() + " / " + ability.getPluginName() + " 에서 오류가 발생했습니다. :" + ex.getMessage());
+						ex.printStackTrace();
+						Core.log(ability.getName() + " / " + ability.getPluginName() + " 에서 오류가 발생했습니다.");
 					}
 				}
 			}

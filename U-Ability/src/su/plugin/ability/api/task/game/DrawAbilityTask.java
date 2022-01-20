@@ -2,6 +2,7 @@ package su.plugin.ability.api.task.game;
 
 import lombok.Getter;
 import org.bukkit.Sound;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import su.plugin.ability.AbilityPlugin;
 import su.plugin.ability.api.AbilityAPI;
 import su.plugin.ability.api.category.GameState;
@@ -29,7 +30,7 @@ public class DrawAbilityTask extends UKRunnable {
 	public void run() {
 		count++;
 		if(count == 0) {
-			api.playSoundToAll(Sound.ENTITY_ITEM_PICKUP, 1, 1);
+			api.playSoundToAll(Sound.ITEM_PICKUP, 1, 1);
 			Core.nbc(" ");
 			Core.cbc(ChatColor.DARK_GREEN, "§a잠시 후 능력 추첨이 시작됩니다.");
 			api.getBarManager().getBossBar().setText("잠시 후 능력 추첨이 시작됩니다.");
@@ -46,8 +47,13 @@ public class DrawAbilityTask extends UKRunnable {
 			if(api.isUsePhysicalFighters()) {
 				Core.cbc(ChatColor.DARK_AQUA, "Physical Fighters (염료) (" + api.getAbilityManager().getAbilities("PhysicalFighters").size() + "개)");
 			}
+
+			api.getAbilityManager().getPluginAbilities().forEach((pluginName, abilities) -> {
+				if (pluginName.equals("U-Ability") || pluginName.equals("BitAbility") || pluginName.equals("PhysicalFighters")) return;
+				Core.cbc(ChatColor.DARK_AQUA, pluginName + " (" + abilities.size() +"개)");
+			});
 		} else if(count == drawDelay) {
-			api.playSoundToAll(Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+			api.playSoundToAll(Sound.LEVEL_UP, 1, 1);
 			api.getGameManager().setGameState(GameState.DRAWING);
 			
 			if(api.getPlayerManager().getJoinedPlayers().size() > api.getAbilityManager().getAbilities().size() && !api.isUseOverlap()) {
@@ -66,9 +72,15 @@ public class DrawAbilityTask extends UKRunnable {
 			Core.cbc(ChatColor.DARK_GREEN, "§b'/yes' 또는 '/확정' 명령어로 능력을 확정할 수 있습니다.");
 			
 			for(GamePlayer gp : api.getPlayerManager().getOnlineJoinedPlayers()) {
-				if(gp.getRedrawCount() < 1) {
-					gp.setRedrawCount(api.getRedrawCount());
+				gp.setRedrawCount(api.getRedrawCount(gp.getRank()));
+
+				for (PermissionAttachmentInfo pai : gp.getPlayer().getEffectivePermissions()) {
+					if (pai.getPermission().startsWith("ability.drawcount.")) {
+						gp.setRedrawCount(Integer.parseInt(pai.getPermission().substring(pai.getPermission().lastIndexOf(".") + 1, pai.getPermission().length())));
+						break;
+					}
 				}
+
 				Core.cmsg(gp.getPlayer(), ChatColor.DARK_GREEN, "§b'/no' 또는 '/재추첨' 명령어로 능력을 §f" + gp.getRedrawCount() + "§a회 재추첨할 수 있습니다.");
 			}
 			

@@ -1,0 +1,6 @@
+name: U-PhysicalFightersPack
+version: 0.0.3
+main: s8u.plugin.physicalfighterspack.PhysicalFightersPackPlugin
+depend:
+  - U-Core
+  - U-Ability

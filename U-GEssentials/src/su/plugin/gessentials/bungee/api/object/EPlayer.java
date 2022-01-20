@@ -307,7 +307,7 @@ public class EPlayer {
 		out.writeUTF(name);
 		out.writeBoolean(isMoveSpy());
 		
-		new PluginMessageTask(GGEssentialsPlugin.getInstance(), getProxiedPlayer().getServer().getInfo(), "U-GEssentials", out.toByteArray()).runAsync();
+		new PluginMessageTask(GGEssentialsPlugin.getInstance(), getProxiedPlayer().getServer().getInfo(), "ugessentials:main", out.toByteArray()).runAsync();
 	}
 	
 	public void sendChannelNameToServer() {
@@ -318,7 +318,7 @@ public class EPlayer {
 		out.writeUTF("ChannelName");
 		out.writeUTF(getEChannel().getDisplayName());
 		
-		new PluginMessageTask(GGEssentialsPlugin.getInstance(), getProxiedPlayer().getServer().getInfo(), "U-GEssentials", out.toByteArray()).runAsync();
+		new PluginMessageTask(GGEssentialsPlugin.getInstance(), getProxiedPlayer().getServer().getInfo(), "ugessentials:main", out.toByteArray()).runAsync();
 	}
 	
 }

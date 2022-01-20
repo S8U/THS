@@ -31,7 +31,7 @@ public class BungeeOptionListener implements PluginMessageListener, UEventListen
 	
 	@Override
 	public void onPluginMessageReceived(String channel, Player p, byte[] message) {
-		if(!channel.equals("U-Core")) return;
+		if(!channel.equals("ucore:main")) return;
 		
 		ByteArrayDataInput in = ByteStreams.newDataInput(message);
 		
@@ -69,28 +69,28 @@ public class BungeeOptionListener implements PluginMessageListener, UEventListen
 	public void onUPlayerOptionChangeEvent(UPlayerOptionChangeEvent e) {
 		if(!Core.getOptionSQLManager().isUseBungeeSync()) return;
 
-		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "PlayerOptionChange", e.getPlayer().getName(), e.getName());
+		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "ucore:main", "PlayerOptionChange", e.getPlayer().getName(), e.getName());
 	}
 	
 	@UEventHandler
 	public void onUPlayerOptionDeleteEvent(UPlayerOptionDeleteEvent e) {
 		if(!Core.getOptionSQLManager().isUseBungeeSync()) return;
 
-		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "PlayerOptionDelete", e.getPlayer().getName(), e.getName());
+		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "ucore:main", "PlayerOptionDelete", e.getPlayer().getName(), e.getName());
 	}
 	
 	@UEventHandler
 	public void onUServerOptionChangeEvent(UServerOptionChangeEvent e) {
 		if(!Core.getOptionSQLManager().isUseBungeeSync()) return;
 
-		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "ServerOptionChange", e.getName());
+		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "ucore:main", "ServerOptionChange", e.getName());
 	}
 	
 	@UEventHandler
 	public void onUServerOptionDeleteEvent(UServerOptionDeleteEvent e) {
 		if(!Core.getOptionSQLManager().isUseBungeeSync()) return;
 
-		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "ServerOptionDelete", e.getName());
+		BungeeUtil.sendMessageToBungeeCord(KCorePlugin.getInstance(), "ucore:main", "ServerOptionDelete", e.getName());
 	}
 
 }

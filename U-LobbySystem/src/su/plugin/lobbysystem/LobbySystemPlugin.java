@@ -23,7 +23,7 @@ public class LobbySystemPlugin extends UKPlugin {
 		setColor(ChatColor.YELLOW);
 
 		api.loadConfig();
-		
+
 		registerListeners();
 		registerCommands();
 		Core.getCommandManager().getMainCommand("속도").setAdditional("<1 ~ " + api.getMaxSpeed() + ">");

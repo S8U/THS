@@ -13,26 +13,30 @@ public class UpdateListener implements Listener {
 
   @EventHandler
   public void onChannelLoaded(KChannelLoadedEvent e) {
-    a: for(ChannelGUI gui : ChannelGUIAPI.getGUIManager().getGUIs().values()) {
-      for(Icon icon : gui.getIcons().values()) {
+    a: for (ChannelGUI gui : ChannelGUIAPI.getGUIManager().getGUIs().values()) {
+      for (Icon icon : gui.getIcons().values()) {
         ChannelIcon ci = (ChannelIcon) icon;
 
-        if(ci.getChannel() != null) {
-          for(Channel updated : e.getLoadedChannel()) {
-            if(ci.getChannel().equals(updated)) {
+        if (ci.getChannel() != null) {
+          for (Channel updated : e.getLoadedChannel()) {
+            if (ci.getChannel().equals(updated)) {
               gui.updateAsynchronously();
 
               continue a;
             }
           }
-        } else if(ci.getChannelGroup() != null) {
-          for(Channel updated : e.getLoadedChannel()) {
-            if(updated.getGroupName() != null && updated.getGroup().equals(ci.getChannelGroup())) {
+        } else if (ci.getChannelGroup() != null) {
+          for (Channel updated : e.getLoadedChannel()) {
+            if (updated.getGroupName() != null && updated.getGroup().equals(ci.getChannelGroup())) {
               gui.updateAsynchronously();
 
               continue a;
             }
           }
+        } else if (ci.getDynamicAmountFormula() != null) {
+          gui.updateAsynchronously();
+
+          continue a;
         }
       }
     }

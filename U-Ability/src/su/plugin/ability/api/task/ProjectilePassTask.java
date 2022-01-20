@@ -30,7 +30,7 @@ public class ProjectilePassTask extends UKRunnable {
 		for(GamePlayer gp : watch) {
 			Player p = gp.getPlayer();
 			for(Entity e : p.getWorld().getEntities()) {
-				if(!(e instanceof Projectile) || !isOverLap(e.getLocation(), p.getLocation()) || (e instanceof Arrow && (((Arrow) e).isInBlock() || ((Arrow) e).isCritical()))) continue;
+				if(!(e instanceof Projectile) || !isOverLap(e.getLocation(), p.getLocation()) || (e instanceof Arrow && ((Arrow) e).isCritical())) continue;
 				KCore.teleport(p, getEmptyLocation(p.getLocation()));
 				Core.wmsg(p, "게임 중인 플레이어에게 방해되어 텔레포트되었습니다.");
 			}

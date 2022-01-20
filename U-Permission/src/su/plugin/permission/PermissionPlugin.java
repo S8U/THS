@@ -1,8 +1,7 @@
 package su.plugin.permission;
 
-import org.bukkit.permissions.PermissionAttachment;
-
 import lombok.Getter;
+import org.bukkit.permissions.PermissionAttachment;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.plugin.UKPlugin;
 import su.plugin.core.common.api.ChatColor;

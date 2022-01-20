@@ -5,7 +5,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import su.plugin.core.bungee.api.command.GCommandManager;
 import su.plugin.core.bungee.api.command.GConsoleSender;
-import su.plugin.core.bungee.platform.GProvider;
+import su.plugin.core.bungee.platform.GHandler;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.platform.PlatformType;
 import su.plugin.core.common.api.player.PlayerKey;
@@ -15,7 +15,7 @@ public class GCore extends Core {
 	
 	public static void init() {
 		platformType = PlatformType.BUNGEECORD;
-		platformProvider = new GProvider();
+		platformProvider = new GHandler();
 		
 		UConsoleCommandSender = new GConsoleSender();
 		commandManager = new GCommandManager();

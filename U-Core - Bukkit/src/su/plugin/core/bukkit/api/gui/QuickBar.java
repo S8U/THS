@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import su.plugin.core.bukkit.KCorePlugin;
 import su.plugin.core.bukkit.api.KCore;
 
 @Getter
@@ -52,6 +53,10 @@ public class QuickBar {
 		for(int x : icons.keySet()) {
 			updateIcon(x);
 		}
+	}
+
+	public void updateAsynchronously() {
+		Bukkit.getScheduler().runTaskAsynchronously(KCorePlugin.getInstance(), () -> update());
 	}
 	
 	public void setTo(Player p) {

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import su.plugin.ability.AbilityPlugin;
 import su.plugin.ability.api.AbilityAPI;
@@ -79,14 +80,15 @@ public class GameMap {
 	public Location getRandomLocation(boolean tpAll) {
 		int x = NumberUtil.random((int) (tpAll ? getMinTPAllLocation() : getMinMapLocation()).getX(), (int) (tpAll ? getMaxTPAllLocation() : getMaxMapLocation()).getX());
 		int z = NumberUtil.random((int) (tpAll ? getMinTPAllLocation() : getMinMapLocation()).getZ(), (int) (tpAll ? getMaxTPAllLocation() : getMaxMapLocation()).getZ());
-		Block b = getMapLocation().getWorld().getHighestBlockAt(x, z);
+		World world = tpAll ? getTPAllLocation().getWorld() : getMapLocation().getWorld();
+		Block b = world.getHighestBlockAt(x, z);
 		Location l = b.getLocation();
 		l.setY(l.getY() - 1);
 		b = b.getWorld().getBlockAt(l);
 		if(b == null) return getRandomLocation(tpAll);
 		if(b.getType().equals(Material.WATER) || b.getType().equals(Material.STATIONARY_WATER) ||
 				b.getType().equals(Material.LAVA) || b.getType().equals(Material.STATIONARY_LAVA) ||
-				b.getType().equals(Material.BEDROCK) || b.getType().equals(Material.AIR)) return getRandomLocation(tpAll);
+				b.getType().equals(Material.BEDROCK) || b.getType().equals(Material.BARRIER) ||b.getType().equals(Material.AIR)) return getRandomLocation(tpAll);
 		l.setY(l.getY() + 1);
 		return l;
 	}
@@ -105,7 +107,9 @@ public class GameMap {
 
 		if(min == null || max == null) return true;
 
-		return mapLocation.getWorld().equals(location.getWorld()) &&
+		World world = tpAll ? TPAllLocation.getWorld() : mapLocation.getWorld();
+
+		return world.equals(location.getWorld()) &&
 				min.getX() <= location.getX() &&
 				min.getZ() <= location.getZ() &&
 				max.getX() >= location.getX() &&

@@ -39,17 +39,17 @@ public class Hologram {
     private Location location;
     
     private static final double OFFSET = 0.23, Y = - 0.3;
-    
+
     @Setter
     @Getter
     private Sort sortFrom = Sort.BOTTOM;
-    
+
     @Getter
     private List<UUID> playerUuids = new ArrayList<>();
-    
+
     @Getter
     private List<String> lines = new ArrayList<>();
-    
+
     @Getter
     private HashMap<Integer, Object> packets = new HashMap<>();
     

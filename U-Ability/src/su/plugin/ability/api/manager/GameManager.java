@@ -14,6 +14,7 @@ import su.plugin.ability.api.object.GamePlayer;
 import su.plugin.channel.bukkit.api.KChannelAPI;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.lib.VaultHandler;
+import su.plugin.core.bukkit.api.util.TitleUtil;
 import su.plugin.core.common.api.ChatColor;
 import su.plugin.core.common.api.Core;
 
@@ -88,7 +89,7 @@ public class GameManager {
 
 		api.getGameManager().setGameState(GameState.PREPARING);
 		
-		api.getTaskManager().runProjectilePassTask();
+		// api.getTaskManager().runProjectilePassTask();
 		
 		if(api.isUseSideBar()) {
 			api.getTaskManager().runSideBarUpdateTask();
@@ -114,7 +115,10 @@ public class GameManager {
 		api.setFirstBlood(true);
 		
 		api.setInvincibilityTime(false);
-		
+		api.getVoteManager().stopGameStartVote();
+		api.getVoteManager().setInvSkipVoting(false);
+		api.getVoteManager().getInvSkipVoteAgree().clear();
+
 		api.getGameManager().setGameState(GameState.WAITING);
 		
 		api.getTaskManager().stopNormalStartTask();
@@ -125,7 +129,7 @@ public class GameManager {
 		
 		api.getTaskManager().stopSupplyTask();
 		api.getTaskManager().stopLocationNotifyTask();
-		api.getTaskManager().stopProjectilePassTask();
+		// api.getTaskManager().stopProjectilePassTask();
 		
 		api.getTaskManager().stopAutoStartTask();
 		api.getTaskManager().stopDrawSkipTask();
@@ -206,8 +210,11 @@ public class GameManager {
 			Core.cmsg(gp.getPlayer(), ChatColor.DARK_AQUA, "게임에서 승리했습니다. 축하합니다!");
 			Core.cmsg(gp.getPlayer(), ChatColor.DARK_AQUA, "§a+ " + Math.round(event.getWinMoney() / winners.size()) + "원 (우승)");
 		}
-		
-		Core.cbc(ChatColor.DARK_GREEN, builder.toString() + " 님께서 승리했습니다. 축하합니다!");
+
+		String winPlayerList = builder.toString();
+		KCore.getOnlinePlayers().forEach(p -> TitleUtil.sendTitle(p, "§c승 리", winPlayerList + " §e님께서 우승했습니다.", 1, 1, 5));
+
+		Core.cbc(ChatColor.DARK_GREEN, winPlayerList + " 님께서 승리했습니다. 축하합니다!");
 		return true;
 	}
 	

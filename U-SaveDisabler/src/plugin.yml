@@ -1,0 +1,4 @@
+name: U-SaveDisabler
+version: 0.0.1
+main: s8u.plugin.savedisabler.SaveDisablerPlugin
+depend: [U-Core]

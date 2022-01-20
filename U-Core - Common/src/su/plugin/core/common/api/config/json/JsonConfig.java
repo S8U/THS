@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Cleanup;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.ToString;
@@ -78,8 +79,9 @@ public class JsonConfig {
 		hiddenDefaults.clear();
 		
 		values.clear();
-		
-		HashMap<String, Object> tempValues = new Gson().fromJson(new FileReader(file), LinkedHashMap.class);
+
+		@Cleanup FileReader reader = new FileReader(file);
+		HashMap<String, Object> tempValues = new Gson().fromJson(reader, LinkedHashMap.class);
 		
 		tempValues.forEach((path, value) -> {
 			if(value instanceof Map<?, ?>) {
@@ -155,7 +157,9 @@ public class JsonConfig {
 		writer.close();
 	}
 	
-	public void saveDefaults() {
+	public void
+
+	saveDefaults() {
 		if(!values.isEmpty()) {
 			boolean needSave = false;
 
@@ -181,10 +185,19 @@ public class JsonConfig {
 	}
 	
 	public void addDefault(String path, Object val, boolean hidden) {
-		defaults.put(path, val);
-		
+		if (val == null) {
+			defaults.remove(path);
+		} else {
+			defaults.put(path, val);
+		}
+
+
 		if(!hidden || isHiddenDefault(path)) return;
-		hiddenDefaults.add(path);
+		if (val == null) {
+			hiddenDefaults.remove(path);
+		} else {
+			hiddenDefaults.add(path);
+		}
 	}
 	
 	public Object getDefault(String path) {

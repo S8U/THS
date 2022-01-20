@@ -41,7 +41,7 @@ public class GPlayer extends UPlayer {
 			out.writeUTF(name);
 			out.writeUTF(displayName);
 			
-			new PluginMessageTask(GCorePlugin.getInstance(), proxiedPlayer.getServer().getInfo(), "U-Core", out.toByteArray()).runAsync();
+			new PluginMessageTask(GCorePlugin.getInstance(), proxiedPlayer.getServer().getInfo(), "ucore:main", out.toByteArray()).runAsync();
 
 			if(name.equals(displayName)) {
 				Core.getSQLManager().deleteDisplayName(playerKey);

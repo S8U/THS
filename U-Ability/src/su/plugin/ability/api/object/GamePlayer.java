@@ -21,10 +21,12 @@ import su.plugin.ability.api.category.GameState;
 import su.plugin.ability.api.category.KillType;
 import su.plugin.core.bukkit.api.KCore;
 import su.plugin.core.bukkit.api.gui.SideBar;
+import su.plugin.core.bukkit.api.lib.VaultHandler;
 import su.plugin.core.bukkit.api.player.KPlayer;
 import su.plugin.core.common.api.ChatColor;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.player.PlayerKey;
+import su.plugin.permission.api.PermissionAPI;
 
 @RequiredArgsConstructor
 @Getter
@@ -93,21 +95,28 @@ public class GamePlayer {
 	public void addAbility(Ability ability) {
 		if(hasAbility(ability)) return;
 		Ability ac = ability.clone();
-		ac.onAssign();
-		abilities.add(ac);
+		try {
+			ac.setPlayer(getPlayer());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ac.onAssign();
+			abilities.add(ac);
+		}
 	}
 	
 	public void removeAbility(Ability ability) {
 		if(ability == null) return;
+		ability = getAbility(ability.getAbilityId());
 		ability.stopCoolDownTask();
 		ability.stopDurationTask();
 		ability.stopEffectTask();
 		ability.onResign();
+		ability.setPlayer(null);
 		if(ability instanceof Listener) {
 			HandlerList.unregisterAll((Listener) ability);
 		}
 		abilities.remove(ability);
-		ability = null;
 	}
 	
 	public void removeAbility(int abilityId) {
@@ -123,6 +132,8 @@ public class GamePlayer {
 			ability.stopDurationTask();
 			ability.stopEffectTask();
 			ability.onResign();
+			ability.setPlayer(null);
+
 			if(ability instanceof Listener) {
 				HandlerList.unregisterAll((Listener) ability);
 			}
@@ -187,7 +198,7 @@ public class GamePlayer {
 		Bukkit.getScheduler().runTask(AbilityPlugin.getInstance(), () -> {
 			if(getPlayer() == null) return;
 			else if(toggle) {
-				if(join && !watchMode && !eliminate && getPlayer().getHealth() < api.getQuitDeathHealth()) {
+				if(join && !watchMode && !eliminate && getPlayer().getHealth() < api.getQuitDeathHealth() && api.getGameManager().getGameState() != GameState.END) {
 					getPlayer().setHealth(0);
 
 					Core.cbc(ChatColor.DARK_RED, "§f" + getDisplayName() + " §c님께서 낮은 체력으로 관전 모드로 전환하여 탈락 처리되었습니다.");
@@ -198,7 +209,10 @@ public class GamePlayer {
 				watchMode = true;
 				join = false;
 
+				redrawCount = 0;
+
 				getKPlayer().hidePlayer();
+				getPlayer().spigot().setCollidesWithEntities(false);
 				toggleFly(true);
 				
 				getPlayer().setGameMode(GameMode.ADVENTURE);
@@ -227,6 +241,7 @@ public class GamePlayer {
 			join = true;
 
 			getKPlayer().showPlayer();
+			getPlayer().spigot().setCollidesWithEntities(true);
 			toggleFly(false);
 			
 			getPlayer().setGameMode(Bukkit.getDefaultGameMode());
@@ -234,7 +249,7 @@ public class GamePlayer {
 
 			getPlayer().setLevel(0);
 			clearInventory();
-			
+
 			if(api.isUseWatchModeQuickBar()) {
 				api.getGUIManager().updateTeleportGUI();
 				KCore.getGUIManager().clearQuickBar(getPlayer());
@@ -268,6 +283,14 @@ public class GamePlayer {
 			
 			getPlayer().updateInventory();
 		});
+	}
+
+	public String getRank() {
+		if(AbilityAPI.isUsePermission()) {
+			return PermissionAPI.getPlayerManager().getPermissionPlayer(PlayerKey.getPlayerKeyByPlatformPlayer(getPlayer())).getGroupName();
+		}
+
+		return VaultHandler.getChat().getPlayerGroups(getPlayer())[0];
 	}
 	
 }

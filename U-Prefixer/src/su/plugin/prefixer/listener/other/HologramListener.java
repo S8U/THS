@@ -43,12 +43,14 @@ public class HologramListener extends PacketAdapter implements Listener, Unregis
         World world = packetEvent.getPlayer().getWorld();
         
         Entity entity = ProtocolLibrary.getProtocolManager().getEntityFromID(world, n);
-        if(!(entity instanceof Player)) return;
+        if(!(entity instanceof Player) || entity.hasMetadata("NPC")) return;
         
         Player p = (Player) entity;
-        
-        PrefixPlayer pp = api.getPlayerManager().getPrefixPlayer(PlayerKey.getPlayerKey(p.getName()));
-        if(pp == null || !pp.hasHologram()) return;
+			  PlayerKey pk = PlayerKey.getPlayerKey(p.getName());
+			  if (pk == null) return;
+
+        PrefixPlayer pp = api.getPlayerManager().getPrefixPlayer(pk);
+        if (pp == null || !pp.hasHologram()) return;
         
         pp.getHologram().teleport(pp.getMainPrefixLocation());
     }
@@ -82,16 +84,16 @@ public class HologramListener extends PacketAdapter implements Listener, Unregis
     @EventHandler
     public void onMove(PlayerMoveLocationEvent e) {
     	if(!api.isHideHologramOnMove()) return;
-    	
-    	PlayerKey playerKey = PlayerKey.getPlayerKey(e.getPlayer().getName());
-		PrefixPlayer pp = api.getPlayerManager().getPrefixPlayer(playerKey);
-		
-		if(!pp.hasHologram() || !api.isHideHologramOnMove()) return;
-		api.getHologramManager().updateMoveTime(playerKey);
-		
-		if(!pp.getHologram().getVisibilityManager().isVisibleTo(e.getPlayer())) return;
-		pp.getHologram().getVisibilityManager().hideTo(e.getPlayer());
-    }
+
+			PlayerKey playerKey = PlayerKey.getPlayerKey(e.getPlayer().getName());
+			PrefixPlayer pp = api.getPlayerManager().getPrefixPlayer(playerKey);
+
+			if(!pp.hasHologram() || !api.isHideHologramOnMove()) return;
+			api.getHologramManager().updateMoveTime(playerKey);
+
+			if(!pp.getHologram().getVisibilityManager().isVisibleTo(e.getPlayer())) return;
+			pp.getHologram().getVisibilityManager().hideTo(e.getPlayer());
+		}
     
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e) {

@@ -1,6 +1,7 @@
 package su.plugin.lobbysystem.listener;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +22,10 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
+
+		if (!p.isOp()) {
+			p.setGameMode(GameMode.ADVENTURE);
+		}
 		
 		if(api.getJoinSpeed() > 1) {
 			api.setSpeed(p, api.getJoinSpeed());

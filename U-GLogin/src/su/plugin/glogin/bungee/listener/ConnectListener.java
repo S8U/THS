@@ -6,6 +6,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.event.UEventHandler;
 import su.plugin.core.common.api.event.UEventListener;
@@ -63,7 +64,7 @@ public class ConnectListener implements Listener, UEventListener {
 	
 	//
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onConnect(ServerConnectedEvent e) {
 		ProxiedPlayer p = e.getPlayer();
 		UPlayer up = Core.getUPlayer(p.getName());

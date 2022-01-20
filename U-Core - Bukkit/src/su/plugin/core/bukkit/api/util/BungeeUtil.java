@@ -60,19 +60,19 @@ public class BungeeUtil {
 	}
 
 	public static void broadcast(String channel, String message) {
-		sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "BroadcastChannel", channel, message);
+		sendMessageToBungeeCord(KCorePlugin.getInstance(), "ucore:main", "BroadcastChannel", channel, message);
 	}
 
 	public static void broadcast(String message) {
-		sendMessageToBungeeCord(KCorePlugin.getInstance(), "U-Core", "BroadcastAll", message);
+		sendMessageToBungeeCord(KCorePlugin.getInstance(), "ucore:main", "BroadcastAll", message);
 	}
 
 	public static void playSound(String channel, Sound sound, float volume, float pitch) {
-		sendMessageToBungeeCord(KCorePlugin.getInstance(),"U-Core","PlaySoundChannel", sound.toString(), volume, pitch);
+		sendMessageToBungeeCord(KCorePlugin.getInstance(),"ucore:main","PlaySoundChannel", sound.toString(), volume, pitch);
 	}
 
 	public static void playSound(PlayerKey playerKey, Sound sound, float volume, float pitch) {
-		sendMessageToBungeeCord(KCorePlugin.getInstance(),"U-Core","PlaySoundTo", playerKey.getId(), sound.toString(), volume, pitch);
+		sendMessageToBungeeCord(KCorePlugin.getInstance(),"ucore:main","PlaySoundTo", playerKey.getId(), sound.toString(), volume, pitch);
 	}
 
 	public static void playSound(Player player, Sound sound, float volume, float pitch) {
@@ -80,7 +80,7 @@ public class BungeeUtil {
 	}
 
 	public static void playSound(Sound sound, float volume, float pitch) {
-		sendMessageToBungeeCord(KCorePlugin.getInstance(),"U-Core","PlaySoundAll", sound.toString(), volume, pitch);
+		sendMessageToBungeeCord(KCorePlugin.getInstance(),"ucore:main","PlaySoundAll", sound.toString(), volume, pitch);
 	}
 	
 	private void writeObject(ByteArrayDataOutput out, Object...objs) {

@@ -18,7 +18,7 @@ public class BungeeMessageListener implements PluginMessageListener {
 	
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-		if(!channel.equals("U-Core")) return;
+		if(!channel.equals("ucore:main")) return;
 		
 		ByteArrayDataInput in = ByteStreams.newDataInput(message);
 		

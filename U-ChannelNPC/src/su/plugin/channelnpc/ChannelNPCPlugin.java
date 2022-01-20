@@ -8,6 +8,7 @@ import lombok.Getter;
 import su.plugin.channelnpc.api.ChannelNPCAPI;
 import su.plugin.core.bukkit.api.plugin.UKPlugin;
 import su.plugin.core.common.api.ChatColor;
+import su.plugin.core.common.api.command.UCommandSender;
 import su.plugin.core.common.api.util.StringUtil;
 
 public class ChannelNPCPlugin extends UKPlugin {
@@ -30,16 +31,19 @@ public class ChannelNPCPlugin extends UKPlugin {
 		registerPermissions();
 		
 		loadConfig();
-		Bukkit.getScheduler().runTaskLater(this, () -> api.getConfigManager().loadNPC(), 2);
 	}
-	
-	public void loadConfig() {
+
+	@Override
+	public void onConfigLoad(UCommandSender sender) {
 		getJsonConfig().addDefault("NPC 기본 텍스트", Arrays.asList("<npc_name>", "<player_count>&e명 플레이 중"));
 		getJsonConfig().save();
-		
+
 		api.setNPCTexts(StringUtil.translateAlternateColorCodes(getJsonConfig().getStringList("NPC 기본 텍스트")));
-		
-		log("설정을 불러왔습니다.");
 	}
-	
+
+	@Override
+	public void onConfigLoaded(UCommandSender sender) {
+		Bukkit.getScheduler().runTaskLater(this, () -> api.getConfigManager().loadNPC(), 2);
+	}
+
 }

@@ -1,8 +1,6 @@
 package su.plugin.ability.api.object;
 
 import java.util.List;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
 import su.plugin.ability.api.AbilityAPI;
 import su.plugin.core.bukkit.api.bossbar.BossBar;
@@ -33,7 +31,7 @@ public class ABossBar extends BossBar {
 		super.clearBar();
 	}
 	
-	@Override
+	/*@Override
 	public void setBarColor(BarColor color) {
 		if(!AbilityAPI.isUseBossBar()) return;
 		super.setBarColor(color);
@@ -43,7 +41,7 @@ public class ABossBar extends BossBar {
 	public void setBarStyle(BarStyle style) {
 		if(!AbilityAPI.isUseBossBar()) return;
 		super.setBarStyle(style);
-	}
+	}*/
 	
 	@Override
 	public void setProgress(double progress) {

@@ -29,11 +29,11 @@ public class ConfigManager {
 	private File chatFilterConfigFile = new File(GGEssentialsPlugin.getInstance().getDataFolder(), "chatfilter-config.json");
 	
 	@Getter
-	private JsonConfig config = new JsonConfig(configFile).load();
+	private JsonConfig config = new JsonConfig(configFile);
 	@Getter
-	private JsonConfig channelConfig = new JsonConfig(channelConfigFile).load();
+	private JsonConfig channelConfig = new JsonConfig(channelConfigFile);
 	@Getter
-	private JsonConfig chatFilterConfig = new JsonConfig(chatFilterConfigFile).load();
+	private JsonConfig chatFilterConfig = new JsonConfig(chatFilterConfigFile);
 	
 	//
 	
@@ -81,6 +81,8 @@ public class ConfigManager {
 	
 	public void loadConfig() {
 		createConfigFile();
+
+		config.load();
 		
 		api.setKickServerMark(ChatColor.translateAlternateColorCodes('&', config.getString("강제 퇴장 서버 표기")));
 		
@@ -91,6 +93,8 @@ public class ConfigManager {
 	
 	public void loadChannelConfig() {
 		createChannelConfigFile();
+
+		channelConfig.load();
 		
 		api.getChannelManager().getChannels().clear();
 		
@@ -126,6 +130,8 @@ public class ConfigManager {
 	
 	public void loadChatFilterConfig() {
 		createChatFilterConfigFile();
+
+		chatFilterConfig.load();
 		
 		api.setUseChatFilter(chatFilterConfig.getBoolean("채팅 필터.사용"));
 		api.setIgnoreFilterWordWithNames(chatFilterConfig.getBoolean("채팅 필터.닉네임이 포함된 단어 필터링 무시"));
