@@ -84,7 +84,14 @@ public class GameManager {
 		for(GamePlayer gp : api.getPlayerManager().getOnlineJoinedPlayers()) {
 			api.getTaskManager().stopEliminateTask(gp.getPlayerKey());
 
-			gp.setRedrawCount(api.getRedrawCount());
+
+			if (gp.getPlayer().hasPermission("ability.redrawcount.3")) {
+				gp.setRedrawCount(3);
+			} else if (gp.getPlayer().hasPermission("ability.redrawcount.2")) {
+				gp.setRedrawCount(2);
+			} else {
+				gp.setRedrawCount(api.getRedrawCount());
+			}
 		}
 
 		api.getGameManager().setGameState(GameState.PREPARING);
