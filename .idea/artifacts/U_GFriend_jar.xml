@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="U-GFriend:jar">
+    <output-path>$PROJECT_DIR$/../../../Plugins/Project/THS_Down</output-path>
+    <root id="archive" name="U-GFriend-0.0.3.jar">
+      <element id="module-output" name="U-GFriend - Bungee" />
+    </root>
+  </artifact>
+</component>

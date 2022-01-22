@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="U-Core">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../Plugins/Library/U-Core/U-Core-0.0.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

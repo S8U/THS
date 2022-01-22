@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="U-OnlineModeGift:jar">
+    <output-path>$PROJECT_DIR$/../../../Plugins/Project/THS_Down</output-path>
+    <root id="archive" name="U-OnlineModeGift-0.0.2.jar">
+      <element id="module-output" name="U-OnlineModeGift" />
+    </root>
+  </artifact>
+</component>

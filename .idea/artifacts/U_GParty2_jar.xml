@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="U-GParty2:jar">
+    <output-path>$PROJECT_DIR$/../../../Plugins/Project/THS_Down</output-path>
+    <root id="archive" name="U-GParty-0.1.2.jar">
+      <element id="module-output" name="U-GParty2 - Bukkit" />
+      <element id="module-output" name="U-GParty2 - Common" />
+      <element id="module-output" name="U-GParty2 - Bungee" />
+    </root>
+  </artifact>
+</component>

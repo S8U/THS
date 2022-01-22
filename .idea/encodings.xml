@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/U-Ability/src/auto-config.yml" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/U-Ability/src/config.yml" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/U-Ability/src/rankitem-config.yml" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/U-Ability/src/startitem-config.yml" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/U-PhysicalFightersPack/src/ability_list.txt" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/U-PhysicalFightersPack/src/ability_list.txt" charset="x-windows-949" />
+  </component>
+</project>
