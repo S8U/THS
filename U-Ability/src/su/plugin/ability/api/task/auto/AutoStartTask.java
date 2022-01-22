@@ -9,6 +9,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import su.plugin.ability.AbilityPlugin;
 import su.plugin.ability.api.AbilityAPI;
+import su.plugin.ability.api.category.GameState;
 import su.plugin.ability.api.event.GameStartedEvent;
 import su.plugin.ability.api.object.GameMap;
 import su.plugin.ability.api.object.GamePlayer;
@@ -109,7 +110,8 @@ public class AutoStartTask extends UKRunnable {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-			
+
+			api.getGameManager().setGameState(GameState.DRAWING);
 			api.getTaskManager().runDrawAbilityTask(20, 3);
 			cancel();
 			return;
