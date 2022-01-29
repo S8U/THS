@@ -19,9 +19,9 @@ public class NPCListener implements Listener {
 
     Icon ironIcon = new Icon(new ItemBuilder(Material.LEATHER_CHESTPLATE)
         .displayName("§f아이언")
-        .lore("§9 방어력 +0.3")
+        .lore("§e 보호 IV 인챈트북 x4")
         .lore("")
-        .lore("§c 가격 : 15,000원")
+        .lore("§c 가격 : 10,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -36,9 +36,10 @@ public class NPCListener implements Listener {
 
     Icon bronzeIcon = new Icon(new ItemBuilder(Material.GOLD_CHESTPLATE)
         .displayName("§f브론즈")
-        .lore("§9 방어력 +0.6")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 30,000원")
+        .lore("§c 가격 : 20,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -53,9 +54,11 @@ public class NPCListener implements Listener {
 
     Icon silverIcon = new Icon(new ItemBuilder(Material.CHAINMAIL_CHESTPLATE)
         .displayName("§f실버")
-        .lore("§9 방어력 +0.9")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
+        .lore("§e 발화 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 50,000원")
+        .lore("§c 가격 : 30,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -70,9 +73,14 @@ public class NPCListener implements Listener {
 
     Icon goldIcon = new Icon(new ItemBuilder(Material.IRON_CHESTPLATE)
         .displayName("§f골드")
-        .lore("§9 방어력 +1.2")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
+        .lore("§e 발화 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 90,000원")
+        .lore("§f 눈덩이 x16")
+        .lore("§f 낚싯대 x1")
+        .lore("")
+        .lore("§c 가격 : 50,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -87,9 +95,15 @@ public class NPCListener implements Listener {
 
     Icon platinumIcon = new Icon(new ItemBuilder(Material.DIAMOND_CHESTPLATE)
         .displayName("§f플래티넘")
-        .lore("§9 방어력 +1.5")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
+        .lore("§e 발화 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 160,000원")
+        .lore("§f 눈덩이 x32")
+        .lore("§f 낚싯대 x1")
+        .lore("§f 엔더진주 x1")
+        .lore("")
+        .lore("§c 가격 : 150,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -104,10 +118,17 @@ public class NPCListener implements Listener {
 
     Icon diamondIcon = new Icon(new ItemBuilder(Material.IRON_SWORD)
         .displayName("§f다이아몬드")
-        .lore("§c 공격력 +0.5")
-        .lore("§9 방어력 +1.5")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
+        .lore("§e 발화 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 240,000원")
+        .lore("§f 눈덩이 x64")
+        .lore("§f 낚싯대 x1")
+        .lore("§f 엔더진주 x1")
+        .lore("")
+        .lore("§d 능력 재추첨권 x1 → 능력 재추첨권 x2")
+        .lore("")
+        .lore("§c 가격 : 350,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -122,10 +143,17 @@ public class NPCListener implements Listener {
 
     Icon masterIcon = new Icon(new ItemBuilder(Material.DIAMOND_SWORD)
         .displayName("§f마스터")
-        .lore("§c 공격력 +1")
-        .lore("§9 방어력 +1.5")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
+        .lore("§e 발화 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 320,000원")
+        .lore("§f 눈덩이 x64")
+        .lore("§f 낚싯대 x1")
+        .lore("§f 엔더진주 x2")
+        .lore("")
+        .lore("§d 능력 재추첨권 x1 → 능력 재추첨권 x2")
+        .lore("")
+        .lore("§c 가격 : 500,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -140,11 +168,18 @@ public class NPCListener implements Listener {
 
     Icon grandMasterIcon = new Icon(new ItemBuilder(Material.BOW)
         .displayName("§f그랜드마스터")
-        .lore("§c 공격력 +1")
-        .lore("§9 방어력 +1.5")
-        .lore("§e 활, 화살 10개")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
+        .lore("§e 발화 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 400,000원")
+        .lore("§f 눈덩이 x64")
+        .lore("§f 낚싯대 x1")
+        .lore("§f 엔더진주 x2")
+        .lore("§b 신속 II 10초 x1")
+        .lore("")
+        .lore("§d 능력 재추첨권 x1 → 능력 재추첨권 x2")
+        .lore("")
+        .lore("§c 가격 : 800,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
@@ -159,12 +194,18 @@ public class NPCListener implements Listener {
 
     Icon challengerIcon = new Icon(new ItemBuilder(Material.MAGMA_CREAM)
         .displayName("§f챌린저")
-        .lore("§c 공격력 +1")
-        .lore("§9 방어력 +1.5")
-        .lore("§e 활, 화살 10개")
-        .lore("§2 능력 재추첨 기회 1회 증가")
+        .lore("§e 보호 IV 인챈트북 x4")
+        .lore("§e 날카로움 V 인챈트북 x1")
+        .lore("§e 발화 인챈트북 x1")
         .lore("")
-        .lore("§c 가격 : 500,000원")
+        .lore("§f 눈덩이 x64")
+        .lore("§f 낚싯대 x1")
+        .lore("§f 엔더진주 x2")
+        .lore("§b 신속 II 20초 x1")
+        .lore("")
+        .lore("§d 능력 재추첨권 x1 → 능력 재추첨권 x2")
+        .lore("")
+        .lore("§c 가격 : 1000,000원")
         .build()) {
       @Override
       protected ItemStack updateItem() {
