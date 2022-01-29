@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import s8u.plugin.cash.api.CashAPI;
-import s8u.plugin.cash.api.data.MoneyBoostData;
 import s8u.plugin.cash.api.sql.BenefitType;
 import s8u.plugin.cash.api.sql.Type;
 import su.plugin.core.bukkit.api.builder.ItemBuilder;
@@ -13,166 +12,327 @@ import su.plugin.core.bukkit.api.event.gui.IconClickEvent;
 import su.plugin.core.bukkit.api.gui.FakeIcon;
 import su.plugin.core.bukkit.api.gui.GUI;
 import su.plugin.core.bukkit.api.gui.Icon;
-import su.plugin.core.bukkit.api.lib.VaultHandler;
 import su.plugin.core.common.api.Core;
 import su.plugin.core.common.api.player.PlayerKey;
 import su.plugin.core.common.api.player.UPlayer;
+import su.plugin.prefixer.api.PrefixerAPI;
+import su.plugin.prefixer.api.object.PrefixPlayer;
 
 public class ShopMainGUI extends GUI {
+
+  private static final String VIP_PREFIX = "§d[VIP]";
+  private static final String VIP_PLUS_PREFIX = "§d[VIP+]";
+  private static final String VVIP_PREFIX = "§4[VVIP]";
+  private static final String VVIP_PLUS_PREFIX = "§4[VVIP+]";
+  private static final String LEAF_PREFIX = "§a[Leaf]";
+
 
   public ShopMainGUI() {
     super("U-Cash/ShopMain", "캐시 상점", 3);
 
-    FakeIcon money5000 = new FakeIcon(new ItemStack(Material.EMERALD)) {
+    FakeIcon vipIcon = new FakeIcon(new ItemStack(Material.EMERALD)) {
       @Override
       protected ItemStack updateItem(UPlayer up) {
         return new ItemBuilder(Material.EMERALD)
-            .displayName("§a§l게임머니 5,000원")
-            .lore("§c가격: §f5,000 §e캐시")
-            .lore("")
-            .lore("§f게임머니를 구매하여 빠르게 등급을 업그레이드 할 수 있습니다.")
-            .lore("")
-            .lore("§f클릭 시 §e게임머니 5,000원§f을 구입합니다.")
-            .lore("")
-            .lore("§e보유 중인 게임머니: §f" + new DecimalFormat("#,###").format(VaultHandler.getMoney(up.getName())) + " §e원")
-            .build();
-      }
-
-      @Override
-      public void onIconClick(IconClickEvent e) {
-        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
-
-        if (!CashAPI.subCash(playerKey, 5000)) {
-          Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
-          return;
-        }
-        CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, 5000);
-
-        VaultHandler.giveMoney(e.getPlayer(), 5000);
-        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.MONEY, 5000, LocalDateTime.now());
-
-        Core.msg(e.getPlayer(), "§a게임머니 5,000원§f을 구입했습니다.");
-
-        update(e.getPlayer());
-      }
-    };
-
-    FakeIcon money10000 = new FakeIcon(new ItemStack(Material.EMERALD)) {
-      @Override
-      protected ItemStack updateItem(UPlayer up) {
-        return new ItemBuilder(Material.EMERALD)
-            .displayName("§a§l게임머니 60,000원")
-            .lore("§c가격: §f50,000 §e캐시")
-            .lore("")
-            .lore("§f게임머니를 구매하여 빠르게 등급을 업그레이드 할 수 있습니다.")
-            .lore("§f보너스 게임머니 10,000원을 포함하고 있습니다.")
-            .lore("")
-            .lore("§f클릭 시 §e게임머니 60,000원§f을 구입합니다.")
-            .lore("")
-            .lore("§e보유 중인 게임머니: §f" + new DecimalFormat("#,###").format(VaultHandler.getMoney(up.getName())) + " §e원")
-            .build();
-      }
-
-      @Override
-      public void onIconClick(IconClickEvent e) {
-        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
-
-        if (!CashAPI.subCash(playerKey, 50000)) {
-          Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
-          return;
-        }
-        CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, 50000);
-
-        VaultHandler.giveMoney(e.getPlayer(), 60000);
-        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.MONEY, 50000, LocalDateTime.now());
-
-        Core.msg(e.getPlayer(), "§a게임머니 60,000원§f을 구입했습니다.");
-
-        update(e.getPlayer());
-      }
-    };
-
-    FakeIcon moneyBoost3 = new FakeIcon(new ItemStack(Material.EXP_BOTTLE)) {
-      @Override
-      protected ItemStack updateItem(UPlayer up) {
-        ItemStack item = new ItemBuilder(Material.EXP_BOTTLE)
-            .displayName("§a§l게임머니 부스트 (3일)")
-            .lore("§c가격: §f5,000 §e캐시")
-            .lore("")
-            .lore("§f게임 플레이로 얻는 모든 게임머니를 2배로 증가시켜줍니다.")
-            .lore("§f빠르게 돈을 모아 등급 업그레이드에 도전해보세요!")
-            .lore("")
-            .lore("§f클릭 시 §e게임머니 부스트 (3일)§f을 구입합니다.")
-            .build();
-
-        MoneyBoostData data = CashAPI.getMoneyBoost(up.getPlayerKey());
-        if (data != null) {
-          item = new ItemBuilder(item)
-              .lore("")
-              .lore("§a보유 중인 게임머니 부스트 만료일: §f" + data.getFormattedExpireTime())
-              .build();
-        }
-
-        return item;
-      }
-
-      @Override
-      public void onIconClick(IconClickEvent e) {
-        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
-
-        if (!CashAPI.subCash(playerKey, 5000)) {
-          Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
-          return;
-        }
-        CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, 5000);
-
-        MoneyBoostData data = CashAPI.extendMoneyBoost(playerKey, 3, 0, 0, 0);
-        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.MONEY_BOOST, 5000, data.getExpireTime());
-
-        Core.msg(e.getPlayer(), "§a게임머니 부스트 3일§f을 구입했습니다.");
-
-        update(e.getPlayer());
-      }
-    };
-
-    FakeIcon moneyBoost7 = new FakeIcon(new ItemStack(Material.EXP_BOTTLE)) {
-      @Override
-      protected ItemStack updateItem(UPlayer up) {
-        ItemStack item = new ItemBuilder(Material.EXP_BOTTLE)
-            .displayName("§a§l게임머니 부스트 (7일)")
+            .displayName(VIP_PREFIX + " §f칭호")
             .lore("§c가격: §f10,000 §e캐시")
             .lore("")
-            .lore("§f게임 플레이로 얻는 모든 게임머니를 2배로 증가시켜줍니다.")
-            .lore("§f빠르게 돈을 모아 등급 업그레이드에 도전해보세요!")
+            .lore("§f게임머니 획득량이 1.1배로 증가합니다.")
+            .lore(VIP_PREFIX + " §f칭호를 포함하고 있습니다.")
             .lore("")
-            .lore("§f클릭 시 §e게임머니 부스트 (7일)§f을 구입합니다.")
+            .lore("§f클릭 시 " + VIP_PREFIX + " §f칭호를 구입합니다.")
             .build();
-
-        MoneyBoostData data = CashAPI.getMoneyBoost(up.getPlayerKey());
-        if (data != null) {
-          item = new ItemBuilder(item)
-              .lore("")
-              .lore("§a보유 중인 게임머니 부스트 만료일: §f" + data.getFormattedExpireTime())
-              .build();
-        }
-
-        return item;
       }
 
       @Override
       public void onIconClick(IconClickEvent e) {
         PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 구매한 칭호입니다.");
+          return;
+        } else if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)
+            || prefixPlayer.hasPrefix(VVIP_PREFIX)
+            || prefixPlayer.hasPrefix(VVIP_PLUS_PREFIX)
+            || prefixPlayer.hasPrefix(LEAF_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 더 좋은 혜택의 칭호를 가지고 있습니다.");
+          return;
+        }
 
         if (!CashAPI.subCash(playerKey, 10000)) {
           Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
           return;
         }
+
         CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, 10000);
+        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.VIP_PREFIX, 10000, LocalDateTime.now());
 
-        MoneyBoostData data = CashAPI.extendMoneyBoost(playerKey, 7, 0, 0, 0);
-        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.MONEY_BOOST, 10000, data.getExpireTime());
+        PrefixerAPI.addPrefix(playerKey, VIP_PREFIX);
 
-        Core.msg(e.getPlayer(), "§a게임머니 부스트 7일§f을 구입했습니다.");
+        Core.msg(e.getPlayer(), VIP_PREFIX + " §f칭호를 구입했습니다.");
+        Core.msg(e.getPlayer(), "'/칭호 목록' 명령어를 사용하고 원하는 칭호를 클릭하여 칭호를 착용하거나 해제할 수 있습니다.");
+
+        update(e.getPlayer());
+      }
+    };
+
+    FakeIcon vipPlusIcon = new FakeIcon(new ItemStack(Material.EMERALD)) {
+      @Override
+      protected ItemStack updateItem(UPlayer up) {
+        ItemBuilder builder = new ItemBuilder(Material.EMERALD)
+            .displayName(VIP_PLUS_PREFIX + " §f칭호");
+
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(up.getPlatformSender());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          builder.lore("§c가격: §f40,000 §e캐시");
+        } else {
+          builder.lore("§c가격: §f50,000 §e캐시");
+        }
+
+        return builder.lore("")
+            .lore("§f게임머니 획득량이 1.2배로 증가합니다.")
+            .lore(VIP_PLUS_PREFIX + " §f칭호를 포함하고 있습니다.")
+            .lore("")
+            .lore("§f클릭 시 " + VIP_PLUS_PREFIX + " §f칭호를 구입합니다.")
+            .build();
+      }
+
+      @Override
+      public void onIconClick(IconClickEvent e) {
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 구매한 칭호입니다.");
+          return;
+        } else if (prefixPlayer.hasPrefix(VVIP_PREFIX)
+            || prefixPlayer.hasPrefix(VVIP_PLUS_PREFIX)
+            || prefixPlayer.hasPrefix(LEAF_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 더 좋은 혜택의 칭호를 가지고 있습니다.");
+          return;
+        }
+
+        int price = 50000;
+
+        if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          price -= 10000;
+        }
+
+        if (!CashAPI.subCash(playerKey, price)) {
+          Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
+          return;
+        }
+
+        CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, price);
+        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.VIP_PLUS_PREFIX, price, LocalDateTime.now());
+
+        PrefixerAPI.addPrefix(playerKey, VIP_PLUS_PREFIX);
+
+        Core.msg(e.getPlayer(), VIP_PLUS_PREFIX + " §f칭호를 구입했습니다.");
+        Core.msg(e.getPlayer(), "'/칭호 목록' 명령어를 사용하고 원하는 칭호를 클릭하여 칭호를 착용하거나 해제할 수 있습니다.");
+
+        update(e.getPlayer());
+      }
+    };
+
+    FakeIcon vvipIcon = new FakeIcon(new ItemStack(Material.EXP_BOTTLE)) {
+      @Override
+      protected ItemStack updateItem(UPlayer up) {
+        ItemBuilder builder = new ItemBuilder(Material.EMERALD)
+            .displayName(VVIP_PREFIX + " §f칭호");
+
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(up.getPlatformSender());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)) {
+          builder.lore("§c가격: §f50,000 §e캐시");
+        } else if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          builder.lore("§c가격: §f90,000 §e캐시");
+        } else {
+          builder.lore("§c가격: §f100,000 §e캐시");
+        }
+
+        return builder.lore("")
+            .lore("§f게임머니 획득량이 1.3배로 증가합니다.")
+            .lore(VVIP_PREFIX + " §f칭호를 포함하고 있습니다.")
+            .lore("")
+            .lore("§f클릭 시 " + VVIP_PREFIX + " §f칭호를 구입합니다.")
+            .build();
+      }
+
+      @Override
+      public void onIconClick(IconClickEvent e) {
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VVIP_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 구매한 칭호입니다.");
+          return;
+        } else if (prefixPlayer.hasPrefix(VVIP_PLUS_PREFIX)
+            || prefixPlayer.hasPrefix(LEAF_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 더 좋은 혜택의 칭호를 가지고 있습니다.");
+          return;
+        }
+
+        int price = 100000;
+
+        if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)) {
+          price -= 50000;
+        } else if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          price -= 10000;
+        }
+
+        if (!CashAPI.subCash(playerKey, price)) {
+          Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
+          return;
+        }
+
+        CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, price);
+        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.VIP_PLUS_PREFIX, price, LocalDateTime.now());
+
+        PrefixerAPI.addPrefix(playerKey, VVIP_PREFIX);
+
+        Core.msg(e.getPlayer(), VVIP_PREFIX + " §f칭호를 구입했습니다.");
+        Core.msg(e.getPlayer(), "'/칭호 목록' 명령어를 사용하고 원하는 칭호를 클릭하여 칭호를 착용하거나 해제할 수 있습니다.");
+
+        update(e.getPlayer());
+      }
+    };
+
+    FakeIcon vvipPlusIcon = new FakeIcon(new ItemStack(Material.EXP_BOTTLE)) {
+      @Override
+      protected ItemStack updateItem(UPlayer up) {
+        ItemBuilder builder = new ItemBuilder(Material.EMERALD)
+            .displayName(VVIP_PLUS_PREFIX + " §f칭호");
+
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(up.getPlatformSender());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VVIP_PREFIX)) {
+          builder.lore("§c가격: §f100,000 §e캐시");
+        } else if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)) {
+          builder.lore("§c가격: §f150,000 §e캐시");
+        } else if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          builder.lore("§c가격: §f190,000 §e캐시");
+        } else {
+          builder.lore("§c가격: §f200,000 §e캐시");
+        }
+
+        return builder.lore("")
+            .lore("§f게임머니 획득량이 1.4배로 증가합니다.")
+            .lore(VVIP_PLUS_PREFIX + " §f칭호를 포함하고 있습니다.")
+            .lore("")
+            .lore("§f클릭 시 " + VVIP_PLUS_PREFIX + " §f칭호를 구입합니다.")
+            .build();
+      }
+
+      @Override
+      public void onIconClick(IconClickEvent e) {
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VVIP_PLUS_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 구매한 칭호입니다.");
+          return;
+        } else if (prefixPlayer.hasPrefix(VVIP_PLUS_PREFIX)
+            || prefixPlayer.hasPrefix(LEAF_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 더 좋은 혜택의 칭호를 가지고 있습니다.");
+          return;
+        }
+
+        int price = 200000;
+
+        if (prefixPlayer.hasPrefix(VVIP_PREFIX)) {
+          price -= 100000;
+        } else if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)) {
+          price -= 50000;
+        } else if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          price -= 10000;
+        }
+
+        if (!CashAPI.subCash(playerKey, price)) {
+          Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
+          return;
+        }
+
+        CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, price);
+        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.VIP_PLUS_PREFIX, price, LocalDateTime.now());
+
+        PrefixerAPI.addPrefix(playerKey, VVIP_PLUS_PREFIX);
+
+        Core.msg(e.getPlayer(), VVIP_PLUS_PREFIX + " §f칭호를 구입했습니다.");
+        Core.msg(e.getPlayer(), "'/칭호 목록' 명령어를 사용하고 원하는 칭호를 클릭하여 칭호를 착용하거나 해제할 수 있습니다.");
+
+        update(e.getPlayer());
+      }
+    };
+
+    FakeIcon leafIcon = new FakeIcon(new ItemStack(Material.EXP_BOTTLE)) {
+      @Override
+      protected ItemStack updateItem(UPlayer up) {
+        ItemBuilder builder = new ItemBuilder(Material.EMERALD)
+            .displayName(LEAF_PREFIX + " §f칭호");
+
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(up.getPlatformSender());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(VVIP_PLUS_PREFIX)) {
+          builder.lore("§c가격: §f100,000 §e캐시");
+        } else if (prefixPlayer.hasPrefix(VVIP_PREFIX)) {
+          builder.lore("§c가격: §f200,000 §e캐시");
+        } else if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)) {
+          builder.lore("§c가격: §f250,000 §e캐시");
+        } else if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          builder.lore("§c가격: §f290,000 §e캐시");
+        } else {
+          builder.lore("§c가격: §f300,000 §e캐시");
+        }
+
+        return builder.lore("")
+            .lore("§f게임머니 획득량이 1.5배로 증가합니다.")
+            .lore(LEAF_PREFIX + " §f칭호를 포함하고 있습니다.")
+            .lore("")
+            .lore("§f클릭 시 " + LEAF_PREFIX + " §f칭호를 구입합니다.")
+            .build();
+      }
+
+      @Override
+      public void onIconClick(IconClickEvent e) {
+        PlayerKey playerKey = PlayerKey.getPlayerKeyByPlatformPlayer(e.getPlayer());
+
+        PrefixPlayer prefixPlayer = PrefixerAPI.getPlayerManager().getPrefixPlayer(playerKey);
+        if (prefixPlayer.hasPrefix(LEAF_PREFIX)) {
+          Core.wmsg(e.getPlayer(), "이미 구매한 칭호입니다.");
+          return;
+        }
+
+        int price = 300000;
+
+        if (prefixPlayer.hasPrefix(VVIP_PLUS_PREFIX)) {
+          price -= 200000;
+        } else if (prefixPlayer.hasPrefix(VVIP_PREFIX)) {
+          price -= 100000;
+        } else if (prefixPlayer.hasPrefix(VIP_PLUS_PREFIX)) {
+          price -= 50000;
+        } else if (prefixPlayer.hasPrefix(VIP_PREFIX)) {
+          price -= 10000;
+        }
+
+        if (!CashAPI.subCash(playerKey, price)) {
+          Core.wmsg(e.getPlayer(), "캐시 잔액이 부족합니다.");
+          return;
+        }
+
+        CashAPI.getSQLManager().logCash(playerKey.getId(), -2, Type.SUBTRACT, price);
+        CashAPI.getSQLManager().logBenefit(playerKey.getId(), -2, BenefitType.VIP_PLUS_PREFIX, price, LocalDateTime.now());
+
+        PrefixerAPI.addPrefix(playerKey, LEAF_PREFIX);
+
+        Core.msg(e.getPlayer(), LEAF_PREFIX + " §f칭호를 구입했습니다.");
+        Core.msg(e.getPlayer(), "'/칭호 목록' 명령어를 사용하고 원하는 칭호를 클릭하여 칭호를 착용하거나 해제할 수 있습니다.");
 
         update(e.getPlayer());
       }
@@ -244,13 +404,14 @@ public class ShopMainGUI extends GUI {
       }
     };
 
-    setIcon(2, 2, money5000);
-    setIcon(3, 2, money10000);
-    setIcon(4, 2, moneyBoost3);
-    setIcon(5, 2, moneyBoost7);
-    setIcon(6, 2, displayName);
-    setIcon(7, 2, colorDisplayName);
-    setIcon(8, 2, donation);
+    setIcon(2, 2, vipIcon);
+    setIcon(3, 2, vipPlusIcon);
+    setIcon(4, 2, vvipIcon);
+    setIcon(5, 2, vvipPlusIcon);
+    setIcon(6, 2, leafIcon);
+    setIcon(7, 2, displayName);
+    setIcon(8, 2, colorDisplayName);
+//    setIcon(8, 2, donation);
 
     //
 

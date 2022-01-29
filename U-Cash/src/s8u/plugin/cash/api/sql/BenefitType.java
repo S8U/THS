@@ -7,6 +7,11 @@ import su.plugin.core.common.api.ChatColor;
 public enum BenefitType {
   MONEY("Money"),
   MONEY_BOOST("MoneyBoost"),
+  VIP_PREFIX("Vip+Prefix"),
+  VIP_PLUS_PREFIX("VipPrefix"),
+  VVIP_PREFIX("VVipPrefix"),
+  VVIP_PLUS_PREFIX("VVip+Prefix"),
+  LEAF_PREFIX("LeafPrefix"),
   COLOR_DISPLAY_NAME("ColorDisplayName"),
   DISPLAY_NAME("DisplayName"),
   DONATION("Donation");
