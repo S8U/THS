@@ -1,4 +1,4 @@
 name: U-Ability
-version: 0.2.10
+version: 0.2.11
 main: su.plugin.ability.AbilityPlugin
 depend: [U-Core]

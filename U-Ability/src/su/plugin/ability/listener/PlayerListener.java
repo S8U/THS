@@ -364,7 +364,7 @@ public class PlayerListener implements Listener {
                 for (GamePlayer ap : assists) {
                   VaultHandler.giveMoney(ap.getPlayerKey().getName(), event.getAssistMoney());
                   if (ap.getPlayer() == null) continue;
-                  Core.cmsg(ap, ChatColor.GREEN, "§a+" + event.getAssistMoney() + "원 (어시스트)");
+                  Core.cmsg(ap.getPlayer(), ChatColor.GREEN, "§a+" + event.getAssistMoney() + "원 (어시스트)");
                 }
               }
 
