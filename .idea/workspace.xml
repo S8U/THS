@@ -5,10 +5,26 @@
       <artifact name="U-Ability:jar" />
     </artifacts-to-build>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="c3ef7d1a-f530-422e-9712-62ba99d7558a" name="Default Changelist" comment="재추첨횟수 2, 3 권한 추가">
-      <change beforePath="$PROJECT_DIR$/U-Ability/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/U-Ability/src/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/U-Ability/src/su/plugin/ability/api/task/auto/AutoStartTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/U-Ability/src/su/plugin/ability/api/task/auto/AutoStartTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/src/main/java/com/github/s8u/gamereplay/GameReplayApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/src/main/java/com/github/s8u/gamereplay/GameReplayPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/src/main/java/com/github/s8u/gamereplay/ReplayListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/U-GameReplay/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,11 +41,38 @@
     <projectState path="$PROJECT_DIR$/U-Core - Common">
       <ProjectState />
     </projectState>
+    <projectState path="$PROJECT_DIR$/U-GameReplay">
+      <ProjectState />
+    </projectState>
   </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
-        <projects_view />
+        <task path="$PROJECT_DIR$/U-GameReplay">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="U-GameReplay" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="U-GameReplay" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="U-GameReplay" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="shadow" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
@@ -55,6 +98,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1hxPPsF3Oma3wvuIwD1igYxHCcr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -65,29 +111,27 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Plugins/Library/BungeeCord 1.15.jar" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="아티팩트" />
-    <property name="project.structure.proportion" value="0.15820312" />
-    <property name="project.structure.side.proportion" value="0.1440922" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "1.8",
+    "last_opened_file_path": "D:/개발/마인크래프트/플러그인/THS/U-GameReplay",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  }
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\개발\마인크래프트\플러그인\THS\U-GameReplay" />
+      <recent name="D:\개발\마인크래프트\플러그인\THS\U-GameReplay\src\main\resources" />
+      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_Down\U-PhysicalFightersPack\src" />
+      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_IJ\U-GParty2 - Bungee\src\su\plugin\gparty\bungee\command" />
+      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_IJ\U-GParty2 - Bukkit\src" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Sync\Minecraft\Plugin\Project\THS_IJ\U-Party - Bungee\src" />
       <recent name="C:\Sync\Minecraft\Plugin\Project\THS_IJ\U-Party - Bukkit\src" />
@@ -98,13 +142,6 @@
       <recent name="su.plugin.gparty.bungee.listener" />
       <recent name="su.plugin.gparty.bukkit.listener" />
       <recent name="su.plugin.gparty.bukkit.task" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_Down\U-PhysicalFightersPack\src" />
-      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_IJ\U-GParty2 - Bungee\src\su\plugin\gparty\bungee\command" />
-      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_IJ\U-GParty2 - Bukkit\src" />
-      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_IJ\U-GParty2 - Bungee\src" />
-      <recent name="E:\Dev\Sync\Minecraft\Plugin\Project\THS_IJ\U-WorldReset" />
     </key>
   </component>
   <component name="RunManager">
@@ -119,6 +156,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="U-GameReplay [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/U-GameReplay" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="shadowJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.U-GameReplay [shadowJar]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -170,6 +233,7 @@
       <workItem from="1614570651747" duration="138000" />
       <workItem from="1642689994507" duration="2285000" />
       <workItem from="1642846123049" duration="853000" />
+      <workItem from="1664341621884" duration="5303000" />
     </task>
     <task id="LOCAL-00001" summary="U-ItemTools 0.1.2">
       <created>1553269602896</created>
@@ -294,7 +358,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="U-ItemTools 0.1.2" />
