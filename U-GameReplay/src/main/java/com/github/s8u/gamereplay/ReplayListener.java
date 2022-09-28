@@ -31,7 +31,8 @@ public class ReplayListener implements Listener {
      */
     @EventHandler
     public void onWin(WinEvent event) {
-        GameReplayApi.stopRecord();
+        // 우승 후 딜레이 후 게임이 종료되므로 녹화 종료도 딜레이
+        Bukkit.getScheduler().runTaskLaterAsynchronously(GameReplayPlugin.getInstance(), () -> GameReplayApi.stopRecord(), 12 * 20L);
     }
 
 }
