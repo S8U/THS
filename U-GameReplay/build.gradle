@@ -1,0 +1,50 @@
+buildscript{
+    repositories{
+        jcenter()
+    }
+
+    dependencies{
+        classpath'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+
+    maven { url 'https://repo.s8u.kr/repository/maven-minecraft/' }
+    maven { url 'https://repo.s8u.kr/repository/maven-pooleaf-s5/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc:paper:1.8.8'
+    compileOnly 'su.plugin:core:0.1.6'
+    compileOnly 'su.plugin:ability:0.2.11'
+
+    compileOnly 'me.jumper251:replay:1.8.2'
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+
+processResources {
+    filesMatching('**/*.yml') {
+        expand(project.properties)
+    }
+}
+
+shadowJar {
+    archiveBaseName.set(pluginName)
+    archiveClassifier.set('')
+}
