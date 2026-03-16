@@ -6,8 +6,8 @@ BungeeCord 네트워크 환경에서 동작하는 다수의 플러그인으로 �
 
 ## 주요 기능
 
-- **코어 프레임워크** — Bukkit/BungeeCord 크로스플랫폼 지원, DB 커넥션, Redis, 명령어/GUI/이벤트, 플레이어 추상화 등 전 플러그인이 공통으로 사용하는 기반 플러그인
-- **크로스서버 채널 시스템** — Redis Pub/Sub 기반 실시간 채널 동기화, 채널 간 플레이어 이동 및 밸런싱
+- **코어 프레임워크** — Bukkit/BungeeCord 크로스플랫폼 지원, DB 커넥션, 명령어/GUI/이벤트, 플레이어 추상화 등 전 플러그인이 공통으로 사용하는 기반 플러그인
+- **크로스서버 채널 시스템** — Plugin Messaging Channel 기반 실시간 채널 동기화, 채널 간 플레이어 이동 및 밸런싱
 - **권한/재화 시스템** — Vault Provider로 등록되는 MySQL 기반 권한 그룹 관리 + 게임 재화 API
 - **능력자 PvP 시스템** — 플레이어에게 랜덤 능력을 부여하고 PvP를 진행하는 핵심 컨텐츠. 능력 추첨/재추첨, 킬·어시스트·멀티킬 보상, 보급품 드롭, 킷 선택 등 지원
 
@@ -18,7 +18,6 @@ BungeeCord 네트워크 환경에서 동작하는 다수의 플러그인으로 �
 | **Language** | Java 8 |
 | **Platform** | Spigot 1.8.8, BungeeCord |
 | **Database** | MySQL 8.0, SQLite |
-| **Cache** | Redis (Jedis 3.1.0) |
 | **Library** | Lombok 1.18, Gson 2.8, Javassist, Commons Pool 2 |
 | **연동** | Vault, PlaceholderAPI, ProtocolLib, Citizens, HolographicDisplays, AdvancedReplay |
 | **Scripting** | JavaScript (Nashorn Engine) |
@@ -27,7 +26,7 @@ BungeeCord 네트워크 환경에서 동작하는 다수의 플러그인으로 �
 ## 아키텍처
 
 ```
-U-Core (Common) ─── 전 플러그인 공용 프레임워크 (DB, Redis, Config, Player API)
+U-Core (Common) ─── 전 플러그인 공용 프레임워크 (DB, Config, Player API)
 │
 ├── U-Core (Bukkit) ─── Spigot 1.8.8 Game Server
 │   ├── U-Permission                  # 등급/권한 관리 (Vault Provider)
@@ -74,7 +73,7 @@ U-Core (Common) ─── 전 플러그인 공용 프레임워크 (DB, Redis, Co
 
 ### 크로스서버 실시간 동기화
 - **문제**: BungeeCord 네트워크의 여러 Spigot 서버 간 채널, 파티, 권한 등을 실시간으로 동기화해야 함
-- **해결**: Redis Pub/Sub로 서버 간 실시간 메시징, Plugin Messaging Channel로 Proxy-Server 간 통신하는 이중 계층 구성
+- **해결**: Plugin Messaging Channel로 Proxy-Server 간 통신하는 계층 구성
 
 ### 플러그인 의존성 관리
 - **문제**: 플러그인이 늘어나면서 로드 순서 충돌과 선택적 연동 처리가 복잡해짐
